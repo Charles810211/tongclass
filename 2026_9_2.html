@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026년 9월 고2 모의고사 동반의어 퀴즈 & 학습장</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&display=swap');
+        body { font-family: 'Pretendard', sans-serif; }
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col">
+
+    <!-- Navbar -->
+    <header class="bg-indigo-600 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-extrabold flex items-center gap-2">
+                <i class="fa-solid fa-graduation-cap"></i> 2026 9월 고2 동반의어
+            </h1>
+            <div class="flex gap-2">
+                <button id="nav-study" onclick="switchMode('study')" class="px-3 py-1.5 rounded-lg text-sm font-semibold transition bg-indigo-700 text-white shadow">
+                    <i class="fa-solid fa-book-open mr-1"></i>카드학습
+                </button>
+                <button id="nav-quiz" onclick="switchMode('quiz')" class="px-3 py-1.5 rounded-lg text-sm font-semibold transition hover:bg-indigo-500 text-indigo-100">
+                    <i class="fa-solid fa-puzzle-piece mr-1"></i>퀴즈풀기
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-6 flex-1 w-full">
+
+        <!-- STUDY MODE -->
+        <section id="study-section" class="space-y-6">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-wrap gap-4 justify-between items-center">
+                <div class="flex items-center gap-2 text-slate-600 font-medium">
+                    <span>전체 어휘: <strong id="total-vocab-count" class="text-indigo-600">0</strong>개</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="text" id="search-input" oninput="filterVocab()" placeholder="단어/뜻 검색..." class="border border-slate-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 w-48">
+                    <button onclick="speakCurrent()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-semibold transition">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Flashcard View -->
+            <div class="flex flex-col items-center gap-4">
+                <div id="card-container" onclick="flipCard()" class="w-full max-w-md h-72 perspective-1000 cursor-pointer">
+                    <div id="card-inner" class="w-full h-full relative transform-style-3d transition-transform duration-500 shadow-xl rounded-2xl border border-slate-100">
+                        <!-- Front -->
+                        <div class="absolute inset-0 bg-white rounded-2xl p-6 flex flex-col justify-between items-center text-center backface-hidden">
+                            <span id="card-no" class="text-xs font-bold px-2.5 py-1 bg-indigo-50 text-indigo-600 rounded-full">#1 (18번)</span>
+                            <div class="my-auto">
+                                <h2 id="card-word" class="text-3xl font-extrabold text-slate-800 mb-2">word</h2>
+                                <p id="card-meaning-front" class="text-lg font-medium text-slate-500">원래의 의미</p>
+                            </div>
+                            <span class="text-xs text-slate-400 flex items-center gap-1"><i class="fa-solid fa-rotate"></i> 카드를 클릭하여 동/반의어 확인</span>
+                        </div>
+                        <!-- Back -->
+                        <div class="absolute inset-0 bg-indigo-900 text-white rounded-2xl p-6 flex flex-col justify-between rotate-y-180 backface-hidden">
+                            <div class="flex justify-between items-center text-xs text-indigo-300">
+                                <span id="card-word-back-title" class="font-bold">word</span>
+                                <span>해설</span>
+                            </div>
+                            <div class="my-auto space-y-3 text-left">
+                                <div>
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400 block mb-1">▶ 동의어 (Synonyms)</span>
+                                    <p id="card-synonyms" class="text-sm bg-indigo-800/60 p-2 rounded-lg border border-indigo-700">synonym 1, synonym 2</p>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-rose-400 block mb-1">▶ 반의어 (Antonyms)</span>
+                                    <p id="card-antonyms" class="text-sm bg-indigo-800/60 p-2 rounded-lg border border-indigo-700">antonym 1, antonym 2</p>
+                                </div>
+                            </div>
+                            <span class="text-xs text-indigo-300 text-center"><i class="fa-solid fa-rotate"></i> 클릭하여 뒤집기</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="flex items-center gap-4 mt-2">
+                    <button onclick="prevCard()" class="p-3 bg-white rounded-full shadow hover:bg-slate-100 text-slate-700 transition"><i class="fa-solid fa-chevron-left"></i></button>
+                    <span id="card-index-indicator" class="text-sm font-bold text-slate-600">1 / 100</span>
+                    <button onclick="nextCard()" class="p-3 bg-white rounded-full shadow hover:bg-slate-100 text-slate-700 transition"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIZ MODE -->
+        <section id="quiz-section" class="hidden space-y-6">
+            <!-- Quiz Type Selector -->
+            <div id="quiz-setup" class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 text-center space-y-4">
+                <h2 class="text-xl font-bold text-slate-800">퀴즈 유형을 선택하세요</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+                    <button onclick="startQuiz('synonym')" class="p-4 bg-emerald-50 border-2 border-emerald-200 hover:border-emerald-500 rounded-xl flex flex-col items-center gap-2 transition group">
+                        <i class="fa-solid fa-equals text-2xl text-emerald-600 group-hover:scale-110 transition"></i>
+                        <span class="font-bold text-slate-700">동의어 찾기</span>
+                        <span class="text-xs text-slate-500">제시된 단어와 가장 가까운 뜻</span>
+                    </button>
+                    <button onclick="startQuiz('antonym')" class="p-4 bg-rose-50 border-2 border-rose-200 hover:border-rose-500 rounded-xl flex flex-col items-center gap-2 transition group">
+                        <i class="fa-solid fa-arrows-left-right text-2xl text-rose-600 group-hover:scale-110 transition"></i>
+                        <span class="font-bold text-slate-700">반의어 찾기</span>
+                        <span class="text-xs text-slate-500">제시된 단어와 반대되는 뜻</span>
+                    </button>
+                    <button onclick="startQuiz('meaning')" class="p-4 bg-indigo-50 border-2 border-indigo-200 hover:border-indigo-500 rounded-xl flex flex-col items-center gap-2 transition group">
+                        <i class="fa-solid fa-language text-2xl text-indigo-600 group-hover:scale-110 transition"></i>
+                        <span class="font-bold text-slate-700">한글 뜻 맞추기</span>
+                        <span class="text-xs text-slate-500">영단어의 정확한 한글 의미</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Panel -->
+            <div id="quiz-box" class="hidden bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6">
+                <div class="flex justify-between items-center border-b pb-4">
+                    <span id="quiz-progress" class="text-sm font-bold text-indigo-600">문제 1 / 10</span>
+                    <span id="quiz-score" class="text-sm font-bold text-slate-600">점수: 0</span>
+                </div>
+
+                <div class="text-center py-4">
+                    <span id="quiz-type-badge" class="text-xs font-bold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full">동의어 퀴즈</span>
+                    <h2 id="quiz-question-word" class="text-3xl font-extrabold text-slate-800 mt-2">promotional</h2>
+                    <p id="quiz-question-sub" class="text-sm text-slate-500 mt-1">(의미: 홍보의)</p>
+                </div>
+
+                <div id="quiz-options" class="grid grid-cols-1 gap-3">
+                    <!-- Option buttons dynamically generated -->
+                </div>
+
+                <div id="quiz-feedback" class="hidden p-4 rounded-xl text-center font-bold"></div>
+
+                <div class="flex justify-end">
+                    <button id="next-quiz-btn" onclick="nextQuestion()" class="hidden px-5 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">
+                        다음 문제 <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Vocabulary Dataset (고2 2026년 9월 모의고사 동반의어 전체)
+        const vocabData = [
+            { no: "18-1", word: "promotional", meaning: "홍보의", syn: "advertising, publicity-related, marketing", ant: "-" },
+            { no: "18-2", word: "proceeding", meaning: "진행하기", syn: "continuing, advancing, moving forward", ant: "stopping, halting, withdrawing" },
+            { no: "18-3", word: "effectively", meaning: "효과적으로", syn: "efficiently, successfully, productively", ant: "ineffectively, inefficiently, unsuccessfully" },
+            { no: "18-4", word: "response", meaning: "답변", syn: "reply, answer, feedback", ant: "silence, disregard, nonresponse" },
+            { no: "19-1", word: "flawless", meaning: "완벽한", syn: "perfect, faultless, impeccable", ant: "flawed, imperfect, defective" },
+            { no: "19-2", word: "spread", meaning: "번지다", syn: "extended, expanded, broadened", ant: "contracted, narrowed, diminished" },
+            { no: "19-3", word: "excitement", meaning: "흥분", syn: "thrill, exhilaration, enthusiasm", ant: "calmness, boredom, indifference" },
+            { no: "20-1", word: "benefit", meaning: "이득", syn: "advantage, gain, profit", ant: "disadvantage, harm, loss" },
+            { no: "20-2", word: "critical", meaning: "비판적인", syn: "analytical, discerning, evaluative", ant: "uncritical, undiscerning, unquestioning" },
+            { no: "20-3", word: "admire", meaning: "동경하다", syn: "respect, appreciate, esteem", ant: "despise, disdain, scorn" },
+            { no: "20-4", word: "helpful", meaning: "도움이 되는", syn: "useful, beneficial, constructive", ant: "unhelpful, useless, harmful" },
+            { no: "21-1", word: "circulated", meaning: "배부되는", syn: "distributed, disseminated, shared", ant: "withheld, retained, restricted" },
+            { no: "21-2", word: "linear", meaning: "선형적인", syn: "sequential, consecutive, step-by-step", ant: "nonlinear, irregular, random" },
+            { no: "21-3", word: "timely", meaning: "시의적절한", syn: "appropriate, well-timed, opportune", ant: "untimely, inappropriate, ill-timed" },
+            { no: "21-4", word: "unpredictable", meaning: "예측불가능한", syn: "uncertain, unforeseeable, unexpected", ant: "predictable, foreseeable, expected" },
+            { no: "21-5", word: "flexible", meaning: "유연한", syn: "adaptable, adjustable, versatile", ant: "inflexible, rigid, unadaptable" },
+            { no: "21-6", word: "interruption", meaning: "방해", syn: "disruption, disturbance, interference", ant: "continuation, continuity, progression" },
+            { no: "22-1", word: "ingest", meaning: "섭취하다", syn: "consume, take in, absorb", ant: "expel, eject, discharge" },
+            { no: "22-2", word: "overload", meaning: "과부하를 주다", syn: "overburden, overwhelm, overtax", ant: "relieve, ease, unburden" },
+            { no: "22-3", word: "digest", meaning: "소화하다", syn: "process, assimilate, absorb", ant: "reject, disregard, dismiss" },
+            { no: "22-4", word: "divert", meaning: "분산시키다", syn: "redirect, deflect, shift", ant: "focus, concentrate, direct" },
+            { no: "22-5", word: "clarify", meaning: "명백히 설명하다", syn: "explain, elucidate, illuminate", ant: "confuse, obscure, complicate" },
+            { no: "23-1", word: "tension", meaning: "긴장감", syn: "strain, suspense, stress", ant: "relaxation, ease, calmness" },
+            { no: "23-2", word: "ambiguity", meaning: "모호함", syn: "uncertainty, vagueness, obscurity", ant: "clarity, certainty, explicitness" },
+            { no: "23-3", word: "subsequent", meaning: "후속의", syn: "following, succeeding, later", ant: "previous, preceding, prior" },
+            { no: "23-4", word: "unambiguous", meaning: "모호하지 않은", syn: "clear, explicit, definite", ant: "ambiguous, vague, unclear" },
+            { no: "23-5", word: "predictable", meaning: "예측 가능한", syn: "foreseeable, expected, anticipated", ant: "unpredictable, unexpected, unforeseeable" },
+            { no: "23-6", word: "unexpected", meaning: "예상치 못한", syn: "unforeseen, unanticipated, surprising", ant: "expected, anticipated, predictable" },
+            { no: "24-1", word: "progressive", meaning: "진보적인", syn: "forward-thinking, innovative, reform-minded", ant: "conservative, traditional, conventional" },
+            { no: "24-2", word: "deliberately", meaning: "의도적으로", syn: "intentionally, purposely, consciously", ant: "accidentally, unintentionally, inadvertently" },
+            { no: "24-3", word: "distract", meaning: "산만하게 하다", syn: "divert, sidetrack, disturb", ant: "focus, engage, concentrate" },
+            { no: "24-4", word: "provoke", meaning: "자극하다", syn: "stimulate, trigger, arouse", ant: "calm, soothe, pacify" },
+            { no: "24-5", word: "credibility", meaning: "신뢰성", syn: "reliability, trustworthiness, believability", ant: "unreliability, untrustworthiness" },
+            { no: "24-6", word: "fragmentation", meaning: "정보 파편화/분절", syn: "division, segmentation, disintegration", ant: "integration, unification, consolidation" },
+            { no: "24-7", word: "infinite", meaning: "무한한", syn: "endless, limitless, boundless", ant: "finite, limited, bounded" },
+            { no: "24-8", word: "passive", meaning: "수동적인", syn: "inactive, unresponsive, receptive", ant: "active, proactive, engaged" },
+            { no: "26-1", word: "severe", meaning: "심각한", syn: "serious, acute, grave", ant: "mild, slight, minor" },
+            { no: "26-2", word: "successor", meaning: "후계자", syn: "heir, inheritor, replacement", ant: "predecessor, forerunner, precursor" },
+            { no: "26-3", word: "designate", meaning: "지정하다", syn: "appoint, name, declare", ant: "revoke, withdraw, rescind" },
+            { no: "26-4", word: "legacy", meaning: "유산", syn: "heritage, inheritance, contribution", ant: "oblivion, erasure, disappearance" },
+            { no: "29-1", word: "potentially", meaning: "잠재적으로", syn: "possibly, conceivably, prospectively", ant: "actually, certainly, definitely" },
+            { no: "29-2", word: "inequality", meaning: "불평등", syn: "disparity, inequity, imbalance", ant: "equality, equity, parity" },
+            { no: "29-3", word: "dignity", meaning: "존엄성", syn: "self-respect, worth, honor", ant: "humiliation, degradation, indignity" },
+            { no: "29-4", word: "burn", meaning: "고갈시키다", syn: "deplete, exhaust, consume", ant: "conserve, preserve, replenish" },
+            { no: "29-5", word: "abundantly", meaning: "풍부하게", syn: "plentifully, profusely, copiously", ant: "scarcely, sparsely, meagerly" },
+            { no: "30-1", word: "licensed", meaning: "자격이 있는", syn: "entitled, authorized, permitted", ant: "unauthorized, prohibited, forbidden" },
+            { no: "30-2", word: "compensate for", meaning: "보상하다", syn: "make up for, offset, counterbalance", ant: "aggravate, worsen, intensify" },
+            { no: "30-3", word: "restore", meaning: "회복하다", syn: "reestablish, regain, recover", ant: "disrupt, undermine, disturb" },
+            { no: "30-4", word: "inconsistency", meaning: "불일치", syn: "discrepancy, contradiction, incongruity", ant: "consistency, agreement, compatibility" },
+            { no: "30-5", word: "burden", meaning: "부담을 주다", syn: "encumber, strain, weigh on", ant: "relieve, ease, unburden" },
+            { no: "30-6", word: "address", meaning: "다루다", syn: "tackle, deal with, confront", ant: "ignore, neglect, disregard" },
+            { no: "31-1", word: "shift", meaning: "변화", syn: "change, transition, transformation", ant: "continuity, constancy, stability" },
+            { no: "31-2", word: "stability", meaning: "안정성", syn: "steadiness, constancy, security", ant: "instability, volatility, uncertainty" },
+            { no: "31-3", word: "complexity", meaning: "복잡성", syn: "complication, intricacy, sophistication", ant: "simplicity, clarity, straightforwardness" },
+            { no: "31-4", word: "permanently", meaning: "영구적으로", syn: "indefinitely, enduringly, perpetually", ant: "temporarily, briefly, transiently" },
+            { no: "32-1", word: "predict", meaning: "예측하다", syn: "forecast, anticipate, foresee", ant: "misjudge, miscalculate, overlook" },
+            { no: "32-2", word: "uncertainty", meaning: "불확실성", syn: "unpredictability, doubt, ambiguity", ant: "certainty, predictability, assurance" },
+            { no: "32-3", word: "problematic", meaning: "문제가 되는", syn: "troublesome, difficult, challenging", ant: "unproblematic, manageable, satisfactory" },
+            { no: "32-4", word: "stable", meaning: "안정적인", syn: "steady, secure, consistent", ant: "unstable, insecure, changeable" },
+            { no: "32-5", word: "niche", meaning: "적소", syn: "place, position, role", ant: "displacement, exclusion, alienation" },
+            { no: "33-1", word: "essential", meaning: "필수적인", syn: "necessary, indispensable, vital", ant: "unnecessary, dispensable, optional" },
+            { no: "33-2", word: "diminishment", meaning: "위축", syn: "reduction, decline, weakening", ant: "increase, growth, expansion" },
+            { no: "33-3", word: "continuation", meaning: "지속", syn: "continuance, persistence, perpetuation", ant: "cessation, termination, discontinuation" },
+            { no: "33-4", word: "strengthening", meaning: "강화하기", syn: "reinforcement, enhancement, intensification", ant: "weakening, reduction, deterioration" },
+            { no: "34-1", word: "accumulate", meaning: "축적되다", syn: "build up, amass, accrue", ant: "diminish, dissipate, decrease" },
+            { no: "34-2", word: "apparent", meaning: "뚜렷한", syn: "obvious, evident, noticeable", ant: "obscure, hidden, imperceptible" },
+            { no: "34-3", word: "subtle", meaning: "미묘한", syn: "nuanced, delicate, understated", ant: "obvious, conspicuous, pronounced" },
+            { no: "34-4", word: "revolutionize", meaning: "혁명을 일으키다", syn: "transform, reshape, overhaul", ant: "preserve, maintain, retain" },
+            { no: "34-5", word: "overlook", meaning: "간과하다", syn: "ignore, miss, disregard", ant: "notice, recognize, consider" },
+            { no: "34-6", word: "foresee", meaning: "예견하다", syn: "predict, anticipate, forecast", ant: "misjudge, miscalculate, overlook" },
+            { no: "35-1", word: "resulting", meaning: "그로 인한", syn: "consequent, ensuing, resultant", ant: "preceding, prior, antecedent" },
+            { no: "35-2", word: "continuously", meaning: "지속적으로", syn: "continually, constantly, persistently", ant: "intermittently, occasionally, sporadically" },
+            { no: "35-3", word: "common", meaning: "일반적인", syn: "widespread, prevalent, commonplace", ant: "rare, uncommon, unusual" },
+            { no: "36-1", word: "availability", meaning: "가능성", syn: "accessibility, obtainability, presence", ant: "unavailability, inaccessibility, absence" },
+            { no: "36-2", word: "determinant", meaning: "결정요소", syn: "factor, element, influence", ant: "irrelevance, nonfactor, insignificance" },
+            { no: "36-3", word: "anticipate", meaning: "예측하다", syn: "predict, foresee, expect", ant: "misjudge, miscalculate, overlook" },
+            { no: "36-4", word: "preferentially", meaning: "우선적으로", syn: "preferably, favorably, selectively", ant: "indiscriminately, randomly, impartially" },
+            { no: "36-5", word: "suit", meaning: "적합하다", syn: "fit, accommodate, satisfy", ant: "mismatch, inconvenience, hinder" },
+            { no: "37-1", word: "manifestation", meaning: "발현", syn: "expression, display, reflection", ant: "concealment, suppression, obscuration" },
+            { no: "37-2", word: "explicit", meaning: "명시적인", syn: "clear, direct, definite", ant: "implicit, indirect, ambiguous" },
+            { no: "37-3", word: "implicit", meaning: "암시적인", syn: "implied, indirect, unspoken", ant: "explicit, direct, stated" },
+            { no: "37-4", word: "categorical", meaning: "단정적인", syn: "absolute, definite, unequivocal", ant: "qualified, tentative, uncertain" },
+            { no: "37-5", word: "ambiguous", meaning: "모호한", syn: "vague, unclear, equivocal", ant: "clear, unambiguous, definite" },
+            { no: "37-6", word: "equivalent", meaning: "상응하는 것", syn: "counterpart, match, parallel", ant: "opposite, contrast, mismatch" },
+            { no: "37-7", word: "attribute", meaning: "속성", syn: "characteristic, trait, quality", ant: "-" },
+            { no: "38-1", word: "distinction", meaning: "구분", syn: "difference, differentiation, discrimination", ant: "similarity, equivalence, sameness" },
+            { no: "38-2", word: "neutral", meaning: "중립적인", syn: "impartial, unbiased, nonpartisan", ant: "biased, partial, prejudiced" },
+            { no: "38-3", word: "enhance", meaning: "높이다", syn: "increase, heighten, intensify", ant: "reduce, diminish, lessen" },
+            { no: "38-4", word: "accentuate", meaning: "두드러지게 하다", syn: "emphasize, highlight, intensify", ant: "downplay, minimize, diminish" },
+            { no: "38-5", word: "defuse", meaning: "완화하다", syn: "ease, relieve, reduce", ant: "intensify, aggravate, heighten" },
+            { no: "39-1", word: "ignored", meaning: "간과되는", syn: "overlooked, neglected, disregarded", ant: "noticed, recognized, acknowledged" },
+            { no: "39-2", word: "strengthen", meaning: "강화하다", syn: "reinforce, enhance, bolster", ant: "weaken, undermine, diminish" },
+            { no: "39-3", word: "precautions", meaning: "예방 조치", syn: "preventive measures, safeguards, preventive actions", ant: "risks, hazards, negligence" },
+            { no: "40-1", word: "retain", meaning: "유지하다", syn: "maintain, preserve, keep", ant: "lose, abandon, relinquish" },
+            { no: "40-2", word: "perpetuating", meaning: "영속시키기", syn: "sustaining, maintaining, continuing", ant: "ending, terminating, discontinuing" },
+            { no: "40-3", word: "motivate", meaning: "동기를 부여하다", syn: "encourage, inspire, prompt", ant: "discourage, deter, demotivate" },
+            { no: "40-4", word: "generous", meaning: "관대한", syn: "giving, charitable, liberal", ant: "stingy, selfish, ungenerous" },
+            { no: "41-1", word: "popularized", meaning: "대중화된", syn: "promoted, publicized, disseminated", ant: "suppressed, obscured, restricted" },
+            { no: "41-2", word: "sophisticated", meaning: "정교한", syn: "advanced, complex, elaborate", ant: "simple, basic, rudimentary" },
+            { no: "41-3", word: "beneficial", meaning: "유익한", syn: "advantageous, favorable, helpful", ant: "harmful, detrimental, disadvantageous" },
+            { no: "41-4", word: "underlying", meaning: "잠재적인", syn: "hidden, implicit, concealed", ant: "apparent, explicit, overt" },
+            { no: "41-5", word: "autonomy", meaning: "자율성", syn: "independence, self-determination, self-governance", ant: "dependence, subordination, control" },
+            { no: "41-6", word: "deliberate", meaning: "의도적인", syn: "intentional, purposeful, conscious", ant: "unintentional, accidental, inadvertent" },
+            { no: "41-7", word: "cultivate", meaning: "기르다", syn: "develop, foster, nurture", ant: "neglect, hinder, suppress" }
+        ];
+
+        let currentVocabList = [...vocabData];
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        // Init App
+        document.getElementById('total-vocab-count').innerText = vocabData.length;
+        updateCard();
+
+        function switchMode(mode) {
+            const studySec = document.getElementById('study-section');
+            const quizSec = document.getElementById('quiz-section');
+            const navStudy = document.getElementById('nav-study');
+            const navQuiz = document.getElementById('nav-quiz');
+
+            if (mode === 'study') {
+                studySec.classList.remove('hidden');
+                quizSec.classList.add('hidden');
+                navStudy.className = "px-3 py-1.5 rounded-lg text-sm font-semibold transition bg-indigo-700 text-white shadow";
+                navQuiz.className = "px-3 py-1.5 rounded-lg text-sm font-semibold transition hover:bg-indigo-500 text-indigo-100";
+            } else {
+                studySec.classList.add('hidden');
+                quizSec.classList.remove('hidden');
+                navQuiz.className = "px-3 py-1.5 rounded-lg text-sm font-semibold transition bg-indigo-700 text-white shadow";
+                navStudy.className = "px-3 py-1.5 rounded-lg text-sm font-semibold transition hover:bg-indigo-500 text-indigo-100";
+            }
+        }
+
+        function updateCard() {
+            if (currentVocabList.length === 0) return;
+            const item = currentVocabList[currentIndex];
+            
+            document.getElementById('card-no').innerText = `#${item.no}`;
+            document.getElementById('card-word').innerText = item.word;
+            document.getElementById('card-meaning-front').innerText = item.meaning;
+            document.getElementById('card-word-back-title').innerText = item.word;
+            document.getElementById('card-synonyms').innerText = item.syn;
+            document.getElementById('card-antonyms').innerText = item.ant;
+            document.getElementById('card-index-indicator').innerText = `${currentIndex + 1} / ${currentVocabList.length}`;
+
+            if (isFlipped) flipCard();
+        }
+
+        function flipCard() {
+            const inner = document.getElementById('card-inner');
+            isFlipped = !isFlipped;
+            if (isFlipped) {
+                inner.classList.add('rotate-y-180');
+            } else {
+                inner.classList.remove('rotate-y-180');
+            }
+        }
+
+        function nextCard() {
+            if (currentIndex < currentVocabList.length - 1) {
+                currentIndex++;
+                updateCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCard();
+            }
+        }
+
+        function speakCurrent() {
+            if (currentVocabList.length === 0) return;
+            const text = currentVocabList[currentIndex].word;
+            const synth = window.speechSynthesis;
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'en-US';
+            synth.speak(utter);
+        }
+
+        function filterVocab() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            currentVocabList = vocabData.filter(v => 
+                v.word.toLowerCase().includes(query) || 
+                v.meaning.includes(query) ||
+                v.syn.toLowerCase().includes(query)
+            );
+            currentIndex = 0;
+            updateCard();
+        }
+
+        // QUIZ LOGIC
+        let quizQuestions = [];
+        let currentQuizIndex = 0;
+        let score = 0;
+        let quizType = 'synonym';
+
+        function startQuiz(type) {
+            quizType = type;
+            document.getElementById('quiz-setup').classList.add('hidden');
+            document.getElementById('quiz-box').classList.remove('hidden');
+
+            // Generate 10 Random Questions
+            let pool = vocabData.filter(v => {
+                if (type === 'synonym') return v.syn && v.syn !== '-';
+                if (type === 'antonym') return v.ant && v.ant !== '-';
+                return true;
+            });
+
+            pool = pool.sort(() => 0.5 - Math.random());
+            quizQuestions = pool.slice(0, 10);
+            currentQuizIndex = 0;
+            score = 0;
+
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuizIndex >= quizQuestions.length) {
+                finishQuiz();
+                return;
+            }
+
+            const item = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-progress').innerText = `문제 ${currentQuizIndex + 1} / ${quizQuestions.length}`;
+            document.getElementById('quiz-score').innerText = `점수: ${score}`;
+            document.getElementById('quiz-question-word').innerText = item.word;
+            document.getElementById('quiz-question-sub').innerText = `(한글 뜻: ${item.meaning})`;
+            
+            const typeBadge = document.getElementById('quiz-type-badge');
+            if (quizType === 'synonym') typeBadge.innerText = "동의어 퀴즈";
+            else if (quizType === 'antonym') typeBadge.innerText = "반의어 퀴즈";
+            else typeBadge.innerText = "뜻 맞추기 퀴즈";
+
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('next-quiz-btn').classList.add('hidden');
+
+            // Generate Options
+            let correctAnswer = "";
+            if (quizType === 'synonym') correctAnswer = item.syn.split(',')[0].trim();
+            else if (quizType === 'antonym') correctAnswer = item.ant.split(',')[0].trim();
+            else correctAnswer = item.meaning;
+
+            let options = [correctAnswer];
+            
+            // Pick 3 wrong options
+            while (options.length < 4) {
+                let randomItem = vocabData[Math.floor(Math.random() * vocabData.length)];
+                let wrongVal = "";
+                if (quizType === 'synonym') wrongVal = randomItem.syn.split(',')[0].trim();
+                else if (quizType === 'antonym') wrongVal = randomItem.ant.split(',')[0].trim();
+                else wrongVal = randomItem.meaning;
+
+                if (wrongVal && wrongVal !== '-' && !options.includes(wrongVal)) {
+                    options.push(wrongVal);
+                }
+            }
+
+            options.sort(() => 0.5 - Math.random());
+
+            const container = document.getElementById('quiz-options');
+            container.innerHTML = "";
+
+            options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3.5 border-2 border-slate-200 rounded-xl font-semibold hover:border-indigo-500 hover:bg-indigo-50 transition flex justify-between items-center";
+                btn.innerHTML = `<span>${idx + 1}. ${opt}</span> <i class="fa-regular fa-circle text-slate-300"></i>`;
+                btn.onclick = () => selectOption(btn, opt, correctAnswer);
+                container.appendChild(btn);
+            });
+        }
+
+        function selectOption(btn, selected, correct) {
+            const allButtons = document.querySelectorAll('#quiz-options button');
+            allButtons.forEach(b => b.disabled = true);
+
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.remove('hidden');
+
+            if (selected === correct) {
+                btn.className = "w-full text-left p-3.5 border-2 border-emerald-500 bg-emerald-50 text-emerald-800 rounded-xl font-semibold flex justify-between items-center";
+                feedback.className = "p-3 rounded-xl text-center font-bold bg-emerald-100 text-emerald-800";
+                feedback.innerText = "정답입니다! 👏";
+                score += 10;
+            } else {
+                btn.className = "w-full text-left p-3.5 border-2 border-rose-500 bg-rose-50 text-rose-800 rounded-xl font-semibold flex justify-between items-center";
+                feedback.className = "p-3 rounded-xl text-center font-bold bg-rose-100 text-rose-800";
+                feedback.innerText = `아쉽네요. 정답은 [ ${correct} ] 입니다!`;
+            }
+
+            document.getElementById('quiz-score').innerText = `점수: ${score}`;
+            document.getElementById('next-quiz-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuizIndex++;
+            showQuestion();
+        }
+
+        function finishQuiz() {
+            const quizBox = document.getElementById('quiz-box');
+            quizBox.innerHTML = `
+                <div class="text-center py-8 space-y-4">
+                    <i class="fa-solid fa-trophy text-5xl text-amber-400"></i>
+                    <h2 class="text-2xl font-extrabold text-slate-800">퀴즈 완료!</h2>
+                    <p class="text-lg text-slate-600">최종 점수: <strong class="text-indigo-600 text-2xl">${score} / 100점</strong></p>
+                    <button onclick="location.reload()" class="px-6 py-2.5 bg-indigo-600 text-white font-bold rounded-xl shadow hover:bg-indigo-700 transition">
+                        다시 시작하기
+                    </button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
