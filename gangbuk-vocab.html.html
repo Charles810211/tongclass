@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 1학년 2학기 공통영어 필수 어휘</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #0f172a;
+            margin-bottom: 8px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .tab-menu {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #e2e8f0;
+            color: #475569;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* 학습 카드 스타일 */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            text-align: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .word-num {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .word-en {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .audio-btn {
+            background: #eef2ff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+            transition: background 0.2s;
+        }
+
+        .audio-btn:hover {
+            background: #e0e7ff;
+        }
+
+        .word-ko {
+            font-size: 1.25rem;
+            color: #334155;
+            min-height: 30px;
+            margin-top: 15px;
+        }
+
+        .toggle-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 10px;
+            color: #475569;
+        }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        /* 퀴즈 스타일 */
+        .quiz-option {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin: 8px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            font-size: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background: #f8fafc;
+        }
+
+        .quiz-option.correct {
+            background: #dcfce7;
+            border-color: #22c55e;
+            color: #15803d;
+        }
+
+        .quiz-option.wrong {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #b91c1c;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <h1>2026 1학년 2학기 공통영어 필수 어휘</h1>
+    <div class="subtitle">하루 10분 단어 암기 & 테스트</div>
+
+    <div class="tab-menu">
+        <button class="tab-btn active" onclick="switchTab('study')">카드 학습</button>
+        <button class="tab-btn" onclick="switchTab('quiz')">퀴즈 테스트</button>
+    </div>
+
+    <div class="container">
+        <!-- 학습 모드 -->
+        <div id="study-mode">
+            <div class="card">
+                <div class="word-num" id="study-num">NO. 1</div>
+                <div class="word-en">
+                    <span id="study-en">abruptly</span>
+                    <button class="audio-btn" onclick="speakCurrentWord()" title="발음 듣기">🔊</button>
+                </div>
+                <button class="toggle-btn" onclick="toggleMeaning()">뜻 보기 / 숨기기</button>
+                <div class="word-ko" id="study-ko">갑작스럽게</div>
+            </div>
+            <div class="nav-controls">
+                <button class="btn" id="prev-btn" onclick="prevWord()">이전</button>
+                <button class="btn" id="next-btn" onclick="nextWord()">다음</button>
+            </div>
+        </div>
+
+        <!-- 퀴즈 모드 -->
+        <div id="quiz-mode" class="hidden">
+            <div class="card">
+                <div class="word-num" id="quiz-num">문제 1 / 10</div>
+                <div class="word-en">
+                    <span id="quiz-en">abruptly</span>
+                    <button class="audio-btn" onclick="speakQuizWord()" title="발음 듣기">🔊</button>
+                </div>
+                <div id="quiz-options" style="margin-top: 20px;"></div>
+            </div>
+            <button class="btn" id="next-quiz-btn" onclick="nextQuizQuestion()" style="width:100%; display:none;">다음 문제</button>
+        </div>
+    </div>
+
+    <script>
+        // 이미지로부터 추출한 단어 데이터 (1~200)
+        const vocabulary = [
+            { num: 1, en: "abruptly", ko: "갑작스럽게" },
+            { num: 2, en: "absurdity", ko: "부조리, 불합리" },
+            { num: 3, en: "accelerate", ko: "가속하다" },
+            { num: 4, en: "accompany", ko: "동반하다" },
+            { num: 5, en: "accomplish", ko: "성취하다" },
+            { num: 6, en: "adverse", ko: "부정적인, 불리한" },
+            { num: 7, en: "affirm", ko: "단언하다" },
+            { num: 8, en: "aimlessly", ko: "목적 없이" },
+            { num: 9, en: "alert", ko: "경계하는" },
+            { num: 10, en: "alternative", ko: "대안" },
+            { num: 11, en: "analyze", ko: "분석하다" },
+            { num: 12, en: "anthropologist", ko: "인류학자" },
+            { num: 13, en: "appreciate", ko: "진가를 알아보다" },
+            { num: 14, en: "apt", ko: "~하는 경향이 있는" },
+            { num: 15, en: "aspect", ko: "측면, 양상" },
+            { num: 16, en: "assess", ko: "평가하다" },
+            { num: 17, en: "attract", ko: "끌어들이다" },
+            { num: 18, en: "authentic", ko: "진정한, 진짜의" },
+            { num: 19, en: "authority", ko: "권위" },
+            { num: 20, en: "awareness", ko: "인식" },
+            { num: 21, en: "barrier", ko: "장벽" },
+            { num: 22, en: "beneficial", ko: "유익한" },
+            { num: 23, en: "bound", ko: "반드시 ~할" },
+            { num: 24, en: "captive", ko: "사로잡힌" },
+            { num: 25, en: "categorize", ko: "분류하다" },
+            { num: 26, en: "catastrophic", ko: "파멸적인" },
+            { num: 27, en: "challenge", ko: "도전, 난제" },
+            { num: 28, en: "character", ko: "성격, 특성" },
+            { num: 29, en: "charisma", ko: "카리스마" },
+            { num: 30, en: "choreography", ko: "안무" },
+            { num: 31, en: "cite", ko: "인용하다" },
+            { num: 32, en: "cling", ko: "집착하다, 매달리다" },
+            { num: 33, en: "cognitive", ko: "인지의" },
+            { num: 34, en: "colleague", ko: "동료" },
+            { num: 35, en: "commercial", ko: "상업적인" },
+            { num: 36, en: "commitment", ko: "헌신, 약속" },
+            { num: 37, en: "communicate", ko: "의사소통하다" },
+            { num: 38, en: "commute", ko: "통근하다" },
+            { num: 39, en: "compel", ko: "강요하다" },
+            { num: 40, en: "competitor", ko: "경쟁자" },
+            { num: 41, en: "completely", ko: "완전히" },
+            { num: 42, en: "complexity", ko: "복잡성" },
+            { num: 43, en: "compliment", ko: "칭찬" },
+            { num: 44, en: "computation", ko: "계산" },
+            { num: 45, en: "conform", ko: "순응하다" },
+            { num: 46, en: "conscious", ko: "의식적인" },
+            { num: 47, en: "conservation", ko: "보존" },
+            { num: 48, en: "consistency", ko: "일관성" },
+            { num: 49, en: "contemporary", ko: "현대의" },
+            { num: 50, en: "contradict", ko: "모순되다" },
+            { num: 51, en: "convey", ko: "전달하다" },
+            { num: 52, en: "cooperative", ko: "협력적인" },
+            { num: 53, en: "credible", ko: "믿을 수 있는" },
+            { num: 54, en: "criterion", ko: "기준" },
+            { num: 55, en: "critical", ko: "결정적인, 비판적인" },
+            { num: 56, en: "cultivate", ko: "기르다, 배양하다" },
+            { num: 57, en: "cumulative", ko: "누적되는" },
+            { num: 58, en: "current", ko: "현재의" },
+            { num: 59, en: "deficit", ko: "결함, 부족" },
+            { num: 60, en: "demonstrate", ko: "증명하다" },
+            { num: 61, en: "depression", ko: "우울증, 침체" },
+            { num: 62, en: "desperately", ko: "필사적으로" },
+            { num: 63, en: "destination", ko: "목적지" },
+            { num: 64, en: "detect", ko: "감지하다" },
+            { num: 65, en: "devastate", ko: "완전히 파괴하다" },
+            { num: 66, en: "devise", ko: "고안하다" },
+            { num: 67, en: "discourage", ko: "낙담시키다" },
+            { num: 68, en: "dismiss", ko: "묵살하다, 해고하다" },
+            { num: 69, en: "distort", ko: "왜곡하다" },
+            { num: 70, en: "diverge", ko: "갈라지다" },
+            { num: 71, en: "dominate", ko: "지배하다" },
+            { num: 72, en: "dynamic", ko: "역동적인" },
+            { num: 73, en: "emerge", ko: "나타나다" },
+            { num: 74, en: "emphasis", ko: "강조" },
+            { num: 75, en: "empower", ko: "권한을 주다" },
+            { num: 76, en: "encounter", ko: "마주치다" },
+            { num: 77, en: "enforce", ko: "집행하다" },
+            { num: 78, en: "engage", ko: "관여하다" },
+            { num: 79, en: "enormous", ko: "거대한" },
+            { num: 80, en: "enrollment", ko: "등록" },
+            { num: 81, en: "entertain", ko: "즐겁게 하다" },
+            { num: 82, en: "enthusiasm", ko: "열정" },
+            { num: 83, en: "essential", ko: "필수적인" },
+            { num: 84, en: "establish", ko: "설립하다" },
+            { num: 85, en: "evaluate", ko: "평가하다" },
+            { num: 86, en: "eventually", ko: "결국" },
+            { num: 87, en: "evident", ko: "명백한" },
+            { num: 88, en: "evolution", ko: "진화" },
+            { num: 89, en: "executive", ko: "경영진, 임원" },
+            { num: 90, en: "experiment", ko: "실험" },
+            { num: 91, en: "expertise", ko: "전문 지식" },
+            { num: 92, en: "exposure", ko: "노출" },
+            { num: 93, en: "extraordinary", ko: "비범한" },
+            { num: 94, en: "facility", ko: "시설" },
+            { num: 95, en: "fascinate", ko: "매혹하다" },
+            { num: 96, en: "feature", ko: "특징" },
+            { num: 97, en: "figuratively", ko: "비유적으로" },
+            { num: 98, en: "flatter", ko: "아부하다" },
+            { num: 99, en: "frequent", ko: "빈번한" },
+            { num: 100, en: "fundamentally", ko: "근본적으로" },
+            { num: 101, en: "generate", ko: "발생시키다" },
+            { num: 102, en: "hazard", ko: "위험" },
+            { num: 103, en: "hesitate", ko: "망설이다" },
+            { num: 104, en: "identical", ko: "동일한" },
+            { num: 105, en: "illustrate", ko: "설명하다" },
+            { num: 106, en: "imagination", ko: "상상력" },
+            { num: 107, en: "impact", ko: "영향" },
+            { num: 108, en: "inadvertently", ko: "무심코, 우연히" },
+            { num: 109, en: "incorporate", ko: "포함하다" },
+            { num: 110, en: "inefficient", ko: "비효율적인" },
+            { num: 111, en: "inflexible", ko: "융통성 없는" },
+            { num: 112, en: "infrastructure", ko: "기반 시설" },
+            { num: 113, en: "ingredient", ko: "재료, 성분" },
+            { num: 114, en: "inhale", ko: "들이마시다" },
+            { num: 115, en: "insight", ko: "통찰력" },
+            { num: 116, en: "inspire", ko: "영감을 주다" },
+            { num: 117, en: "instance", ko: "사례, 경우" },
+            { num: 118, en: "intentionally", ko: "의도적으로" },
+            { num: 119, en: "interact", ko: "상호작용하다" },
+            { num: 120, en: "interconnectivity", ko: "상호 연결성" },
+            { num: 121, en: "intermix", ko: "혼합하다" },
+            { num: 122, en: "interpret", ko: "해석하다" },
+            { num: 123, en: "intuition", ko: "직관" },
+            { num: 124, en: "investment", ko: "투자" },
+            { num: 125, en: "irrational", ko: "비이성적인" },
+            { num: 126, en: "irrelevant", ko: "무관한" },
+            { num: 127, en: "legislation", ko: "법률 제정" },
+            { num: 128, en: "legitimize", ko: "정당화하다" },
+            { num: 129, en: "literally", ko: "문자 그대로" },
+            { num: 130, en: "magnetic", ko: "매력적인" },
+            { num: 131, en: "manifest", ko: "나타내다" },
+            { num: 132, en: "masterpiece", ko: "걸작" },
+            { num: 133, en: "mechanism", ko: "기제, 장치" },
+            { num: 134, en: "merit", ko: "가치, 장점" },
+            { num: 135, en: "mobilize", ko: "동원하다" },
+            { num: 136, en: "mock", ko: "모의의, 가짜의" },
+            { num: 137, en: "moderation", ko: "적당함, 절제" },
+            { num: 138, en: "motivation", ko: "동기 부여" },
+            { num: 139, en: "norm", ko: "규범" },
+            { num: 140, en: "objective", ko: "목표, 객관적인" },
+            { num: 141, en: "observe", ko: "관찰하다" },
+            { num: 142, en: "obsess", ko: "사로잡다" },
+            { num: 143, en: "obtain", ko: "얻다" },
+            { num: 144, en: "occupy", ko: "차지하다" },
+            { num: 145, en: "operate", ko: "작동하다" },
+            { num: 146, en: "outcome", ko: "결과" },
+            { num: 147, en: "outweigh", ko: "~보다 더 크다" },
+            { num: 148, en: "parameter", ko: "매개변수" },
+            { num: 149, en: "perceive", ko: "인지하다" },
+            { num: 150, en: "perspective", ko: "관점" },
+            { num: 151, en: "phenomenon", ko: "현상" },
+            { num: 152, en: "philosopher", ko: "철학자" },
+            { num: 153, en: "potential", ko: "잠재력" },
+            { num: 154, en: "practice", ko: "관행, 연습" },
+            { num: 155, en: "predictable", ko: "예측 가능한" },
+            { num: 156, en: "prerequisite", ko: "전제 조건" },
+            { num: 157, en: "prescribe", ko: "처방하다, 규정하다" },
+            { num: 158, en: "preserve", ko: "보존하다" },
+            { num: 159, en: "principle", ko: "원리, 원칙" },
+            { num: 160, en: "prioritize", ko: "우선순위를 매기다" },
+            { num: 161, en: "prominent", ko: "저명한" },
+            { num: 162, en: "promote", ko: "홍보하다, 촉진하다" },
+            { num: 163, en: "pursue", ko: "추구하다" },
+            { num: 164, en: "random", ko: "무작위의" },
+            { num: 165, en: "rationalize", ko: "합리화하다" },
+            { num: 166, en: "regardless", ko: "상관없이" },
+            { num: 167, en: "reject", ko: "거절하다" },
+            { num: 168, en: "represent", ko: "대표하다" },
+            { num: 169, en: "require", ko: "요구하다" },
+            { num: 170, en: "resemble", ko: "닮다" },
+            { num: 171, en: "resist", ko: "저항하다" },
+            { num: 172, en: "resource", ko: "자원" },
+            { num: 173, en: "respiratory", ko: "호흡기의" },
+            { num: 174, en: "reveal", ko: "드러내다" },
+            { num: 175, en: "sacred", ko: "신성한" },
+            { num: 176, en: "sacrifice", ko: "희생" },
+            { num: 177, en: "skim", ko: "훑어보다" },
+            { num: 178, en: "socialize", ko: "사귀다, 사회화하다" },
+            { num: 179, en: "solely", ko: "오로지, 단독으로" },
+            { num: 180, en: "specific", ko: "구체적인" },
+            { num: 181, en: "status", ko: "지위, 상태" },
+            { num: 182, en: "straightforward", ko: "솔직한, 간단한" },
+            { num: 183, en: "subconscious", ko: "잠재의식" },
+            { num: 184, en: "substitute", ko: "대체물" },
+            { num: 185, en: "succession", ko: "연속" },
+            { num: 186, en: "sufficiently", ko: "충분히" },
+            { num: 187, en: "suppress", ko: "억누르다" },
+            { num: 188, en: "surmise", ko: "추측하다" },
+            { num: 189, en: "survive", ko: "생존하다" },
+            { num: 190, en: "tangible", ko: "유형의, 실체가 있는" },
+            { num: 191, en: "temptation", ko: "유혹" },
+            { num: 192, en: "toxic", ko: "유독한" },
+            { num: 193, en: "traditional", ko: "전통적인" },
+            { num: 194, en: "transmit", ko: "전송하다" },
+            { num: 195, en: "unique", ko: "독특한" },
+            { num: 196, en: "untimely", ko: "시기상조의" },
+            { num: 197, en: "variation", ko: "변화, 변이" },
+            { num: 198, en: "violation", ko: "위반" },
+            { num: 199, en: "vitality", ko: "활력" },
+            { num: 200, en: "worthless", ko: "가치 없는" }
+        ];
+
+        let currentIndex = 0;
+        let isMeaningVisible = true;
+        let quizCurrentQuestion = 0;
+        let quizScore = 0;
+        let currentQuizData = [];
+
+        // TTS 발음 기능
+        function speakWord(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("이 브라우저는 음성 재생을 지원하지 않습니다.");
+            }
+        }
+
+        function speakCurrentWord() {
+            speakWord(vocabulary[currentIndex].en);
+        }
+
+        function speakQuizWord() {
+            speakWord(currentQuizData[quizCurrentQuestion].en);
+        }
+
+        // 화면 업데이트
+        function updateWordDisplay() {
+            const item = vocabulary[currentIndex];
+            document.getElementById('study-num').innerText = `NO. ${item.num} / 200`;
+            document.getElementById('study-en').innerText = item.en;
+            document.getElementById('study-ko').innerText = item.ko;
+            
+            document.getElementById('prev-btn').disabled = currentIndex === 0;
+            document.getElementById('next-btn').disabled = currentIndex === vocabulary.length - 1;
+
+            if (!isMeaningVisible) {
+                document.getElementById('study-ko').style.visibility = 'hidden';
+            } else {
+                document.getElementById('study-ko').style.visibility = 'visible';
+            }
+        }
+
+        function toggleMeaning() {
+            isMeaningVisible = !isMeaningVisible;
+            document.getElementById('study-ko').style.visibility = isMeaningVisible ? 'visible' : 'hidden';
+        }
+
+        function prevWord() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateWordDisplay();
+            }
+        }
+
+        function nextWord() {
+            if (currentIndex < vocabulary.length - 1) {
+                currentIndex++;
+                updateWordDisplay();
+            }
+        }
+
+        // 탭 전환
+        function switchTab(tab) {
+            const studyMode = document.getElementById('study-mode');
+            const quizMode = document.getElementById('quiz-mode');
+            const buttons = document.querySelectorAll('.tab-btn');
+
+            if (tab === 'study') {
+                studyMode.classList.remove('hidden');
+                quizMode.classList.add('hidden');
+                buttons[0].classList.add('active');
+                buttons[1].classList.remove('active');
+            } else {
+                studyMode.classList.add('hidden');
+                quizMode.classList.remove('hidden');
+                buttons[0].classList.remove('active');
+                buttons[1].classList.add('active');
+                startQuiz();
+            }
+        }
+
+        // 퀴즈 시스템
+        function startQuiz() {
+            quizCurrentQuestion = 0;
+            quizScore = 0;
+            // 무작위 10개 단어 추출
+            const shuffled = [...vocabulary].sort(() => 0.5 - Math.random());
+            currentQuizData = shuffled.slice(0, 10);
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            document.getElementById('next-quiz-btn').style.display = 'none';
+            const q = currentQuizData[quizCurrentQuestion];
+            document.getElementById('quiz-num').innerText = `문제 ${quizCurrentQuestion + 1} / 10`;
+            document.getElementById('quiz-en').innerText = q.en;
+
+            // 보기 생성 (정답 1개 + 오답 3개)
+            const wrongOptions = vocabulary
+                .filter(item => item.en !== q.en)
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 3)
+                .map(item => item.ko);
+
+            const options = [q.ko, ...wrongOptions].sort(() => 0.5 - Math.random());
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            options.forEach(optionText => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.innerText = optionText;
+                btn.onclick = () => checkAnswer(btn, optionText === q.ko);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedBtn, isCorrect) {
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(btn => btn.disabled = true);
+
+            if (isCorrect) {
+                selectedBtn.classList.add('correct');
+                quizScore++;
+            } else {
+                selectedBtn.classList.add('wrong');
+                // 정답 표시
+                options.forEach(btn => {
+                    if (btn.innerText === currentQuizData[quizCurrentQuestion].ko) {
+                        btn.classList.add('correct');
+                    }
+                });
+            }
+
+            document.getElementById('next-quiz-btn').style.display = 'block';
+        }
+
+        function nextQuizQuestion() {
+            quizCurrentQuestion++;
+            if (quizCurrentQuestion < currentQuizData.length) {
+                renderQuizQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            const card = document.querySelector('#quiz-mode .card');
+            card.innerHTML = `
+                <h2>퀴즈 완료! 🎉</h2>
+                <p style="font-size: 1.2rem; margin: 20px 0;">
+                    점수: <strong>${quizScore * 10}점</strong> (${quizScore} / 10 문제 맞춤)
+                </p>
+                <button class="btn" onclick="location.reload()">다시 도전하기</button>
+            `;
+            document.getElementById('next-quiz-btn').style.display = 'none';
+        }
+
+        // 초기화
+        updateWordDisplay();
+    </script>
+</body>
+</html>
