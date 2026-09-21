@@ -126,8 +126,12 @@
 
                 <div class="text-center py-4">
                     <span id="quiz-type-badge" class="text-xs font-bold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full">동의어 퀴즈</span>
-                    <h2 id="quiz-question-word" class="text-3xl font-extrabold text-slate-800 mt-2">promotional</h2>
-                    <p id="quiz-question-sub" class="text-sm text-slate-500 mt-1">(의미: 홍보의)</p>
+                    <div class="flex items-center justify-center gap-2 mt-2">
+                        <h2 id="quiz-question-word" class="text-3xl font-extrabold text-slate-800">promotional</h2>
+                        <button onclick="speakQuizWord()" class="text-indigo-600 hover:text-indigo-800 text-lg p-1">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div id="quiz-options" class="grid grid-cols-1 gap-3">
@@ -323,10 +327,23 @@
         function speakCurrent() {
             if (currentVocabList.length === 0) return;
             const text = currentVocabList[currentIndex].word;
-            const synth = window.speechSynthesis;
-            const utter = new SpeechSynthesisUtterance(text);
-            utter.lang = 'en-US';
-            synth.speak(utter);
+            speakWord(text);
+        }
+
+        function speakQuizWord() {
+            if (quizQuestions.length === 0) return;
+            const text = quizQuestions[currentQuizIndex].word;
+            speakWord(text);
+        }
+
+        function speakWord(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.lang = 'en-US';
+                utter.rate = 0.9;
+                window.speechSynthesis.speak(utter);
+            }
         }
 
         function filterVocab() {
@@ -376,7 +393,6 @@
             document.getElementById('quiz-progress').innerText = `문제 ${currentQuizIndex + 1} / ${quizQuestions.length}`;
             document.getElementById('quiz-score').innerText = `점수: ${score}`;
             document.getElementById('quiz-question-word').innerText = item.word;
-            document.getElementById('quiz-question-sub').innerText = `(한글 뜻: ${item.meaning})`;
             
             const typeBadge = document.getElementById('quiz-type-badge');
             if (quizType === 'synonym') typeBadge.innerText = "동의어 퀴즈";
