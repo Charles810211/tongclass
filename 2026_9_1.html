@@ -206,7 +206,12 @@
                 <!-- Question Prompt -->
                 <div class="text-center py-4 space-y-2">
                     <span id="quiz-category-badge" class="inline-block text-xs bg-indigo-100 text-indigo-700 font-bold px-2.5 py-0.5 rounded">한글 뜻 맞추기</span>
-                    <h3 id="quiz-question-word" class="text-3xl font-extrabold text-slate-800">originally</h3>
+                    <div class="flex items-center justify-center gap-2">
+                        <h3 id="quiz-question-word" class="text-3xl font-extrabold text-slate-800">originally</h3>
+                        <button onclick="speakText(quizQuestions[currentQuizIdx].item.word)" class="text-indigo-600 hover:text-indigo-800 p-1">
+                            <i class="fa-solid fa-volume-high text-xl"></i>
+                        </button>
+                    </div>
                     <p id="quiz-question-sub" class="text-xs text-slate-500">다음 단어의 올바른 뜻을 선택하세요.</p>
                 </div>
 
