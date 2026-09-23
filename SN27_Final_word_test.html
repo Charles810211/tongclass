@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2027학년도 EBS 수능완성 영어 동반의어 마스터 App</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --secondary: #06b6d4;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            padding-bottom: 60px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
+        }
+
+        /* Navigation Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background-color: #e2e8f0;
+            padding: 0.3rem;
+            border-radius: 0.75rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .tab-btn.active {
+            background-color: var(--card-bg);
+            color: var(--primary);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Controls / Filters */
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            background-color: var(--card-bg);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        select, input {
+            padding: 0.6rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--primary);
+        }
+
+        /* Tab Contents */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Table View */
+        .table-container {
+            background-color: var(--card-bg);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: #f1f5f9;
+            font-weight: 700;
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .word-cell {
+            font-weight: 700;
+            color: var(--primary);;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background-color: #e0e7ff;
+            color: #3730a3;
+        }
+
+        /* Flashcard View */
+        .flashcard-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 480px;
+            height: 280px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            background-color: var(--card-bg);
+        }
+
+        .card-front {
+            color: var(--text);
+        }
+
+        .card-front .word {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-front .hint {
+            font-size: 0.85rem;
+            color: var(--text-muted);;
+            margin-top: 1rem;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background-color: #faf5ff;
+            border-color: #e9d5ff;
+            text-align: left;
+            align-items: flex-start;
+            overflow-y: auto;
+        }
+
+        .card-back .meaning {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #581c87;
+            margin-bottom: 1rem;
+            width: 100%;
+            border-bottom: 2px solid #e9d5ff;
+            padding-bottom: 0.5rem;
+        }
+
+        .card-back .syn-ant-section {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            width: 100%;
+        }
+
+        .card-back .label {
+            font-weight: 700;
+            color: #7e22ce;
+            display: inline-block;
+            width: 60px;
+        }
+
+        .card-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: #64748b;
+        }
+
+        .btn-secondary:hover {
+            background-color: #475569;
+        }
+
+        /* Quiz View */
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .quiz-question {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-question .q-type {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .quiz-question .q-target {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+
+        .option-btn {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            background-color: white;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            background-color: #f0fdf4;
+        }
+
+        .option-btn.correct {
+            background-color: #d1fae5 !important;
+            border-color: var(--success) !important;
+            color: #065f46;
+        }
+
+        .option-btn.wrong {
+            background-color: #fee2e2 !important;
+            border-color: var(--danger) !important;
+            color: #991b1b;
+        }
+
+        .quiz-feedback {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-weight: 700;
+            min-height: 24px;
+        }
+
+        .stats-badge {
+            font-size: 0.85rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 1rem;
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        @media (max-width: 640px) {
+            header h1 { font-size: 1.4rem; }
+            .card { height: 320px; }
+            .card-front .word { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>2027학년도 EBS 수능완성 영어</h1>
+        <p>통합 동의어 / 반의어 List 학습 &amp; 테스트 워크북</p>
+    </header>
+
+    <div class="container">
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('list')">📚 단어장 목록</button>
+            <button class="tab-btn" onclick="switchTab('flashcard')">🎴 플래시카드</button>
+            <button class="tab-btn" onclick="switchTab('quiz')">✍️ 실전 퀴즈</button>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="controls">
+            <div class="control-group">
+                <label for="chapterSelect">강 선택 (Chapter)</label>
+                <select id="chapterSelect" onchange="filterData()">
+                    <option value="all">전체보기 (01강~10강)</option>
+                    <option value="01">01강</option>
+                    <option value="02">02강</option>
+                    <option value="03">03강</option>
+                    <option value="04">04강</option>
+                    <option value="05">05강</option>
+                    <option value="06">06강</option>
+                    <option value="07">07강</option>
+                    <option value="08">08강</option>
+                    <option value="09">09강</option>
+                    <option value="10">10강</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="searchInput">단어 검색 (Search)</label>
+                <input type="text" id="searchInput" placeholder="영단어 또는 뜻 검색..." oninput="filterData()">
+            </div>
+        </div>
+
+        <!-- Tab 1: Word List View -->
+        <div id="listTab" class="tab-content active">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>강</th>
+                            <th>No</th>
+                            <th>Word (단어)</th>
+                            <th>Meaning (뜻)</th>
+                            <th>Synonym (동의어)</th>
+                            <th>Antonym (반의어)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vocabTableBody">
+                        <!-- Dynamic content -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab 2: Flashcard View -->
+        <div id="flashcardTab" class="tab-content">
+            <div class="flashcard-wrapper">
+                <div class="card" id="flashcard" onclick="flipCard()">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <span class="tag" id="cardChapterTag">01강</span>
+                            <div class="word" id="cardWord">normal</div>
+                            <div class="hint">클릭하여 뜻과 동/반의어 확인</div>
+                        </div>
+                        <div class="card-back">
+                            <div class="meaning" id="cardMeaning">정상의</div>
+                            <div class="syn-ant-section">
+                                <span class="label">동의어:</span> <span id="cardSynonym">natural, typical, standard</span>
+                            </div>
+                            <div class="syn-ant-section">
+                                <span class="label">반의어:</span> <span id="cardAntonym">abnormal, unusual, strange</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-controls">
+                    <button class="btn btn-secondary" onclick="prevCard()">◀ 이전</button>
+                    <span id="cardProgress" class="stats-badge">1 / 100</span>
+                    <button class="btn" onclick="nextCard()">다음 ▶</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Quiz View -->
+        <div id="quizTab" class="tab-content">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <span class="stats-badge" id="quizModeBadge">동의어 맞히기</span>
+                    <span class="stats-badge" id="quizScore">점수: 0 / 0</span>
+                </div>
+
+                <div class="quiz-question">
+                    <div class="q-type" id="quizQuestionType">다음 단어의 [동의어]를 고르세요</div>
+                    <div class="q-target" id="quizTargetWord">activate</div>
+                </div>
+
+                <div class="options-grid" id="optionsGrid">
+                    <!-- Dynamic Options -->
+                </div>
+
+                <div class="quiz-feedback" id="quizFeedback"></div>
+
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <button class="btn btn-secondary" onclick="generateQuiz()">다음 문제 ➔</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // EBS 수능완성 2027 동반의어 통합 데이터셋
+        const vocabData = [
+            // 01강
+            { ch: "01", no: "모평1", word: "normal", meaning: "정상의", syn: "natural, typical, standard", ant: "abnormal, unusual, strange" },
+            { ch: "01", no: "1", word: "activate", meaning: "활성화하다", syn: "trigger, stimulate, arouse", ant: "deactivate, suppress, halt" },
+            { ch: "01", no: "2", word: "unlikely", meaning: "일어날 것 같지 않은", syn: "improbable, doubtful, implausible", ant: "likely, probable" },
+            { ch: "01", no: "3", word: "crash", meaning: "갑자기 작동을 멈추다", syn: "fail, break down, freeze", ant: "work, operate" },
+            { ch: "01", no: "4", word: "think through", meaning: "~을 충분히 생각하다", syn: "consider, ponder, contemplate", ant: "ignore, neglect, dismiss" },
+            { ch: "01", no: "5", word: "potential", meaning: "가능한, 잠재적인", syn: "possible, prospective, conceivable", ant: "actual, real, existing" },
+            { ch: "01", no: "6", word: "exceed", meaning: "넘어서다, 뛰어넘다", syn: "surpass, outstrip, transcend", ant: "fall short of, remain within" },
+            { ch: "01", no: "7", word: "take place", meaning: "일어나다", syn: "happen, occur, arise", ant: "fail to occur, not happen" },
+            { ch: "01", no: "8", word: "occur", meaning: "일어나다", syn: "happen, arise, ensue", ant: "cease, fail to happen" },
+            { ch: "01", no: "9", word: "go to do", meaning: "~하는 역할을 하다", syn: "serve to, function to", ant: "-" },
+            { ch: "01", no: "10", word: "conscious", meaning: "의식적인", syn: "intentional, deliberate, mindful", ant: "unconscious, unintentional" },
+            { ch: "01", no: "11", word: "breakthrough", meaning: "획기적 발견, 돌파구", syn: "discovery, leap, innovation", ant: "setback, regression, breakdown" },
+            { ch: "01", no: "2-2", word: "inference", meaning: "추론", syn: "deduction, conclusion, reasoning", ant: "observation, fact, evidence" },
+            { ch: "01", no: "2-3", word: "analyse", meaning: "분석하다", syn: "examine, evaluate, investigate", ant: "synthesize, combine" },
+            { ch: "01", no: "2-4", word: "manipulate", meaning: "조작하다, 조정하다", syn: "alter, maneuver, modify", ant: "leave alone, preserve" },
+            { ch: "01", no: "2-5", word: "significant", meaning: "중요한", syn: "important, crucial, monumental", ant: "insignificant, trivial, minor" },
+
+            // 02강
+            { ch: "02", no: "1", word: "proactive", meaning: "사전 대책을 강구하는", syn: "preemptive, anticipatory, preventive", ant: "reactive, passive" },
+            { ch: "02", no: "2", word: "contingent upon", meaning: "~ 여부에 따른", syn: "dependent on, conditional on, reliant on", ant: "independent of, unrelated to" },
+            { ch: "02", no: "3", word: "sweeten the pot", meaning: "더 매력적인 제안을 제시하다", syn: "incentivize, make more attractive", ant: "discourage, disincentivize" },
+            { ch: "02", no: "4", word: "hold in high regard", meaning: "~을 높이 평가하다, 존경하다", syn: "respect, value highly, esteem", ant: "despise, disrespect" },
+            { ch: "02", no: "5", word: "competence", meaning: "능력, 역량", syn: "capability, ability, proficiency", ant: "incompetence, inability" },
+            { ch: "02", no: "6", word: "paradigm", meaning: "패러다임, 사고 체계", syn: "model, framework, pattern", ant: "-" },
+            { ch: "02", no: "8", word: "barrier", meaning: "장애물, 장벽", syn: "obstacle, hurdle, hindrance", ant: "aid, assistance, help" },
+            { ch: "02", no: "9", word: "work around", meaning: "~을 피하며 일하다", syn: "bypass, evade, circumvent", ant: "confront, tackle, face" },
+            { ch: "02", no: "10", word: "friction", meaning: "마찰, 갈등", syn: "conflict, discord, tension", ant: "harmony, agreement, peace" },
+            { ch: "02", no: "11", word: "resolve", meaning: "해결하다", syn: "settle, solve, address", ant: "worsen, aggravate" },
+
+            // 03강
+            { ch: "03", no: "1", word: "medium", meaning: "매체", syn: "means, channel, vehicle", ant: "-" },
+            { ch: "03", no: "4", word: "norm", meaning: "규범, 기준", syn: "standard, rule, convention", ant: "deviation, anomaly" },
+            { ch: "03", no: "5", word: "phenomenon", meaning: "현상", syn: "occurrence, event, happening", ant: "absence" },
+
+            // 04강
+            { ch: "04", no: "1", word: "crucial", meaning: "매우 중요한, 결정적인", syn: "essential, vital, critical", ant: "trivial, minor, unimportant" },
+            { ch: "04", no: "4", word: "optimise", meaning: "최적화하다", syn: "enhance, maximize, improve", ant: "worsen, deteriorate" },
+            { ch: "04", no: "6", word: "reinforce", meaning: "강화하다", syn: "strengthen, consolidate, bolster", ant: "weaken, undermine" },
+            { ch: "04", no: "7", word: "biased", meaning: "편향된", syn: "prejudiced, partial, skewed", ant: "objective, impartial, fair" },
+
+            // 05강
+            { ch: "05", no: "모평1", word: "manage", meaning: "조절하다, 다루다", syn: "control, regulate, handle", ant: "mismanage, neglect" },
+            { ch: "05", no: "1", word: "latitude", meaning: "위도", syn: "geographic latitude, latitudinal position", ant: "longitude" },
+            { ch: "05", no: "2", word: "beneficial", meaning: "유익한", syn: "helpful, advantageous, favorable", ant: "harmful, detrimental" },
+            { ch: "05", no: "5", word: "deadly", meaning: "치명적인", syn: "fatal, lethal, life-threatening", ant: "harmless, safe" },
+
+            // 06강
+            { ch: "06", no: "1", word: "audience", meaning: "독자, 시청자", syn: "readership, readership base", ant: "author, writer" },
+            { ch: "06", no: "3", word: "ensure", meaning: "보장하다", syn: "guarantee, assure, secure", ant: "jeopardize, threaten" },
+            { ch: "06", no: "7", word: "pinpoint", meaning: "정확히 찾아내다", syn: "identify, locate, detect", ant: "overlook, miss, ignore" },
+
+            // 07강
+            { ch: "07", no: "1", word: "manipulate", meaning: "조작하다", syn: "control, influence, alter", ant: "submit to, yield to" },
+            { ch: "07", no: "3", word: "predator", meaning: "포식자, 약탈자", syn: "hunter, attacker, carnivore", ant: "prey, victim" },
+
+            // 08강
+            { ch: "08", no: "1", word: "redirect", meaning: "다시 향하게 하다", syn: "reroute, redirect toward, channel", ant: "divert away, scatter" },
+            { ch: "08", no: "10", word: "reinforce", meaning: "강화하다", syn: "strengthen, bolster, enhance", ant: "weaken, undermine" },
+
+            // 09강
+            { ch: "09", no: "1", word: "access", meaning: "접근", syn: "approach, entry, admission", ant: "exclusion, denial" },
+            { ch: "09", no: "2", word: "available", meaning: "이용 가능한", syn: "accessible, obtainable, attainable", ant: "inaccessible, unobtainable" },
+
+            // 10강
+            { ch: "10", no: "1", word: "assign", meaning: "배정하다, 맡기다", syn: "allocate, designate, appoint", ant: "withdraw, remove" },
+            { ch: "10", no: "11", word: "sore", meaning: "몸이 쑤시는, 아픈", syn: "aching, painful, tender", ant: "comfortable, painless" }
+        ];
+
+        let filteredData = [...vocabData];
+        let currentCardIndex = 0;
+        let quizScoreCount = { correct: 0, total: 0 };
+
+        // Initialize App
+        document.addEventListener("DOMContentLoaded", () => {
+            renderTable();
+            updateCard();
+            generateQuiz();
+        });
+
+        // Tab Switch
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            if(tabName === 'list') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('listTab').classList.add('active');
+            } else if(tabName === 'flashcard') {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('flashcardTab').classList.add('active');
+            } else if(tabName === 'quiz') {
+                document.querySelectorAll('.tab-btn')[2].classList.add('active');
+                document.getElementById('quizTab').classList.add('active');
+            }
+        }
+
+        // Filter Data
+        function filterData() {
+            const chapter = document.getElementById('chapterSelect').value;
+            const search = document.getElementById('searchInput').value.toLowerCase().trim();
+
+            filteredData = vocabData.filter(item => {
+                const matchChapter = (chapter === 'all' || item.ch === chapter);
+                const matchSearch = item.word.toLowerCase().includes(search) || 
+                                    item.meaning.toLowerCase().includes(search) ||
+                                    item.syn.toLowerCase().includes(search) ||
+                                    item.ant.toLowerCase().includes(search);
+                return matchChapter && matchSearch;
+            });
+
+            renderTable();
+            currentCardIndex = 0;
+            updateCard();
+        }
+
+        // Render Table View
+        function renderTable() {
+            const tbody = document.getElementById('vocabTableBody');
+            tbody.innerHTML = '';
+
+            if(filteredData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">검색 결과가 없습니다.</td></tr>`;
+                return;
+            }
+
+            filteredData.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><span class="tag">${item.ch}강</span></td>
+                    <td>${item.no}</td>
+                    <td class="word-cell">${item.word}</td>
+                    <td>${item.meaning}</td>
+                    <td style="color: #047857;">${item.syn}</td>
+                    <td style="color: #b91c1c;">${item.ant}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Flashcard Logic
+        function updateCard() {
+            const card = document.getElementById('flashcard');
+            card.classList.remove('flipped');
+
+            if(filteredData.length === 0) {
+                document.getElementById('cardWord').innerText = "데이터 없음";
+                document.getElementById('cardMeaning').innerText = "-";
+                document.getElementById('cardSynonym').innerText = "-";
+                document.getElementById('cardAntonym').innerText = "-";
+                document.getElementById('cardProgress').innerText = "0 / 0";
+                return;
+            }
+
+            const item = filteredData[currentCardIndex];
+            document.getElementById('cardChapterTag').innerText = `${item.ch}강 (No.${item.no})`;
+            document.getElementById('cardWord').innerText = item.word;
+            document.getElementById('cardMeaning').innerText = item.meaning;
+            document.getElementById('cardSynonym').innerText = item.syn;
+            document.getElementById('cardAntonym').innerText = item.ant;
+            document.getElementById('cardProgress').innerText = `${currentCardIndex + 1} / ${filteredData.length}`;
+        }
+
+        function flipCard() {
+            document.getElementById('flashcard').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            if(filteredData.length === 0) return;
+            currentCardIndex = (currentCardIndex + 1) % filteredData.length;
+            updateCard();
+        }
+
+        function prevCard() {
+            if(filteredData.length === 0) return;
+            currentCardIndex = (currentCardIndex - 1 + filteredData.length) % filteredData.length;
+            updateCard();
+        }
+
+        // Quiz Logic
+        let currentQuizItem = null;
+        let currentQuizType = 'synonym'; // 'synonym', 'antonym', or 'meaning'
+
+        function generateQuiz() {
+            if(filteredData.length < 4) {
+                document.getElementById('quizTargetWord').innerText = "단어 부족";
+                document.getElementById('optionsGrid').innerHTML = "<p style='text-align:center;'>퀴즈를 풀려면 최소 4개 이상의 단어가 검색 목록에 필요합니다.</p>";
+                return;
+            }
+
+            document.getElementById('quizFeedback').innerText = '';
+            
+            // Pick Random Quiz Type
+            const types = ['synonym', 'antonym', 'meaning'];
+            currentQuizType = types[Math.floor(Math.random() * types.length)];
+
+            // Pick Target Item
+            currentQuizItem = filteredData[Math.floor(Math.random() * filteredData.length)];
+            
+            // Adjust header
+            let typeLabel = "동의어";
+            if(currentQuizType === 'antonym') typeLabel = "반의어";
+            if(currentQuizType === 'meaning') typeLabel = "뜻(의미)";
+
+            document.getElementById('quizModeBadge').innerText = `${typeLabel} 퀴즈`;
+            document.getElementById('quizQuestionType').innerText = `다음 단어의 [${typeLabel}]를 고르세요`;
+            document.getElementById('quizTargetWord').innerText = currentQuizItem.word;
+
+            // Target correct answer text
+            let correctAnswerStr = "";
+            if(currentQuizType === 'synonym') correctAnswerStr = currentQuizItem.syn.split(',')[0].trim();
+            else if(currentQuizType === 'antonym') correctAnswerStr = currentQuizItem.ant.split(',')[0].trim();
+            else correctAnswerStr = currentQuizItem.meaning;
+
+            // Create 4 Options
+            let options = [correctAnswerStr];
+            while(options.length < 4) {
+                const randItem = vocabData[Math.floor(Math.random() * vocabData.length)];
+                let randCandidate = "";
+                if(currentQuizType === 'synonym') randCandidate = randItem.syn.split(',')[0].trim();
+                else if(currentQuizType === 'antonym') randCandidate = randItem.ant.split(',')[0].trim();
+                else randCandidate = randItem.meaning;
+
+                if(randCandidate && randCandidate !== "-" && !options.includes(randCandidate)) {
+                    options.push(randCandidate);
+                }
+            }
+
+            // Shuffle Options
+            options.sort(() => Math.random() - 0.5);
+
+            // Render Options
+            const grid = document.getElementById('optionsGrid');
+            grid.innerHTML = '';
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(btn, opt, correctAnswerStr);
+                grid.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedBtn, selectedOpt, correctOpt) {
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(btn => btn.disabled = true); // Disable all buttons
+
+            quizScoreCount.total++;
+
+            if(selectedOpt === correctOpt) {
+                selectedBtn.classList.add('correct');
+                document.getElementById('quizFeedback').innerHTML = `<span style="color: var(--success);">⭕ 정답입니다!</span>`;
+                quizScoreCount.correct++;
+            } else {
+                selectedBtn.classList.add('wrong');
+                document.getElementById('quizFeedback').innerHTML = `<span style="color: var(--danger);">❌ 오답입니다! (정답: ${correctOpt})</span>`;
+                buttons.forEach(btn => {
+                    if(btn.innerText === correctOpt) btn.classList.add('correct');
+                });
+            }
+
+            document.getElementById('quizScore').innerText = `점수: ${quizScoreCount.correct} / ${quizScoreCount.total}`;
+        }
+    </script>
+</body>
+</html>
