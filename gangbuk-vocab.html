@@ -13,12 +13,16 @@
             --text: #1e293b;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
-            padding: 20px;
+            padding: 20px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -35,16 +39,20 @@
             color: #64748b;
             margin-bottom: 20px;
             font-size: 0.95rem;
+            text-align: center;
         }
 
         .tab-menu {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            width: 100%;
+            max-width: 600px;
         }
 
         .tab-btn {
-            padding: 10px 20px;
+            flex: 1;
+            padding: 12px 20px;
             border: none;
             border-radius: 8px;
             background: #e2e8f0;
@@ -52,6 +60,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            font-size: 0.95rem;
         }
 
         .tab-btn.active {
@@ -68,11 +77,12 @@
         .card {
             background: var(--card-bg);
             border-radius: 16px;
-            padding: 30px 20px;
+            padding: 25px 20px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             text-align: center;
             position: relative;
             margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
         }
 
         .word-num {
@@ -83,7 +93,7 @@
         }
 
         .word-en {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 700;
             color: #0f172a;
             margin-bottom: 12px;
@@ -91,6 +101,7 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            word-break: break-word;
         }
 
         .audio-btn {
@@ -99,8 +110,9 @@
             border-radius: 50%;
             width: 40px;
             height: 40px;
+            min-width: 40px;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             color: var(--primary);
@@ -117,6 +129,7 @@
             color: #334155;
             min-height: 30px;
             margin-top: 15px;
+            font-weight: 600;
         }
 
         .toggle-btn {
@@ -147,6 +160,7 @@
             cursor: pointer;
             flex: 1;
             transition: background 0.2s;
+            font-size: 1rem;
         }
 
         .btn:hover {
@@ -158,7 +172,45 @@
             cursor: not-allowed;
         }
 
-        /* 퀴즈 스타일 */
+        /* 퀴즈 난이도/개수 선택 영역 */
+        .quiz-setup {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .quiz-setup h2 {
+            font-size: 1.2rem;
+            color: #0f172a;
+            margin-bottom: 15px;
+        }
+
+        .count-options {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .count-btn {
+            padding: 12px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #475569;
+            cursor: pointer;
+            flex: 1;
+            transition: all 0.2s;
+        }
+
+        .count-btn.selected {
+            border-color: var(--primary);
+            background: #eef2ff;
+            color: var(--primary);
+        }
+
+        /* 퀴즈 옵션 버튼 스타일 */
         .quiz-option {
             display: block;
             width: 100%;
@@ -171,6 +223,7 @@
             text-align: left;
             cursor: pointer;
             transition: all 0.2s;
+            font-weight: 500;
         }
 
         .quiz-option:hover {
@@ -179,24 +232,25 @@
         }
 
         .quiz-option.correct {
-            background: #dcfce7;
-            border-color: #22c55e;
-            color: #15803d;
+            background: #dcfce7 !important;
+            border-color: #22c55e !important;
+            color: #15803d !important;
+            font-weight: 700;
         }
 
         .quiz-option.wrong {
-            background: #fee2e2;
-            border-color: #ef4444;
-            color: #b91c1c;
+            background: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #b91c1c !important;
         }
 
-        .hidden { display: none; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
     <h1>2026 1학년 2학기 공통영어 필수 어휘</h1>
-    <div class="subtitle">하루 10분 단어 암기 & 테스트</div>
+    <div class="subtitle">하루 10분 단어 암기 & 랜덤 테스트</div>
 
     <div class="tab-menu">
         <button class="tab-btn active" onclick="switchTab('study')">카드 학습</button>
@@ -221,10 +275,23 @@
             </div>
         </div>
 
-        <!-- 퀴즈 모드 -->
+        <!-- 퀴즈 설정 모드 -->
+        <div id="quiz-setup-mode" class="hidden">
+            <div class="card quiz-setup">
+                <h2>테스트할 문제 수를 선택하세요</h2>
+                <div class="count-options">
+                    <button class="count-btn" onclick="selectQuizCount(20)" id="count-20">20개</button>
+                    <button class="count-btn selected" onclick="selectQuizCount(30)" id="count-30">30개</button>
+                    <button class="count-btn" onclick="selectQuizCount(50)" id="count-50">50개</button>
+                </div>
+                <button class="btn" onclick="startQuiz()" style="width: 100%;">퀴즈 시작하기 🚀</button>
+            </div>
+        </div>
+
+        <!-- 퀴즈 진행 모드 -->
         <div id="quiz-mode" class="hidden">
             <div class="card">
-                <div class="word-num" id="quiz-num">문제 1 / 10</div>
+                <div class="word-num" id="quiz-num">문제 1 / 30</div>
                 <div class="word-en">
                     <span id="quiz-en">abruptly</span>
                     <button class="audio-btn" onclick="speakQuizWord()" title="발음 듣기">🔊</button>
@@ -236,7 +303,7 @@
     </div>
 
     <script>
-        // 이미지로부터 추출한 단어 데이터 (1~200)
+        // 단어 데이터 (1~200)
         const vocabulary = [
             { num: 1, en: "abruptly", ko: "갑작스럽게" },
             { num: 2, en: "absurdity", ko: "부조리, 불합리" },
@@ -442,6 +509,9 @@
 
         let currentIndex = 0;
         let isMeaningVisible = true;
+
+        // 퀴즈 관련 상태
+        let selectedCount = 30; // 기본값 30개
         let quizCurrentQuestion = 0;
         let quizScore = 0;
         let currentQuizData = [];
@@ -464,10 +534,12 @@
         }
 
         function speakQuizWord() {
-            speakWord(currentQuizData[quizCurrentQuestion].en);
+            if (currentQuizData.length > 0) {
+                speakWord(currentQuizData[quizCurrentQuestion].en);
+            }
         }
 
-        // 화면 업데이트
+        // 학습 화면 업데이트
         function updateWordDisplay() {
             const item = vocabulary[currentIndex];
             document.getElementById('study-num').innerText = `NO. ${item.num} / 200`;
@@ -477,11 +549,7 @@
             document.getElementById('prev-btn').disabled = currentIndex === 0;
             document.getElementById('next-btn').disabled = currentIndex === vocabulary.length - 1;
 
-            if (!isMeaningVisible) {
-                document.getElementById('study-ko').style.visibility = 'hidden';
-            } else {
-                document.getElementById('study-ko').style.visibility = 'visible';
-            }
+            document.getElementById('study-ko').style.visibility = isMeaningVisible ? 'visible' : 'hidden';
         }
 
         function toggleMeaning() {
@@ -506,37 +574,52 @@
         // 탭 전환
         function switchTab(tab) {
             const studyMode = document.getElementById('study-mode');
+            const quizSetupMode = document.getElementById('quiz-setup-mode');
             const quizMode = document.getElementById('quiz-mode');
             const buttons = document.querySelectorAll('.tab-btn');
 
             if (tab === 'study') {
                 studyMode.classList.remove('hidden');
+                quizSetupMode.classList.add('hidden');
                 quizMode.classList.add('hidden');
                 buttons[0].classList.add('active');
                 buttons[1].classList.remove('active');
             } else {
                 studyMode.classList.add('hidden');
-                quizMode.classList.remove('hidden');
+                quizSetupMode.classList.remove('hidden');
+                quizMode.classList.add('hidden');
                 buttons[0].classList.remove('active');
                 buttons[1].classList.add('active');
-                startQuiz();
             }
         }
 
-        // 퀴즈 시스템
+        // 퀴즈 문제수 선택
+        function selectQuizCount(count) {
+            selectedCount = count;
+            document.querySelectorAll('.count-btn').forEach(btn => btn.classList.remove('selected'));
+            document.getElementById(`count-${count}`).classList.add('selected');
+        }
+
+        // 퀴즈 시작
         function startQuiz() {
+            document.getElementById('quiz-setup-mode').classList.add('hidden');
+            document.getElementById('quiz-mode').classList.remove('hidden');
+
             quizCurrentQuestion = 0;
             quizScore = 0;
-            // 무작위 10개 단어 추출
+            
+            // 무작위 N개 단어 추출 (랜덤 셔플)
             const shuffled = [...vocabulary].sort(() => 0.5 - Math.random());
-            currentQuizData = shuffled.slice(0, 10);
+            currentQuizData = shuffled.slice(0, selectedCount);
+            
             renderQuizQuestion();
         }
 
+        // 퀴즈 문항 렌더링
         function renderQuizQuestion() {
             document.getElementById('next-quiz-btn').style.display = 'none';
             const q = currentQuizData[quizCurrentQuestion];
-            document.getElementById('quiz-num').innerText = `문제 ${quizCurrentQuestion + 1} / 10`;
+            document.getElementById('quiz-num').innerText = `문제 ${quizCurrentQuestion + 1} / ${selectedCount}`;
             document.getElementById('quiz-en').innerText = q.en;
 
             // 보기 생성 (정답 1개 + 오답 3개)
@@ -560,6 +643,7 @@
             });
         }
 
+        // 정답 체크
         function checkAnswer(selectedBtn, isCorrect) {
             const options = document.querySelectorAll('.quiz-option');
             options.forEach(btn => btn.disabled = true);
@@ -580,6 +664,7 @@
             document.getElementById('next-quiz-btn').style.display = 'block';
         }
 
+        // 다음 퀴즈 문제
         function nextQuizQuestion() {
             quizCurrentQuestion++;
             if (quizCurrentQuestion < currentQuizData.length) {
@@ -589,16 +674,27 @@
             }
         }
 
+        // 퀴즈 결과 표시
         function showQuizResult() {
             const card = document.querySelector('#quiz-mode .card');
+            const scorePercentage = Math.round((quizScore / selectedCount) * 100);
+
             card.innerHTML = `
                 <h2>퀴즈 완료! 🎉</h2>
-                <p style="font-size: 1.2rem; margin: 20px 0;">
-                    점수: <strong>${quizScore * 10}점</strong> (${quizScore} / 10 문제 맞춤)
+                <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin: 15px 0;">
+                    ${scorePercentage}점
+                </div>
+                <p style="font-size: 1.1rem; color: #475569; margin-bottom: 20px;">
+                    총 <strong>${selectedCount}</strong>문제 중 <strong>${quizScore}</strong>문제를 맞혔습니다.
                 </p>
-                <button class="btn" onclick="location.reload()">다시 도전하기</button>
+                <button class="btn" onclick="resetQuiz()">다시 테스트하기</button>
             `;
             document.getElementById('next-quiz-btn').style.display = 'none';
+        }
+
+        // 퀴즈 재설정
+        function resetQuiz() {
+            location.reload();
         }
 
         // 초기화
