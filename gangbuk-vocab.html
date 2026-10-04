@@ -172,6 +172,15 @@
             cursor: not-allowed;
         }
 
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
         /* 퀴즈 난이도/개수 선택 영역 */
         .quiz-setup {
             text-align: center;
@@ -242,6 +251,52 @@
             background: #fee2e2 !important;
             border-color: #ef4444 !important;
             color: #b91c1c !important;
+        }
+
+        /* 오답 결과 스타일 */
+        .wrong-words-container {
+            margin-top: 20px;
+            text-align: left;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 15px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .wrong-words-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+
+        .wrong-word-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e2e8f0;
+            font-size: 0.95rem;
+        }
+
+        .wrong-word-item:last-child {
+            border-bottom: none;
+        }
+
+        .wrong-word-en {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .wrong-word-ko {
+            color: #64748b;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
         }
 
         .hidden { display: none !important; }
@@ -515,6 +570,7 @@
         let quizCurrentQuestion = 0;
         let quizScore = 0;
         let currentQuizData = [];
+        let wrongWords = []; // 오답 저장 배열
 
         // TTS 발음 기능
         function speakWord(text) {
@@ -607,10 +663,33 @@
 
             quizCurrentQuestion = 0;
             quizScore = 0;
+            wrongWords = []; // 틀린 단어 초기화
             
             // 무작위 N개 단어 추출 (랜덤 셔플)
             const shuffled = [...vocabulary].sort(() => 0.5 - Math.random());
             currentQuizData = shuffled.slice(0, selectedCount);
+            
+            renderQuizQuestion();
+        }
+
+        // 오답 전용 복습 퀴즈 시작
+        function startReviewQuiz() {
+            quizCurrentQuestion = 0;
+            quizScore = 0;
+            currentQuizData = [...wrongWords]; // 오답 단어로 문제 세트 생성
+            selectedCount = wrongWords.length;
+            wrongWords = []; // 다시 틀린 단어 추적을 위해 초기화
+
+            // 화면을 다시 퀴즈 모드로 세팅
+            const card = document.querySelector('#quiz-mode .card');
+            card.innerHTML = `
+                <div class="word-num" id="quiz-num">문제 1 / ${selectedCount}</div>
+                <div class="word-en">
+                    <span id="quiz-en"></span>
+                    <button class="audio-btn" onclick="speakQuizWord()" title="발음 듣기">🔊</button>
+                </div>
+                <div id="quiz-options" style="margin-top: 20px;"></div>
+            `;
             
             renderQuizQuestion();
         }
@@ -648,14 +727,21 @@
             const options = document.querySelectorAll('.quiz-option');
             options.forEach(btn => btn.disabled = true);
 
+            const currentWord = currentQuizData[quizCurrentQuestion];
+
             if (isCorrect) {
                 selectedBtn.classList.add('correct');
                 quizScore++;
             } else {
                 selectedBtn.classList.add('wrong');
+                // 오답 목록에 등록 (중복 방지)
+                if (!wrongWords.some(item => item.en === currentWord.en)) {
+                    wrongWords.push(currentWord);
+                }
+                
                 // 정답 표시
                 options.forEach(btn => {
-                    if (btn.innerText === currentQuizData[quizCurrentQuestion].ko) {
+                    if (btn.innerText === currentWord.ko) {
                         btn.classList.add('correct');
                     }
                 });
@@ -679,15 +765,40 @@
             const card = document.querySelector('#quiz-mode .card');
             const scorePercentage = Math.round((quizScore / selectedCount) * 100);
 
+            let wrongListHTML = '';
+            if (wrongWords.length > 0) {
+                wrongListHTML = `
+                    <div class="wrong-words-container">
+                        <div class="wrong-words-title">❌ 틀린 단어 목록 (${wrongWords.length}개)</div>
+                        ${wrongWords.map(item => `
+                            <div class="wrong-word-item">
+                                <span class="wrong-word-en">${item.en}</span>
+                                <span class="wrong-word-ko">${item.ko}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                wrongListHTML = `
+                    <p style="color: #22c55e; font-weight: 700; margin-top: 15px;">
+                        🎉 모든 문제를 다 맞혔습니다! 완벽해요!
+                    </p>
+                `;
+            }
+
             card.innerHTML = `
                 <h2>퀴즈 완료! 🎉</h2>
-                <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin: 15px 0;">
+                <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin: 10px 0;">
                     ${scorePercentage}점
                 </div>
-                <p style="font-size: 1.1rem; color: #475569; margin-bottom: 20px;">
+                <p style="font-size: 1rem; color: #475569; margin-bottom: 10px;">
                     총 <strong>${selectedCount}</strong>문제 중 <strong>${quizScore}</strong>문제를 맞혔습니다.
                 </p>
-                <button class="btn" onclick="resetQuiz()">다시 테스트하기</button>
+                ${wrongListHTML}
+                <div class="btn-group">
+                    ${wrongWords.length > 0 ? `<button class="btn" onclick="startReviewQuiz()">틀린 단어 복습하기 🔁</button>` : ''}
+                    <button class="btn ${wrongWords.length > 0 ? 'btn-secondary' : ''}" onclick="resetQuiz()">다시 테스트하기</button>
+                </div>
             `;
             document.getElementById('next-quiz-btn').style.display = 'none';
         }
