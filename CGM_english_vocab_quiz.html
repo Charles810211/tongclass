@@ -1,4 +1,4 @@
-html_content = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -177,7 +177,7 @@ html_content = '''<!DOCTYPE html>
 
       </section>
 
-      <!-- ================= 3. 주관식 스펠링 퀴즈 SECTION (모바일 최적화) ================= -->
+      <!-- ================= 3. 주관식 스펠링 퀴즈 SECTION ================= -->
       <section id="sec-spelling" class="hidden">
         
         <!-- Setup Screen -->
@@ -202,7 +202,7 @@ html_content = '''<!DOCTYPE html>
             </div>
           </div>
 
-          <!-- Definition Box (모바일 가독성 증대) -->
+          <!-- Definition Box -->
           <div class="mb-4 sm:mb-6 bg-slate-50 p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm">
             <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-indigo-500 mb-1 block">English Definition</span>
             <p id="spl-def" class="text-base sm:text-xl font-medium text-slate-800 leading-snug sm:leading-relaxed mb-3 break-keep"></p>
@@ -214,7 +214,7 @@ html_content = '''<!DOCTYPE html>
             </div>
           </div>
 
-          <!-- Input Form (모바일 세로배치 최적화) -->
+          <!-- Input Form -->
           <form id="spl-form" class="mb-4 sm:mb-6" onsubmit="return false;">
             <div class="flex flex-col sm:flex-row gap-2.5">
               <input type="text" id="spl-input" placeholder="영단어를 입력하세요..." autocomplete="off" spellcheck="false"
@@ -683,9 +683,3 @@ html_content = '''<!DOCTYPE html>
   </script>
 </body>
 </html>
-'''
-
-with open("CGM_english_vocab_quiz.html", "w", encoding="utf-8") as f:
-    f.write(html_content)
-
-print("[file-tag: CGM_english_vocab_quiz.html]")
