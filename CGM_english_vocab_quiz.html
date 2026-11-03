@@ -1,509 +1,697 @@
-<!DOCTYPE html>
+html_content = '''<!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>중학 영영풀이 50제 단어 퀴즈</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts (Inter & Noto Sans KR) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', 'Noto Sans KR', sans-serif;
-        }
-        .option-btn {
-            transition: all 0.2s ease-in-out;
-        }
-        .option-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-        }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>중학 영어 학습 & 퀴즈 센터</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800&display=swap');
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+  </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
-
-    <!-- Header Navigation -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
-        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <span class="p-2 bg-indigo-600 text-white rounded-lg font-bold text-lg leading-none shadow-md">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                </span>
-                <div>
-                    <h1 class="text-lg font-bold text-slate-900 leading-tight">중학 영영풀이 Voca Quiz</h1>
-                    <p class="text-xs text-slate-500">Lesson 07 & Lesson 08 (총 50문항)</p>
-                </div>
-            </div>
-            <div class="flex items-center space-x-2">
-                <button id="soundToggle" onclick="toggleSound()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition flex items-center gap-1.5">
-                    <i id="soundIcon" class="fa-solid fa-volume-high text-indigo-600"></i>
-                    <span id="soundText">사운드 ON</span>
-                </button>
-                <button onclick="confirmRestart()" class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 hover:bg-slate-100 text-slate-600 transition">
-                    <i class="fa-solid fa-rotate-right mr-1"></i> 처음으로
-                </button>
-            </div>
-        </div>
+<body class="bg-slate-100 min-h-screen text-slate-800 py-6 px-4">
+  <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+    
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white p-6 sm:p-8 flex justify-between items-center relative overflow-hidden">
+      <div>
+        <span class="inline-block px-3 py-1 bg-indigo-500 text-indigo-100 text-xs font-semibold rounded-full mb-2">Lesson 07 & 08</span>
+        <h1 class="text-2xl sm:text-3xl font-extrabold">영어 단어 학습 & 퀴즈 센터</h1>
+        <p class="text-indigo-200 text-sm mt-1">Spend Wisely & Wonders of Space Travel</p>
+      </div>
+      <button id="sound-toggle" class="p-3 bg-indigo-500 hover:bg-indigo-400 rounded-full transition-colors flex items-center justify-center text-xl shadow" title="음향 효과 ON/OFF">
+        🔊
+      </button>
     </header>
 
-    <!-- Main Container -->
-    <main class="max-w-3xl w-full mx-auto px-4 py-6 flex-grow flex flex-col justify-center">
+    <!-- Main Navigation Bar -->
+    <nav class="bg-slate-50 border-b border-slate-200 flex justify-around p-2 text-sm sm:text-base font-bold">
+      <button id="nav-flashcard" class="px-4 py-2 rounded-lg text-indigo-600 bg-indigo-50 transition-all">🎴 플래시카드</button>
+      <button id="nav-mcq" class="px-4 py-2 rounded-lg text-slate-600 hover:text-indigo-600 transition-all">📝 5지선다 퀴즈</button>
+      <button id="nav-spelling" class="px-4 py-2 rounded-lg text-slate-600 hover:text-indigo-600 transition-all">✍️ 주관식 스펠링</button>
+    </nav>
 
-        <!-- Progress Bar & Status -->
-        <div id="quizHeader" class="mb-6 bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 flex items-center gap-1">
-                    <i class="fa-regular fa-circle-question"></i>
-                    <span id="quizModeBadge">전체 퀴즈 모드</span>
-                </span>
-                <div class="text-sm font-semibold text-slate-600">
-                    진행도: <span id="currentQuestionNum" class="text-indigo-600 font-bold">1</span> / <span id="totalQuestionNum">50</span>
+    <!-- Main Content Area -->
+    <main class="p-6 sm:p-8">
+
+      <!-- ================= 1. FLASHCARD SECTION ================= -->
+      <section id="sec-flashcard" class="block">
+        <div class="flex justify-between items-center mb-6">
+          <span id="fc-counter" class="px-3 py-1 bg-indigo-100 text-indigo-700 font-bold text-sm rounded-md">카드 1 / 52</span>
+          <button id="fc-shuffle-btn" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1">
+            🔀 순서 섞기
+          </button>
+        </div>
+
+        <!-- Flashcard Container -->
+        <div class="perspective-1000 w-full h-80 mb-6 cursor-pointer" id="fc-card-container">
+          <div id="fc-card" class="w-full h-full relative transform-style-3d transition-transform duration-500 shadow-md rounded-2xl border border-slate-200">
+            
+            <!-- Front Side -->
+            <div class="absolute inset-0 w-full h-full bg-white rounded-2xl p-6 flex flex-col justify-between items-center text-center backface-hidden">
+              <span class="text-xs font-bold text-indigo-500 uppercase tracking-widest">English Word</span>
+              <div class="my-auto">
+                <h2 id="fc-word" class="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-2">affect</h2>
+                <p id="fc-meaning" class="text-slate-500 text-base sm:text-lg">영향을 미치다</p>
+              </div>
+              <span class="text-xs text-slate-400 italic">💡 카드를 클릭하면 영영풀이와 예문을 확인합니다.</span>
+            </div>
+
+            <!-- Back Side -->
+            <div class="absolute inset-0 w-full h-full bg-indigo-950 text-white rounded-2xl p-6 flex flex-col justify-between items-center text-center backface-hidden rotate-y-180">
+              <span class="text-xs font-bold text-indigo-300 uppercase tracking-widest">English Definition & Example</span>
+              <div class="my-auto space-y-4">
+                <p id="fc-def" class="text-base sm:text-lg font-medium text-indigo-100 italic leading-relaxed px-2">"to influence someone or something"</p>
+                <div class="border-t border-indigo-800 pt-3">
+                  <p id="fc-ex" class="text-xs sm:text-sm text-indigo-300">Your opinion will affect many people.</p>
                 </div>
+              </div>
+              <span class="text-xs text-indigo-400 italic">💡 카드를 클릭하면 앞면으로 돌아갑니다.</span>
             </div>
-            <!-- Progress Bar Line -->
-            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
-                <div id="progressBar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 2%;"></div>
+
+          </div>
+        </div>
+
+        <!-- Flashcard Controls -->
+        <div class="flex justify-between gap-4 max-w-sm mx-auto">
+          <button id="fc-prev" class="flex-1 py-3 bg-slate-200 hover:bg-slate-300 font-bold rounded-xl text-slate-700 transition-all">← 이전</button>
+          <button id="fc-next" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 font-bold rounded-xl text-white transition-all">다음 →</button>
+        </div>
+      </section>
+
+      <!-- ================= 2. 5지선다 퀴즈 SECTION ================= -->
+      <section id="sec-mcq" class="hidden">
+        
+        <!-- Setup Screen -->
+        <div id="mcq-setup" class="text-center py-6">
+          <h2 class="text-2xl font-bold text-slate-800 mb-2">5지선다 영영풀이 퀴즈</h2>
+          <p class="text-slate-600 mb-6 text-sm">영영풀이를 읽고 알맞은 단어를 5개 보기 중에서 골라보세요.</p>
+          
+          <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 max-w-md mx-auto mb-6">
+            <label class="block text-sm font-bold text-slate-700 mb-3">문제 수 선택</label>
+            <div class="grid grid-cols-2 gap-4">
+              <button data-count="20" class="mcq-count-btn py-3 border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-bold rounded-xl transition-all">20 문제</button>
+              <button data-count="52" class="mcq-count-btn py-3 border-2 border-slate-200 hover:border-indigo-400 font-bold rounded-xl text-slate-700 transition-all">52 문제 (전체)</button>
             </div>
-            <!-- Score Mini Tracker -->
-            <div class="flex justify-between items-center text-xs text-slate-500 mt-3 pt-2 border-t border-slate-100">
-                <div>정답: <span id="liveScore" class="font-bold text-emerald-600">0</span>개</div>
-                <div>오답: <span id="liveIncorrect" class="font-bold text-rose-500">0</span>개</div>
-            </div>
+          </div>
+
+          <button id="mcq-start-btn" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5">
+            🚀 퀴즈 시작하기
+          </button>
         </div>
 
         <!-- Quiz Screen -->
-        <div id="quizScreen" class="bg-white rounded-2xl p-6 sm:p-8 shadow-md border border-slate-200 relative overflow-hidden transition-all">
-            <!-- Question Card -->
-            <div class="mb-6">
-                <div class="inline-block px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-full mb-3">
-                    영영 뜻 (Definition)
-                </div>
-                <h2 id="questionDefinition" class="text-lg sm:text-xl font-medium text-slate-800 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-100 italic">
-                    "Loading question..."
-                </h2>
-            </div>
+        <div id="mcq-play" class="hidden">
+          <div class="w-full bg-slate-200 h-2 mb-6 rounded-full overflow-hidden">
+            <div id="mcq-progress-bar" class="bg-indigo-500 h-2 transition-all duration-300" style="width: 0%"></div>
+          </div>
 
-            <!-- Options (5 Choices) -->
-            <div id="optionsContainer" class="grid grid-cols-1 gap-3">
-                <!-- Buttons will be dynamically inserted here -->
+          <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+            <div class="flex items-center space-x-2">
+              <span id="mcq-badge" class="px-3 py-1 bg-indigo-100 text-indigo-700 font-bold text-sm rounded-md">Q1 / 20</span>
+              <span id="mcq-mode-badge" class="px-2 py-1 bg-amber-100 text-amber-700 font-medium text-xs rounded-md hidden">오답 재도전</span>
             </div>
+            <div class="text-sm text-slate-500 font-medium">
+              현재 점수: <span id="mcq-score" class="text-indigo-600 font-bold">0</span> 점
+            </div>
+          </div>
 
-            <!-- Explanation & Next Button Container -->
-            <div id="feedbackContainer" class="hidden mt-6 pt-5 border-t border-slate-200 animate-fade-in">
-                <div id="feedbackBox" class="p-4 rounded-xl mb-4 text-sm leading-relaxed">
-                    <!-- Correct/Incorrect messaging inserted dynamically -->
-                </div>
-                <button id="nextBtn" onclick="nextQuestion()" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2">
-                    <span>다음 문제로 이동</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
+          <div class="mb-6 bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
+            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-500 mb-1 block">English Definition</span>
+            <p id="mcq-def" class="text-lg sm:text-xl font-medium text-slate-800 leading-relaxed"></p>
+          </div>
+
+          <div id="mcq-options" class="grid grid-cols-1 gap-3 mb-6"></div>
+
+          <div id="mcq-feedback" class="hidden mb-6 p-5 rounded-xl border transition-all duration-300">
+            <div id="mcq-fb-header" class="font-bold text-lg mb-2 flex items-center gap-2"></div>
+            <div class="text-slate-700 space-y-1 text-sm sm:text-base">
+              <p><strong>단어:</strong> <span id="mcq-exp-word" class="font-semibold text-indigo-700"></span></p>
+              <p><strong>한글 뜻:</strong> <span id="mcq-exp-meaning"></span></p>
+              <p><strong>예문:</strong> <span id="mcq-exp-ex" class="italic text-slate-600"></span></p>
             </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button id="mcq-next-btn" class="hidden px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all">
+              다음 문제 →
+            </button>
+          </div>
         </div>
 
-        <!-- Result Screen (Hidden by default) -->
-        <div id="resultScreen" class="hidden bg-white rounded-2xl p-6 sm:p-8 shadow-md border border-slate-200 text-center">
-            <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
-                <i class="fa-solid fa-trophy"></i>
+        <!-- Result Screen -->
+        <div id="mcq-result" class="hidden text-center py-8">
+          <div class="inline-flex p-4 bg-indigo-100 text-indigo-600 rounded-full mb-4 text-4xl">🏆</div>
+          <h2 class="text-3xl font-bold text-slate-800 mb-2">5지선다 퀴즈 완료!</h2>
+          <div class="bg-slate-50 p-6 rounded-2xl max-w-sm mx-auto my-6 border border-slate-200">
+            <div class="text-4xl font-extrabold text-indigo-600 mb-2">
+              <span id="mcq-final-score">0</span> <span id="mcq-final-total" class="text-xl font-normal text-slate-500">/ 20</span>
             </div>
-            <h2 class="text-2xl font-bold text-slate-900 mb-2">퀴즈 완료!</h2>
-            <p class="text-slate-500 text-sm mb-6">모든 문제를 완료했습니다. 결과를 확인하세요.</p>
-
-            <!-- Score Summary Cards -->
-            <div class="grid grid-cols-3 gap-3 mb-6">
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                    <div class="text-xs text-slate-500 mb-1">총 문제</div>
-                    <div id="summaryTotal" class="text-xl font-bold text-slate-800">50</div>
-                </div>
-                <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
-                    <div class="text-xs text-emerald-600 mb-1">정답수</div>
-                    <div id="summaryCorrect" class="text-xl font-bold text-emerald-600">0</div>
-                </div>
-                <div class="bg-rose-50 p-4 rounded-xl border border-rose-100">
-                    <div class="text-xs text-rose-500 mb-1">오답수</div>
-                    <div id="summaryIncorrect" class="text-xl font-bold text-rose-600">0</div>
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex flex-col sm:flex-row gap-3">
-                <button id="retryIncorrectBtn" onclick="startRetryMode()" class="flex-1 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-rotate-left"></i>
-                    <span>틀린 문제 다시 풀기 (<span id="retryCount">0</span>)</span>
-                </button>
-                <button onclick="restartFullQuiz()" class="flex-1 py-3 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-arrows-rotate"></i>
-                    <span>전체 다시 도전하기</span>
-                </button>
-            </div>
+            <p id="mcq-final-acc" class="text-slate-500 text-sm font-medium">정답률: 0%</p>
+          </div>
+          <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto">
+            <button id="mcq-retry-incorrect" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow-md transition-all flex-1 hidden">
+              🔄 틀린 문제 다시 풀기 (<span id="mcq-inc-count">0</span>)
+            </button>
+            <button id="mcq-restart-btn" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all flex-1">
+              🚀 새 퀴즈 시작
+            </button>
+          </div>
         </div>
+
+      </section>
+
+      <!-- ================= 3. 주관식 스펠링 퀴즈 SECTION ================= -->
+      <section id="sec-spelling" class="hidden">
+        
+        <!-- Setup Screen -->
+        <div id="spl-setup" class="text-center py-6">
+          <h2 class="text-2xl font-bold text-slate-800 mb-2">주관식 스펠링 퀴즈</h2>
+          <p class="text-slate-600 mb-6 text-sm">영영풀이와 단어 글자 수를 확인하고 영어 단어 스펠링을 입력하세요. (10문제 무작위 추출)</p>
+          <button id="spl-start-btn" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5">
+            ✍️ 스펠링 퀴즈 시작하기
+          </button>
+        </div>
+
+        <!-- Play Screen -->
+        <div id="spl-play" class="hidden">
+          <div class="w-full bg-slate-200 h-2 mb-6 rounded-full overflow-hidden">
+            <div id="spl-progress-bar" class="bg-indigo-500 h-2 transition-all duration-300" style="width: 10%"></div>
+          </div>
+
+          <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+            <span id="spl-badge" class="px-3 py-1 bg-indigo-100 text-indigo-700 font-bold text-sm rounded-md">Q1 / 10</span>
+            <div class="text-sm text-slate-500 font-medium">
+              현재 점수: <span id="spl-score" class="text-indigo-600 font-bold">0</span> / 10
+            </div>
+          </div>
+
+          <!-- Definition Box -->
+          <div class="mb-6 bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
+            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-500 mb-1 block">English Definition</span>
+            <p id="spl-def" class="text-lg sm:text-xl font-medium text-slate-800 leading-relaxed mb-3"></p>
+            <div class="flex items-center gap-2 text-slate-500 text-sm font-semibold">
+              <span>힌트 (글자 수):</span>
+              <span id="spl-hint-length" class="px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded border border-indigo-200 font-mono">6 letters</span>
+              <span id="spl-hint-initial" class="px-2 py-0.5 bg-amber-50 text-amber-700 rounded border border-amber-200 font-mono">시작: a...</span>
+            </div>
+          </div>
+
+          <!-- Input Form -->
+          <form id="spl-form" class="mb-6" onsubmit="return false;">
+            <div class="flex gap-2">
+              <input type="text" id="spl-input" placeholder="영단어를 입력하세요..." autocomplete="off" spellcheck="false"
+                class="flex-1 p-4 rounded-xl border-2 border-slate-300 focus:border-indigo-600 focus:outline-none text-lg font-semibold tracking-wide">
+              <button type="submit" id="spl-submit-btn" class="px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow transition-all">
+                제출
+              </button>
+            </div>
+          </form>
+
+          <!-- Feedback Box -->
+          <div id="spl-feedback" class="hidden mb-6 p-5 rounded-xl border transition-all duration-300">
+            <div id="spl-fb-header" class="font-bold text-lg mb-2 flex items-center gap-2"></div>
+            <div class="text-slate-700 space-y-1 text-sm sm:text-base">
+              <p><strong>정답 단어:</strong> <span id="spl-exp-word" class="font-bold text-indigo-700 font-mono"></span></p>
+              <p><strong>한글 뜻:</strong> <span id="spl-exp-meaning"></span></p>
+              <p><strong>예문:</strong> <span id="spl-exp-ex" class="italic text-slate-600"></span></p>
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button id="spl-next-btn" class="hidden px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all">
+              다음 문제 →
+            </button>
+          </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="spl-result" class="hidden text-center py-8">
+          <div class="inline-flex p-4 bg-indigo-100 text-indigo-600 rounded-full mb-4 text-4xl">🌟</div>
+          <h2 class="text-3xl font-bold text-slate-800 mb-2">스펠링 퀴즈 완료!</h2>
+          <div class="bg-slate-50 p-6 rounded-2xl max-w-sm mx-auto my-6 border border-slate-200">
+            <div class="text-4xl font-extrabold text-indigo-600 mb-2">
+              <span id="spl-final-score">0</span> <span class="text-xl font-normal text-slate-500">/ 10</span>
+            </div>
+            <p id="spl-final-acc" class="text-slate-500 text-sm font-medium">정답률: 0%</p>
+          </div>
+          <button id="spl-restart-btn" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all">
+            🔄 새로운 10문제 도전하기
+          </button>
+        </div>
+
+      </section>
 
     </main>
+  </div>
 
-    <!-- Footer -->
-    <footer class="py-4 text-center text-xs text-slate-400">
-        Lesson 07 Spend Wisely & Lesson 08 Wonders of Space Travel Vocabulary Quiz
-    </footer>
+  <script>
+    // 52개 어휘 전체 데이터셋
+    const vocabularyData = [
+      { id: 1, word: "affect", meaning: "영향을 미치다", def: "to influence someone or something", ex: "Your opinion will affect many people." },
+      { id: 2, word: "effect", meaning: "결과, 영향, 효과", def: "a change that is caused by something", ex: "His words had a soothing effect." },
+      { id: 3, word: "behavior", meaning: "행동", def: "the things that a person or an animal does", ex: "Watch for unusual behavior in your animals." },
+      { id: 4, word: "wagon", meaning: "4륜 마차", def: "a large vehicle with four large wheels pulled by horses", ex: "The wagon carried sacks of grain." },
+      { id: 5, word: "parade", meaning: "행진", def: "a public celebration of a special day usually with bands in the streets", ex: "Two bands are marching in a parade." },
+      { id: 6, word: "encourage", meaning: "북돋우다, 격려하다", def: "to give someone the courage to do something", ex: "He encouraged me to try again." },
+      { id: 7, word: "aboard", meaning: "탑승하여", def: "on or onto a ship, plane, or train", ex: "The bus was almost empty when she stepped aboard." },
+      { id: 8, word: "immediately", meaning: "즉각적으로, 즉시", def: "without delay", ex: "She asked him to come home immediately." },
+      { id: 9, word: "match", meaning: "어울리다", def: "to combine well", ex: "That jacket matches your skirt perfectly." },
+      { id: 10, word: "furniture", meaning: "가구", def: "large objects such as chairs, tables, and beds", ex: "We are arranging furniture in the living room." },
+      { id: 11, word: "replace", meaning: "교체하다, 대신하다", def: "to get rid of someone or something, and to put a new person or thing in their place", ex: "We'll have to replace this carpet soon." },
+      { id: 12, word: "concept", meaning: "개념", def: "an idea or a principle", ex: "It is difficult to define the concept of beauty." },
+      { id: 13, word: "purchase", meaning: "구입하다, 구매", def: "the act of buying something; to buy something", ex: "Tickets must be purchased in advance." },
+      { id: 14, word: "discount", meaning: "할인", def: "a reduction in the price of something; to reduce the price of something", ex: "We offer a 20 percent discount on used books." },
+      { id: 15, word: "mention", meaning: "언급하다", def: "to speak or write a few words about something or someone", ex: "I didn't mention the mistake that I made." },
+      { id: 16, word: "furthermore", meaning: "게다가, 뿐만 아니라", def: "in addition", ex: "The shirt is beautiful. Furthermore, it is cheap." },
+      { id: 17, word: "anchor", meaning: "닻, 닻을 내리다", def: "a heavy object that is dropped into the water to prevent a boat from moving", ex: "The ship dropped its anchor near the island's shore." },
+      { id: 18, word: "influence", meaning: "영향을 미치다", def: "to affect the way that someone thinks or behaves", ex: "I was influenced by my parents." },
+      { id: 19, word: "overheated", meaning: "과열된", def: "having become too hot", ex: "The engine was overheated after driving." },
+      { id: 20, word: "quality", meaning: "품질, 질", def: "how good or bad something is", ex: "Our products are expensive, but the quality is good." },
+      { id: 21, word: "quarter", meaning: "4분의 1", def: "one of four equal parts of something", ex: "She cut each apple into quarters." },
+      { id: 22, word: "refund", meaning: "환불하다, 환불", def: "a sum of money that is paid back to a person who returned goods", ex: "Can I get a refund for this hat?" },
+      { id: 23, word: "striped", meaning: "줄무늬가 있는", def: "having a pattern of stripes", ex: "The man wearing a striped shirt is my teacher." },
+      { id: 24, word: "suit", meaning: "어울리다, 적합하다", def: "to make someone look attractive or to be convenient for someone", ex: "His new hairstyle really suits him." },
+      { id: 25, word: "tight", meaning: "딱 붙는, 꽉 조이는", def: "fitting closely or too closely to your body", ex: "I am not comfortable in these tight pants." },
+      { id: 26, word: "waste", meaning: "낭비하다", def: "to use more of something than is necessary or useful", ex: "Do not waste your money on buying worthless things." },
+      { id: 27, word: "when it comes to", meaning: "~에 관해서라면", def: "regarding or on the subject of something", ex: "When it comes to cooking, he's better than me." },
+      { id: 28, word: "wormhole", meaning: "웜홀 (시공간 구멍)", def: "a possible connection between widely separated regions of space-time", ex: "A wormhole can connect two different universes." },
+      { id: 29, word: "theory", meaning: "이론", def: "a formal statement of the rules on which a subject of study is based", ex: "There are many theories about why the dinosaurs went extinct." },
+      { id: 30, word: "planet", meaning: "행성", def: "an extremely large, round mass of matter that moves in a circular path around the sun or another star", ex: "Earth is the third closest planet to the sun." },
+      { id: 31, word: "passenger", meaning: "승객", def: "a person who is traveling in a vehicle but is not operating it", ex: "Every passenger must wear a seatbelt." },
+      { id: 32, word: "spaceship", meaning: "우주선", def: "a vehicle used for travel in space", ex: "The spaceship is orbiting the moon." },
+      { id: 33, word: "detect", meaning: "감지하다, 찾아내다", def: "to notice something that is partly hidden or not clear", ex: "Beetles detect their way by the stars." },
+      { id: 34, word: "surface", meaning: "표면", def: "the outer or top part or layer of something", ex: "You can see a small black dot on the sun's surface." },
+      { id: 35, word: "vast", meaning: "광대한, 거대한", def: "extremely large in size, amount, or area", ex: "To measure vast distances in space, people use light years." },
+      { id: 36, word: "layer", meaning: "층", def: "a thin sheet of a substance on top of a surface", ex: "Mom removed the outer layer of the onion." },
+      { id: 37, word: "shortcut", meaning: "지름길", def: "a quicker route that leads from one place to another", ex: "I took a shortcut to town." },
+      { id: 38, word: "punch", meaning: "구멍을 뚫다", def: "to make a hole in something with a special piece of equipment", ex: "This belt's too big, so I'll punch an extra hole in it." },
+      { id: 39, word: "instantly", meaning: "즉각적으로", def: "immediately, at once", ex: "I recognized Julia instantly because of her hair style." },
+      { id: 40, word: "contain", meaning: "포함하다, 담고 있다", def: "to have something inside or include something as a part", ex: "Instant noodles contain a lot of salt." },
+      { id: 41, word: "unstable", meaning: "불안정한", def: "not solid or firm and therefore not strong, safe, or likely to last", ex: "The economy is unstable and unpredictable." },
+      { id: 42, word: "crush", meaning: "으깨뜨리다, 부수다", def: "to press something very hard so that it is broken or its shape is destroyed", ex: "My cookies got all crushed in my suitcase." },
+      { id: 43, word: "ongoing", meaning: "진행 중인", def: "continuing, or continuing to develop", ex: "Due to the ongoing heat wave, it is hard to sleep at night." },
+      { id: 44, word: "persistent", meaning: "끈질긴, 지속적인", def: "continuing to exist or happen, especially for longer than is usual", ex: "Persistent effort was involved in completing the work." },
+      { id: 45, word: "exploration", meaning: "탐사, 탐구", def: "the activity of searching and finding out about something", ex: "The exploration for new sources of energy is vital for the future." },
+      { id: 46, word: "print out", meaning: "출력하다", def: "to produce a printed copy of a document from a computer", ex: "Will you print out your report?" },
+      { id: 47, word: "researcher", meaning: "조사자, 연구원", def: "a person who studies a subject in detail to discover new information", ex: "The researchers asked a few questions to the students." },
+      { id: 48, word: "root", meaning: "뿌리", def: "the part of a plant that grows under the ground", ex: "The roots of trees grow in the earth." },
+      { id: 49, word: "telescope", meaning: "망원경", def: "a cylinder-shaped device for making objects that are far away appear nearer and larger", ex: "He is looking at the stars through a telescope." },
+      { id: 50, word: "throat", meaning: "목, 인후", def: "the back of the mouth and the part inside the neck", ex: "I have a sore throat and a runny nose." },
+      { id: 51, word: "tough", meaning: "힘든, 어려운", def: "difficult or hard to deal with", ex: "It was a tough decision to move to Busan." },
+      { id: 52, word: "worm", meaning: "벌레", def: "a small animal with a long, narrow, soft body and no legs", ex: "The early bird catches the worm." }
+    ];
 
-    <script>
-        // ----------------------------------------------------
-        // 1. DATASET EXTRACED FROM IMAGES (50 Vocabulary Words)
-        // ----------------------------------------------------
-        const vocabPool = [
-            // Lesson 07 (Image 1 & 2)
-            { word: "affect", kor: "영향을 미치다", def: "to influence someone or something", example: "Your opinion will affect many people." },
-            { word: "effect", kor: "효과, 영향, 결과", def: "a change that is caused by something", example: "His words had a soothing effect." },
-            { word: "behavior", kor: "행동, 태도", def: "the things that a person or an animal does", example: "Watch for unusual behavior in your animals." },
-            { word: "wagon", kor: "4륜 마차", def: "a large vehicle with four large wheels pulled by horses", example: "The wagon carried sacks of grain." },
-            { word: "parade", kor: "행진, 퍼레이드", def: "a public celebration of a special day usually with bands in the streets", example: "Two bands are marching in a parade." },
-            { word: "encourage", kor: "북돋우다, 격려하다", def: "to give someone the courage to do something", example: "He encouraged me to try again." },
-            { word: "aboard", kor: "탑승하여", def: "on or onto a ship, plane, or train", example: "The bus was almost empty when she stepped aboard." },
-            { word: "immediately", kor: "즉각적으로", def: "without delay", example: "She asked him to come home immediately." },
-            { word: "match", kor: "어울리다", def: "to combine well", example: "That jacket matches your skirt perfectly." },
-            { word: "furniture", kor: "가구", def: "large objects such as chairs, tables, and beds", example: "We are arranging furniture in the living room." },
-            { word: "replace", kor: "교체하다, 대신하다", def: "to get rid of someone or something, and to put a new person or thing in their place", example: "We'll have to replace this carpet soon." },
-            { word: "concept", kor: "개념", def: "an idea or a principle", example: "It is difficult to define the concept of beauty." },
-            { word: "purchase", kor: "구매하다", def: "the act of buying something; to buy something", example: "Tickets must be purchased in advance." },
-            { word: "discount", kor: "할인", def: "a reduction in the price of something; to reduce the price of something", example: "We offer a 20 percent discount on used books." },
-            { word: "mention", kor: "언급하다", def: "to speak or write a few words about something or someone", example: "I didn't mention the mistake that I made." },
-            { word: "furthermore", kor: "게다가, 더욱이", def: "in addition", example: "The shirt is beautiful. Furthermore, it is cheap." },
-            { word: "anchor", kor: "닻, 닻을 내리다", def: "a heavy object that is dropped into the water to prevent a boat from moving", example: "The ship dropped its anchor near the island's shore." },
-            { word: "influence", kor: "영향을 미치다", def: "to affect the way that someone thinks or behaves", example: "I was influenced by my parents." },
-            { word: "overheated", kor: "과열된", def: "became too hot", example: "The engine was overheated after driving." },
-            { word: "quality", kor: "품질, 질", def: "how good or bad something is", example: "Our products are expensive, but the quality is good." },
-            { word: "quarter", kor: "4분의 1", def: "one of four equal parts of something", example: "She cut each apple into quarters." },
-            { word: "refund", kor: "환불하다, 환불", def: "a sum of money that is paid back to you", example: "Can I get a refund for this hat?" },
-            { word: "striped", kor: "줄무늬가 있는", def: "having lines or bands of color", example: "The man wearing a striped shirt is my teacher." },
-            { word: "suit", kor: "어울리다", def: "to be convenient or suitable for someone", example: "His new hairstyle really suits him." },
-            { word: "tight", kor: "딱 맞는, 꽉 조이는", def: "fitting closely around your body", example: "I am not comfortable in these tight pants." },
-            { word: "waste", kor: "낭비하다", def: "to use more of something than is necessary or useful", example: "Do not waste your money on buying worthless things." },
-            { word: "when it comes to", kor: "~에 관해서라면", def: "regarding or in respect of a particular topic", example: "When it comes to cooking, he's better than me." },
+    // Sound Generator
+    let soundEnabled = true;
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playSound(type) {
+      if (!soundEnabled) return;
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      const now = audioCtx.currentTime;
+      if (type === 'correct') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, now);
+        osc.frequency.setValueAtTime(659.25, now + 0.1);
+        osc.frequency.setValueAtTime(783.99, now + 0.2);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+        osc.start(now); osc.stop(now + 0.4);
+      } else if (type === 'incorrect') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(180, now);
+        osc.frequency.setValueAtTime(130, now + 0.15);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+        osc.start(now); osc.stop(now + 0.35);
+      }
+    }
 
-            // Lesson 08 (Image 3 & 4)
-            { word: "wormhole", kor: "웜홀(벌레먹은 구멍)", def: "a possible connection between widely separated regions of space-time", example: "A wormhole can connect two different universes." },
-            { word: "theory", kor: "이론", def: "a formal statement of the rules on which a subject of study is based", example: "There are many theories about why dinosaurs went extinct." },
-            { word: "planet", kor: "행성", def: "an extremely large, round mass of matter that moves in a circular path around the sun or another star", example: "Earth is the third closest planet to the sun." },
-            { word: "passenger", kor: "승객", def: "a person who is traveling in a vehicle but is not operating it", example: "Every passenger must wear a seatbelt." },
-            { word: "spaceship", kor: "우주선", def: "a vehicle used for travel in space", example: "The spaceship is orbiting the moon." },
-            { word: "detect", kor: "감지하다, 발견하다", def: "to notice something that is partly hidden or not clear", example: "Beetles detect their way by the stars." },
-            { word: "surface", kor: "표면", def: "the outer or top part or layer of something", example: "You can see a small black dot on the sun's surface." },
-            { word: "vast", kor: "광대한, 거대한", def: "extremely large", example: "To measure vast distances in space, people use light years." },
-            { word: "layer", kor: "층, 겹", def: "a thin sheet of a substance on top of a surface", example: "Mom removed the outer layer of the onion." },
-            { word: "shortcut", kor: "지름길", def: "a quicker route that leads from one place to another", example: "I took a shortcut to town." },
-            { word: "punch", kor: "구멍을 뚫다", def: "to make a hole in something with a special piece of equipment", example: "This belt's too big, so I'll punch an extra hole in it." },
-            { word: "instantly", kor: "즉각적으로, 즉시", def: "immediately, at once", example: "I recognized Julia instantly because of her hair style." },
-            { word: "contain", kor: "포함하다, 담고 있다", def: "to have something inside or include something as a part", example: "Instant noodles contain a lot of salt." },
-            { word: "unstable", kor: "불안정한", def: "not solid or firm and therefore not strong, safe, or likely to last", example: "The economy is unstable and unpredictable." },
-            { word: "crush", kor: "구겨뜨리다, 으깨다", def: "to press something very hard so that it is broken or its shape is destroyed", example: "My cookies got all crushed in my suitcase." },
-            { word: "ongoing", kor: "계속 진행 중인", def: "continuing, or continuing to develop", example: "Due to the ongoing heat wave, it is hard to sleep at night." },
-            { word: "persistent", kor: "끈질긴, 지속적인", def: "continuing to exist or happen, especially for longer than is usual", example: "Persistent effort was involved in completing the work." },
-            { word: "exploration", kor: "탐사, 탐구", def: "the activity of searching and finding out about something", example: "The exploration for new sources of energy is vital." },
-            { word: "print out", kor: "출력하다", def: "to produce a printed copy of a document from a computer", example: "Will you print out your report?" },
-            { word: "researcher", kor: "조사자, 연구원", def: "a person who carries out academic or scientific research", example: "The researchers asked a few questions to the students." },
-            { word: "root", kor: "뿌리", def: "the part of a plant that grows underground", example: "The roots of trees grow in the earth." },
-            { word: "telescope", kor: "망원경", def: "an optical instrument designed to make distant objects appear nearer", example: "He is looking at the stars through a telescope." },
-            { word: "throat", kor: "목, 인후", def: "the passage which leads from the back of the mouth of a person or animal", example: "I have a sore throat and a runny nose." },
-            { word: "tough", kor: "힘든, 어려운, 견고한", def: "difficult or requiring great effort", example: "It was a tough decision to move to Busan." },
-            { word: "worm", kor: "벌레", def: "a small, thin animal with a soft body and no legs", example: "The early bird catches the worm." }
-        ];
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
 
-        // ----------------------------------------------------
-        // 2. APP STATE VARIABLES
-        // ----------------------------------------------------
-        let quizList = [];           // Current Active Questions List
-        let currentIdx = 0;          // Index of current question
-        let userAnswers = [];        // Track user performance [{questionObj, isCorrect, chosenWord}]
-        let incorrectQuestions = []; // Filtered list of wrong questions for retry mode
-        let isRetryMode = false;     // Mode flag
-        let soundEnabled = true;     // Web Audio API Sound Toggle
+    // Sound Toggle
+    const soundToggle = document.getElementById('sound-toggle');
+    soundToggle.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
+      soundToggle.classList.toggle('bg-slate-400', !soundEnabled);
+      soundToggle.classList.toggle('bg-indigo-500', soundEnabled);
+    });
 
-        // ----------------------------------------------------
-        // 3. SOUND GENERATOR (Web Audio API)
-        // ----------------------------------------------------
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    // Navigation Switcher
+    const navFlashcard = document.getElementById('nav-flashcard');
+    const navMcq = document.getElementById('nav-mcq');
+    const navSpelling = document.getElementById('nav-spelling');
+    const secFlashcard = document.getElementById('sec-flashcard');
+    const secMcq = document.getElementById('sec-mcq');
+    const secSpelling = document.getElementById('sec-spelling');
 
-        function playSound(type) {
-            if (!soundEnabled) return;
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
+    function setActiveTab(btn, sec) {
+      [navFlashcard, navMcq, navSpelling].forEach(b => {
+        b.className = "px-4 py-2 rounded-lg text-slate-600 hover:text-indigo-600 transition-all";
+      });
+      btn.className = "px-4 py-2 rounded-lg text-indigo-600 bg-indigo-50 font-bold transition-all";
+      [secFlashcard, secMcq, secSpelling].forEach(s => s.classList.add('hidden'));
+      sec.classList.remove('hidden');
+    }
 
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
+    navFlashcard.addEventListener('click', () => setActiveTab(navFlashcard, secFlashcard));
+    navMcq.addEventListener('click', () => setActiveTab(navMcq, secMcq));
+    navSpelling.addEventListener('click', () => setActiveTab(navSpelling, secSpelling));
 
-            const now = audioCtx.currentTime;
+    // ==========================================
+    // 1. FLASHCARD LOGIC
+    // ==========================================
+    let fcList = [...vocabularyData];
+    let fcIndex = 0;
+    let fcFlipped = false;
 
-            if (type === 'correct') {
-                // Happy Chime (C5 -> E5 -> G5)
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(523.25, now); // C5
-                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
-                osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
-                gain.gain.setValueAtTime(0.15, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
-                osc.start(now);
-                osc.stop(now + 0.4);
-            } else if (type === 'incorrect') {
-                // Low Buzz (G3 -> F3)
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(196.00, now); // G3
-                osc.frequency.setValueAtTime(146.83, now + 0.15); // D3
-                gain.gain.setValueAtTime(0.15, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-                osc.start(now);
-                osc.stop(now + 0.35);
-            }
+    const fcCard = document.getElementById('fc-card');
+    const fcCardContainer = document.getElementById('fc-card-container');
+    const fcWord = document.getElementById('fc-word');
+    const fcMeaning = document.getElementById('fc-meaning');
+    const fcDef = document.getElementById('fc-def');
+    const fcEx = document.getElementById('fc-ex');
+    const fcCounter = document.getElementById('fc-counter');
+
+    function renderFlashcard() {
+      fcFlipped = false;
+      fcCard.classList.remove('rotate-y-180');
+      const item = fcList[fcIndex];
+      fcWord.textContent = item.word;
+      fcMeaning.textContent = item.meaning;
+      fcDef.textContent = `"${item.def}"`;
+      fcEx.textContent = item.ex;
+      fcCounter.textContent = `카드 ${fcIndex + 1} / ${fcList.length}`;
+    }
+
+    fcCardContainer.addEventListener('click', () => {
+      fcFlipped = !fcFlipped;
+      fcCard.classList.toggle('rotate-y-180', fcFlipped);
+    });
+
+    document.getElementById('fc-next').addEventListener('click', () => {
+      fcIndex = (fcIndex + 1) % fcList.length;
+      renderFlashcard();
+    });
+
+    document.getElementById('fc-prev').addEventListener('click', () => {
+      fcIndex = (fcIndex - 1 + fcList.length) % fcList.length;
+      renderFlashcard();
+    });
+
+    document.getElementById('fc-shuffle-btn').addEventListener('click', () => {
+      fcList = shuffle(vocabularyData);
+      fcIndex = 0;
+      renderFlashcard();
+    });
+
+    renderFlashcard();
+
+    // ==========================================
+    // 2. 5지선다 퀴즈 LOGIC
+    // ==========================================
+    let mcqTargetCount = 20;
+    let mcqQuizList = [];
+    let mcqIndex = 0;
+    let mcqScore = 0;
+    let mcqIncorrect = [];
+
+    const mcqSetup = document.getElementById('mcq-setup');
+    const mcqPlay = document.getElementById('mcq-play');
+    const mcqResult = document.getElementById('mcq-result');
+    const mcqCountBtns = document.querySelectorAll('.mcq-count-btn');
+
+    mcqCountBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        mcqCountBtns.forEach(b => {
+          b.className = 'mcq-count-btn py-3 border-2 border-slate-200 hover:border-indigo-400 font-bold rounded-xl text-slate-700 transition-all';
+        });
+        btn.className = 'mcq-count-btn py-3 border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-bold rounded-xl transition-all';
+        mcqTargetCount = parseInt(btn.dataset.count);
+      });
+    });
+
+    document.getElementById('mcq-start-btn').addEventListener('click', () => {
+      startMcqQuiz(shuffle(vocabularyData).slice(0, mcqTargetCount), false);
+    });
+
+    function startMcqQuiz(questions, isRetry = false) {
+      mcqQuizList = questions;
+      mcqIndex = 0;
+      mcqScore = 0;
+      if (!isRetry) mcqIncorrect = [];
+
+      document.getElementById('mcq-mode-badge').classList.toggle('hidden', !isRetry);
+      document.getElementById('mcq-score').textContent = "0";
+      
+      mcqSetup.classList.add('hidden');
+      mcqResult.classList.add('hidden');
+      mcqPlay.classList.remove('hidden');
+
+      loadMcqQuestion();
+    }
+
+    function loadMcqQuestion() {
+      document.getElementById('mcq-feedback').classList.add('hidden');
+      document.getElementById('mcq-next-btn').classList.add('hidden');
+      const container = document.getElementById('mcq-options');
+      container.innerHTML = '';
+
+      const item = mcqQuizList[mcqIndex];
+      document.getElementById('mcq-badge').textContent = `Q${mcqIndex + 1} / ${mcqQuizList.length}`;
+      document.getElementById('mcq-progress-bar').style.width = `${((mcqIndex + 1) / mcqQuizList.length) * 100}%`;
+      document.getElementById('mcq-def').textContent = `"${item.def}"`;
+
+      const distractors = vocabularyData.filter(v => v.id !== item.id);
+      const options = shuffle([item, ...shuffle(distractors).slice(0, 4)]);
+
+      options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'w-full text-left p-4 rounded-xl border border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/50 font-medium text-slate-700 transition-all flex items-center justify-between group';
+        btn.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="w-7 h-7 rounded-full bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors">${idx + 1}</span>
+            <span class="text-base sm:text-lg">${opt.word}</span>
+          </div>
+        `;
+        btn.addEventListener('click', () => handleMcqSelect(btn, opt, item));
+        container.appendChild(btn);
+      });
+    }
+
+    function handleMcqSelect(selectedBtn, selectedOpt, correctItem) {
+      const allBtns = document.getElementById('mcq-options').querySelectorAll('button');
+      allBtns.forEach(b => b.disabled = true);
+
+      const isCorrect = selectedOpt.id === correctItem.id;
+      const header = document.getElementById('mcq-fb-header');
+      const fb = document.getElementById('mcq-feedback');
+
+      if (isCorrect) {
+        playSound('correct');
+        selectedBtn.classList.remove('bg-white', 'border-slate-200');
+        selectedBtn.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900', 'ring-2', 'ring-emerald-400');
+        header.className = "font-bold text-lg mb-2 text-emerald-700";
+        header.innerHTML = "<span>✅ 정답입니다!</span>";
+        fb.className = "mb-6 p-5 rounded-xl border bg-emerald-50/80 border-emerald-200";
+        mcqScore++;
+        document.getElementById('mcq-score').textContent = mcqScore;
+      } else {
+        playSound('incorrect');
+        selectedBtn.classList.remove('bg-white', 'border-slate-200');
+        selectedBtn.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-900');
+        allBtns.forEach(b => {
+          if (b.textContent.includes(correctItem.word)) {
+            b.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-800', 'font-bold');
+          }
+        });
+        header.className = "font-bold text-lg mb-2 text-rose-700";
+        header.innerHTML = "<span>❌ 오답입니다.</span>";
+        fb.className = "mb-6 p-5 rounded-xl border bg-rose-50/80 border-rose-200";
+
+        if (!mcqIncorrect.some(i => i.id === correctItem.id)) {
+          mcqIncorrect.push(correctItem);
         }
+      }
 
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            const text = document.getElementById("soundText");
-            const icon = document.getElementById("soundIcon");
-            if (soundEnabled) {
-                text.innerText = "사운드 ON";
-                icon.className = "fa-solid fa-volume-high text-indigo-600";
-            } else {
-                text.innerText = "사운드 OFF";
-                icon.className = "fa-solid fa-volume-xmark text-slate-400";
-            }
+      document.getElementById('mcq-exp-word').textContent = correctItem.word;
+      document.getElementById('mcq-exp-meaning').textContent = correctItem.meaning;
+      document.getElementById('mcq-exp-ex').textContent = correctItem.ex;
+      fb.classList.remove('hidden');
+      document.getElementById('mcq-next-btn').classList.remove('hidden');
+    }
+
+    document.getElementById('mcq-next-btn').addEventListener('click', () => {
+      mcqIndex++;
+      if (mcqIndex < mcqQuizList.length) {
+        loadMcqQuestion();
+      } else {
+        mcqPlay.classList.add('hidden');
+        mcqResult.classList.remove('hidden');
+        const total = mcqQuizList.length;
+        document.getElementById('mcq-final-score').textContent = mcqScore;
+        document.getElementById('mcq-final-total').textContent = `/ ${total}`;
+        document.getElementById('mcq-final-acc').textContent = `정답률: ${Math.round((mcqScore / total) * 100)}% (${total}문제 중 ${mcqScore}개 맞힘)`;
+
+        const retryBtn = document.getElementById('mcq-retry-incorrect');
+        if (mcqIncorrect.length > 0) {
+          retryBtn.classList.remove('hidden');
+          document.getElementById('mcq-inc-count').textContent = mcqIncorrect.length;
+        } else {
+          retryBtn.classList.add('hidden');
         }
+      }
+    });
 
-        // ----------------------------------------------------
-        // 4. HELPER FUNCTIONS
-        // ----------------------------------------------------
-        // Fisher-Yates Shuffle Algorithm
-        function shuffle(array) {
-            let arr = [...array];
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-            return arr;
-        }
+    document.getElementById('mcq-restart-btn').addEventListener('click', () => {
+      mcqPlay.classList.add('hidden');
+      mcqResult.classList.add('hidden');
+      mcqSetup.classList.remove('hidden');
+    });
 
-        // Generate 5 options (1 correct answer + 4 random distractors)
-        function generateOptions(correctObj) {
-            let options = [correctObj.word];
-            // Filter out correct word to pick distractors
-            let pool = vocabPool.filter(v => v.word !== correctObj.word);
-            let shuffledPool = shuffle(pool);
+    document.getElementById('mcq-retry-incorrect').addEventListener('click', () => {
+      const retryList = [...mcqIncorrect];
+      mcqIncorrect = [];
+      startMcqQuiz(shuffle(retryList), true);
+    });
 
-            // Add 4 distinct distractors
-            for (let i = 0; i < 4; i++) {
-                if (shuffledPool[i]) {
-                    options.push(shuffledPool[i].word);
-                }
-            }
+    // ==========================================
+    // 3. 주관식 스펠링 퀴즈 LOGIC (무작위 10문제)
+    // ==========================================
+    let splQuizList = [];
+    let splIndex = 0;
+    let splScore = 0;
 
-            return shuffle(options);
-        }
+    const splSetup = document.getElementById('spl-setup');
+    const splPlay = document.getElementById('spl-play');
+    const splResult = document.getElementById('spl-result');
+    const splForm = document.getElementById('spl-form');
+    const splInput = document.getElementById('spl-input');
+    const splSubmitBtn = document.getElementById('spl-submit-btn');
 
-        // ----------------------------------------------------
-        // 5. QUIZ ENGINE LOGIC
-        // ----------------------------------------------------
-        function initQuiz(questionsData, isRetry = false) {
-            isRetryMode = isRetry;
-            quizList = shuffle(questionsData);
-            currentIdx = 0;
-            userAnswers = [];
+    document.getElementById('spl-start-btn').addEventListener('click', () => {
+      // 매번 랜덤 10문제 추출
+      splQuizList = shuffle(vocabularyData).slice(0, 10);
+      splIndex = 0;
+      splScore = 0;
+      document.getElementById('spl-score').textContent = "0";
 
-            // UI Adjustments
-            document.getElementById("resultScreen").classList.add("hidden");
-            document.getElementById("quizScreen").classList.remove("hidden");
-            document.getElementById("quizHeader").classList.remove("hidden");
+      splSetup.classList.add('hidden');
+      splResult.classList.add('hidden');
+      splPlay.classList.remove('hidden');
 
-            document.getElementById("totalQuestionNum").innerText = quizList.length;
-            document.getElementById("quizModeBadge").innerText = isRetryMode ? "틀린 문제 재도전 모드" : "전체 퀴즈 모드";
-            
-            updateLiveScore();
-            renderQuestion();
-        }
+      loadSplQuestion();
+    });
 
-        function renderQuestion() {
-            const feedbackContainer = document.getElementById("feedbackContainer");
-            feedbackContainer.classList.add("hidden");
+    function loadSplQuestion() {
+      document.getElementById('spl-feedback').classList.add('hidden');
+      document.getElementById('spl-next-btn').classList.add('hidden');
+      splInput.value = '';
+      splInput.disabled = false;
+      splSubmitBtn.disabled = false;
+      splInput.focus();
 
-            const current = quizList[currentIdx];
-            
-            // Update Headers & Progress
-            document.getElementById("currentQuestionNum").innerText = currentIdx + 1;
-            const progressPct = ((currentIdx + 1) / quizList.length) * 100;
-            document.getElementById("progressBar").style.width = `${progressPct}%`;
+      const item = splQuizList[splIndex];
+      document.getElementById('spl-badge').textContent = `Q${splIndex + 1} / 10`;
+      document.getElementById('spl-progress-bar').style.width = `${((splIndex + 1) / 10) * 100}%`;
+      document.getElementById('spl-def').textContent = `"${item.def}"`;
+      
+      // Hints
+      document.getElementById('spl-hint-length').textContent = `${item.word.length} letters`;
+      document.getElementById('spl-hint-initial').textContent = `시작: ${item.word.charAt(0)}...`;
+    }
 
-            // Display Definition Prompt
-            document.getElementById("questionDefinition").innerText = `"${current.def}"`;
+    splForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (splInput.disabled) return;
 
-            // Options Construction
-            const options = generateOptions(current);
-            const container = document.getElementById("optionsContainer");
-            container.innerHTML = "";
+      const userAns = splInput.value.trim().toLowerCase();
+      const item = splQuizList[splIndex];
+      const correctAns = item.word.trim().toLowerCase();
 
-            options.forEach((optWord, idx) => {
-                const btn = document.createElement("button");
-                btn.className = "option-btn w-full text-left p-4 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 hover:bg-indigo-50/50 flex items-center justify-between group font-medium text-slate-700 shadow-sm";
-                btn.onclick = () => checkAnswer(optWord, btn);
-                
-                btn.innerHTML = `
-                    <div class="flex items-center space-x-3">
-                        <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 group-hover:bg-indigo-600 group-hover:text-white flex items-center justify-center font-semibold text-xs transition">
-                            ${idx + 1}
-                        </span>
-                        <span class="text-base sm:text-lg font-semibold">${optWord}</span>
-                    </div>
-                    <i class="fa-regular fa-circle text-slate-300 group-hover:text-indigo-400"></i>
-                `;
-                container.appendChild(btn);
-            });
-        }
+      splInput.disabled = true;
+      splSubmitBtn.disabled = true;
 
-        function checkAnswer(chosenWord, clickedBtn) {
-            const current = quizList[currentIdx];
-            const isCorrect = (chosenWord === current.word);
-            const allBtns = document.querySelectorAll(".option-btn");
+      const isCorrect = userAns === correctAns;
+      const header = document.getElementById('spl-fb-header');
+      const fb = document.getElementById('spl-feedback');
 
-            // Disable all buttons to prevent double click
-            allBtns.forEach(btn => btn.disabled = true);
+      if (isCorrect) {
+        playSound('correct');
+        header.className = "font-bold text-lg mb-2 text-emerald-700";
+        header.innerHTML = "<span>🎉 정확합니다!</span>";
+        fb.className = "mb-6 p-5 rounded-xl border bg-emerald-50/80 border-emerald-200";
+        splScore++;
+        document.getElementById('spl-score').textContent = splScore;
+      } else {
+        playSound('incorrect');
+        header.className = "font-bold text-lg mb-2 text-rose-700";
+        header.innerHTML = `<span>❌ 오답입니다. (입력: ${userAns || '미입력'})</span>`;
+        fb.className = "mb-6 p-5 rounded-xl border bg-rose-50/80 border-rose-200";
+      }
 
-            // Record Answer
-            userAnswers.push({
-                question: current,
-                chosenWord: chosenWord,
-                isCorrect: isCorrect
-            });
+      document.getElementById('spl-exp-word').textContent = item.word;
+      document.getElementById('spl-exp-meaning').textContent = item.meaning;
+      document.getElementById('spl-exp-ex').textContent = item.ex;
+      fb.classList.remove('hidden');
+      document.getElementById('spl-next-btn').classList.remove('hidden');
+    });
 
-            // Feedback Visual Styling
-            allBtns.forEach(btn => {
-                const wordText = btn.querySelector("span:nth-child(2)").innerText;
-                if (wordText === current.word) {
-                    // Correct button highlighting
-                    btn.classList.remove("bg-white", "border-slate-200");
-                    btn.classList.add("bg-emerald-50", "border-emerald-500", "text-emerald-900");
-                    btn.querySelector("i").className = "fa-solid fa-circle-check text-emerald-500 text-lg";
-                }
-            });
+    document.getElementById('spl-next-btn').addEventListener('click', () => {
+      splIndex++;
+      if (splIndex < 10) {
+        loadSplQuestion();
+      } else {
+        splPlay.classList.add('hidden');
+        splResult.classList.remove('hidden');
+        document.getElementById('spl-final-score').textContent = splScore;
+        document.getElementById('spl-final-acc').textContent = `정답률: ${splScore * 10}% (10문제 중 ${splScore}개 맞힘)`;
+      }
+    });
 
-            if (!isCorrect) {
-                // Incorrect button styling
-                clickedBtn.classList.remove("bg-white", "border-slate-200");
-                clickedBtn.classList.add("bg-rose-50", "border-rose-500", "text-rose-900");
-                clickedBtn.querySelector("i").className = "fa-solid fa-circle-xmark text-rose-500 text-lg";
-                playSound("incorrect");
-            } else {
-                playSound("correct");
-            }
+    document.getElementById('spl-restart-btn').addEventListener('click', () => {
+      splQuizList = shuffle(vocabularyData).slice(0, 10);
+      splIndex = 0;
+      splScore = 0;
+      document.getElementById('spl-score').textContent = "0";
+      splResult.classList.add('hidden');
+      splPlay.classList.remove('hidden');
+      loadSplQuestion();
+    });
 
-            // Show Detailed Feedback Box
-            const feedbackContainer = document.getElementById("feedbackContainer");
-            const feedbackBox = document.getElementById("feedbackBox");
-
-            if (isCorrect) {
-                feedbackBox.className = "p-4 rounded-xl mb-4 text-sm leading-relaxed bg-emerald-50 border border-emerald-200 text-emerald-900";
-                feedbackBox.innerHTML = `
-                    <div class="font-bold flex items-center gap-1.5 mb-1 text-emerald-700">
-                        <i class="fa-solid fa-circle-check"></i> 정답입니다!
-                    </div>
-                    <div><span class="font-bold">${current.word}</span> : ${current.kor}</div>
-                    <div class="text-xs text-emerald-700 mt-1 italic">예문: ${current.example}</div>
-                `;
-            } else {
-                feedbackBox.className = "p-4 rounded-xl mb-4 text-sm leading-relaxed bg-rose-50 border border-rose-200 text-rose-900";
-                feedbackBox.innerHTML = `
-                    <div class="font-bold flex items-center gap-1.5 mb-1 text-rose-700">
-                        <i class="fa-solid fa-circle-xmark"></i> 아쉽네요! 틀렸습니다.
-                    </div>
-                    <div>정답: <span class="font-bold text-slate-900">${current.word}</span> (${current.kor})</div>
-                    <div class="text-xs text-rose-700 mt-1 italic">예문: ${current.example}</div>
-                `;
-            }
-
-            feedbackContainer.classList.remove("hidden");
-            updateLiveScore();
-        }
-
-        function nextQuestion() {
-            currentIdx++;
-            if (currentIdx < quizList.length) {
-                renderQuestion();
-            } else {
-                showResults();
-            }
-        }
-
-        function updateLiveScore() {
-            const correctCount = userAnswers.filter(a => a.isCorrect).length;
-            const incorrectCount = userAnswers.filter(a => !a.isCorrect).length;
-            
-            document.getElementById("liveScore").innerText = correctCount;
-            document.getElementById("liveIncorrect").innerText = incorrectCount;
-        }
-
-        // ----------------------------------------------------
-        // 6. RESULT & RETRY SYSTEM
-        // ----------------------------------------------------
-        function showResults() {
-            document.getElementById("quizScreen").classList.add("hidden");
-            document.getElementById("quizHeader").classList.add("hidden");
-            document.getElementById("resultScreen").classList.remove("hidden");
-
-            const correctCount = userAnswers.filter(a => a.isCorrect).length;
-            const incorrectCount = userAnswers.filter(a => !a.isCorrect).length;
-
-            document.getElementById("summaryTotal").innerText = quizList.length;
-            document.getElementById("summaryCorrect").innerText = correctCount;
-            document.getElementById("summaryIncorrect").innerText = incorrectCount;
-
-            // Collect incorrect items
-            incorrectQuestions = userAnswers.filter(a => !a.isCorrect).map(a => a.question);
-            const retryBtn = document.getElementById("retryIncorrectBtn");
-            const retryCountSpan = document.getElementById("retryCount");
-
-            retryCountSpan.innerText = incorrectQuestions.length;
-
-            if (incorrectQuestions.length === 0) {
-                retryBtn.disabled = true;
-                retryBtn.classList.add("opacity-50", "cursor-not-allowed");
-            } else {
-                retryBtn.disabled = false;
-                retryBtn.classList.remove("opacity-50", "cursor-not-allowed");
-            }
-        }
-
-        function startRetryMode() {
-            if (incorrectQuestions.length > 0) {
-                initQuiz(incorrectQuestions, true);
-            }
-        }
-
-        function restartFullQuiz() {
-            initQuiz(vocabPool, false);
-        }
-
-        function confirmRestart() {
-            if (confirm("퀴즈를 처음부터 다시 시작하시겠습니까?")) {
-                restartFullQuiz();
-            }
-        }
-
-        // ----------------------------------------------------
-        // 7. INITIALIZATION ON LOAD
-        // ----------------------------------------------------
-        window.onload = function() {
-            initQuiz(vocabPool, false);
-        };
-    </script>
+  </script>
 </body>
 </html>
+'''
+
+with open("CGM_english_vocab_quiz.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("[file-tag: CGM_english_vocab_quiz.html]")
