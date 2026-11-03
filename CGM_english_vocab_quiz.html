@@ -1,14 +1,15 @@
-<!DOCTYPE html>
+html_content = '''<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>중학 영어 학습 & 퀴즈 센터</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800&display=swap');
     body {
       font-family: 'Noto Sans KR', sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
     .perspective-1000 {
       perspective: 1000px;
@@ -24,73 +25,73 @@
     }
   </style>
 </head>
-<body class="bg-slate-100 min-h-screen text-slate-800 py-6 px-4">
-  <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+<body class="bg-slate-100 min-h-screen text-slate-800 py-3 px-2 sm:py-6 sm:px-4">
+  <div class="max-w-3xl mx-auto bg-white rounded-xl sm:rounded-2xl shadow-xl overflow-hidden border border-slate-200">
     
     <!-- Header -->
-    <header class="bg-indigo-600 text-white p-6 sm:p-8 flex justify-between items-center relative overflow-hidden">
+    <header class="bg-indigo-600 text-white p-4 sm:p-8 flex justify-between items-center relative overflow-hidden">
       <div>
-        <span class="inline-block px-3 py-1 bg-indigo-500 text-indigo-100 text-xs font-semibold rounded-full mb-2">Lesson 07 & 08</span>
-        <h1 class="text-2xl sm:text-3xl font-extrabold">영어 단어 학습 & 퀴즈 센터</h1>
-        <p class="text-indigo-200 text-sm mt-1">Spend Wisely & Wonders of Space Travel</p>
+        <span class="inline-block px-2.5 py-0.5 sm:px-3 sm:py-1 bg-indigo-500 text-indigo-100 text-[10px] sm:text-xs font-semibold rounded-full mb-1 sm:mb-2">Lesson 07 & 08</span>
+        <h1 class="text-xl sm:text-3xl font-extrabold leading-tight">영어 단어 학습 & 퀴즈</h1>
+        <p class="text-indigo-200 text-xs sm:text-sm mt-0.5 sm:mt-1">Spend Wisely & Space Travel</p>
       </div>
-      <button id="sound-toggle" class="p-3 bg-indigo-500 hover:bg-indigo-400 rounded-full transition-colors flex items-center justify-center text-xl shadow" title="음향 효과 ON/OFF">
+      <button id="sound-toggle" class="p-2 sm:p-3 bg-indigo-500 hover:bg-indigo-400 rounded-full transition-colors flex items-center justify-center text-lg sm:text-xl shadow shrink-0" title="음향 효과 ON/OFF">
         🔊
       </button>
     </header>
 
     <!-- Main Navigation Bar -->
-    <nav class="bg-slate-50 border-b border-slate-200 flex justify-around p-2 text-sm sm:text-base font-bold">
-      <button id="nav-flashcard" class="px-4 py-2 rounded-lg text-indigo-600 bg-indigo-50 transition-all">🎴 플래시카드</button>
-      <button id="nav-mcq" class="px-4 py-2 rounded-lg text-slate-600 hover:text-indigo-600 transition-all">📝 5지선다 퀴즈</button>
-      <button id="nav-spelling" class="px-4 py-2 rounded-lg text-slate-600 hover:text-indigo-600 transition-all">✍️ 주관식 스펠링</button>
+    <nav class="bg-slate-50 border-b border-slate-200 flex justify-around p-1.5 sm:p-2 text-xs sm:text-base font-bold">
+      <button id="nav-flashcard" class="px-2.5 py-2 sm:px-4 sm:py-2 rounded-lg text-indigo-600 bg-indigo-50 transition-all shrink-0">🎴 플래시카드</button>
+      <button id="nav-mcq" class="px-2.5 py-2 sm:px-4 sm:py-2 rounded-lg text-slate-600 hover:text-indigo-600 transition-all shrink-0">📝 5지선다</button>
+      <button id="nav-spelling" class="px-2.5 py-2 sm:px-4 sm:py-2 rounded-lg text-slate-600 hover:text-indigo-600 transition-all shrink-0">✍️ 주관식 스펠링</button>
     </nav>
 
     <!-- Main Content Area -->
-    <main class="p-6 sm:p-8">
+    <main class="p-3 sm:p-8">
 
       <!-- ================= 1. FLASHCARD SECTION ================= -->
       <section id="sec-flashcard" class="block">
-        <div class="flex justify-between items-center mb-6">
-          <span id="fc-counter" class="px-3 py-1 bg-indigo-100 text-indigo-700 font-bold text-sm rounded-md">카드 1 / 52</span>
-          <button id="fc-shuffle-btn" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1">
+        <div class="flex justify-between items-center mb-4 sm:mb-6">
+          <span id="fc-counter" class="px-2.5 py-1 bg-indigo-100 text-indigo-700 font-bold text-xs sm:text-sm rounded-md">카드 1 / 52</span>
+          <button id="fc-shuffle-btn" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1">
             🔀 순서 섞기
           </button>
         </div>
 
         <!-- Flashcard Container -->
-        <div class="perspective-1000 w-full h-80 mb-6 cursor-pointer" id="fc-card-container">
-          <div id="fc-card" class="w-full h-full relative transform-style-3d transition-transform duration-500 shadow-md rounded-2xl border border-slate-200">
+        <div class="perspective-1000 w-full h-64 sm:h-80 mb-4 sm:mb-6 cursor-pointer" id="fc-card-container">
+          <div id="fc-card" class="w-full h-full relative transform-style-3d transition-transform duration-500 shadow-md rounded-xl sm:rounded-2xl border border-slate-200">
             
             <!-- Front Side -->
-            <div class="absolute inset-0 w-full h-full bg-white rounded-2xl p-6 flex flex-col justify-between items-center text-center backface-hidden">
-              <span class="text-xs font-bold text-indigo-500 uppercase tracking-widest">English Word</span>
+            <div class="absolute inset-0 w-full h-full bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 flex flex-col justify-between items-center text-center backface-hidden">
+              <span class="text-[10px] sm:text-xs font-bold text-indigo-500 uppercase tracking-widest">English Word</span>
               <div class="my-auto">
-                <h2 id="fc-word" class="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-2">affect</h2>
-                <p id="fc-meaning" class="text-slate-500 text-base sm:text-lg">영향을 미치다</p>
+                <h2 id="fc-word" class="text-2xl sm:text-4xl font-extrabold text-slate-800 mb-1 sm:mb-2">affect</h2>
+                <p id="fc-meaning" class="text-slate-500 text-sm sm:text-lg">영향을 미치다</p>
               </div>
-              <span class="text-xs text-slate-400 italic">💡 카드를 클릭하면 영영풀이와 예문을 확인합니다.</span>
+              <span class="text-[10px] sm:text-xs text-slate-400 italic">💡 카드를 클릭하면 영영풀이를 확인합니다.</span>
             </div>
 
             <!-- Back Side -->
-            <div class="absolute inset-0 w-full h-full bg-indigo-950 text-white rounded-2xl p-6 flex flex-col justify-between items-center text-center backface-hidden rotate-y-180">
-              <span class="text-xs font-bold text-indigo-300 uppercase tracking-widest">English Definition & Example</span>
-              <div class="my-auto space-y-4">
-                <p id="fc-def" class="text-base sm:text-lg font-medium text-indigo-100 italic leading-relaxed px-2">"to influence someone or something"</p>
-                <div class="border-t border-indigo-800 pt-3">
-                  <p id="fc-ex" class="text-xs sm:text-sm text-indigo-300">Your opinion will affect many people.</p>
+            <div class="absolute inset-0 w-full h-full bg-indigo-950 text-white rounded-xl sm:rounded-2xl p-4 sm:p-6 flex flex-col justify-between items-center text-center backface-hidden rotate-y-180">
+              <span class="text-[10px] sm:text-xs font-bold text-indigo-300 uppercase tracking-widest">Definition & Example</span>
+              <div class="my-auto space-y-2 sm:space-y-4">
+                <p id="fc-def" class="text-sm sm:text-lg font-medium text-indigo-100 italic leading-snug sm:leading-relaxed px-1">"to influence someone or something"</p>
+                <div class="border-t border-indigo-800 pt-2 sm:pt-3">
+                  <p id="fc-ex" class="text-[11px] sm:text-sm text-indigo-300">Your opinion will affect many people.</p>
                 </div>
               </div>
-              <span class="text-xs text-indigo-400 italic">💡 카드를 클릭하면 앞면으로 돌아갑니다.</span>
+              <span class="text-[10px] sm:text-xs text-indigo-400 italic">💡 카드를 클릭하면 앞면으로 돌아갑니다.</span>
             </div>
 
           </div>
         </div>
 
         <!-- Flashcard Controls -->
-        <div class="flex justify-between gap-4 max-w-sm mx-auto">
-          <button id="fc-prev" class="flex-1 py-3 bg-slate-200 hover:bg-slate-300 font-bold rounded-xl text-slate-700 transition-all">← 이전</button>
-          <button id="fc-next" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 font-bold rounded-xl text-white transition-all">다음 →</button>
+        <div class="flex justify-between gap-3 max-w-sm mx-auto">
+          <button id="fc-prev" class="flex-1 py-2.5 sm:py-3 bg-slate-200 hover:bg-slate-300 font-bold rounded-xl text-slate-700 text-sm sm:text-base transition-all">← 이전</button>
+          <button id="fc-next" class="flex-1 py-2.5 sm:py-3 bg-indigo-600 hover:bg-indigo-700 font-bold rounded-xl text-white text-sm sm:text-base transition-all">다음 →</button>
         </div>
       </section>
 
@@ -98,77 +99,77 @@
       <section id="sec-mcq" class="hidden">
         
         <!-- Setup Screen -->
-        <div id="mcq-setup" class="text-center py-6">
-          <h2 class="text-2xl font-bold text-slate-800 mb-2">5지선다 영영풀이 퀴즈</h2>
-          <p class="text-slate-600 mb-6 text-sm">영영풀이를 읽고 알맞은 단어를 5개 보기 중에서 골라보세요.</p>
+        <div id="mcq-setup" class="text-center py-4 sm:py-6">
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-800 mb-1 sm:mb-2">5지선다 영영풀이 퀴즈</h2>
+          <p class="text-slate-600 mb-4 sm:mb-6 text-xs sm:text-sm">영영풀이를 읽고 알맞은 단어를 골라보세요.</p>
           
-          <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 max-w-md mx-auto mb-6">
-            <label class="block text-sm font-bold text-slate-700 mb-3">문제 수 선택</label>
-            <div class="grid grid-cols-2 gap-4">
-              <button data-count="20" class="mcq-count-btn py-3 border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-bold rounded-xl transition-all">20 문제</button>
-              <button data-count="52" class="mcq-count-btn py-3 border-2 border-slate-200 hover:border-indigo-400 font-bold rounded-xl text-slate-700 transition-all">52 문제 (전체)</button>
+          <div class="bg-slate-50 p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-slate-200 max-w-md mx-auto mb-5 sm:mb-6">
+            <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-2 sm:mb-3">문제 수 선택</label>
+            <div class="grid grid-cols-2 gap-3 sm:gap-4">
+              <button data-count="20" class="mcq-count-btn py-2.5 sm:py-3 border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-bold rounded-xl text-xs sm:text-base transition-all">20 문제</button>
+              <button data-count="52" class="mcq-count-btn py-2.5 sm:py-3 border-2 border-slate-200 hover:border-indigo-400 font-bold rounded-xl text-slate-700 text-xs sm:text-base transition-all">52 문제 (전체)</button>
             </div>
           </div>
 
-          <button id="mcq-start-btn" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5">
+          <button id="mcq-start-btn" class="w-full sm:w-auto px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base sm:text-lg rounded-xl shadow-lg transition-all">
             🚀 퀴즈 시작하기
           </button>
         </div>
 
         <!-- Quiz Screen -->
         <div id="mcq-play" class="hidden">
-          <div class="w-full bg-slate-200 h-2 mb-6 rounded-full overflow-hidden">
-            <div id="mcq-progress-bar" class="bg-indigo-500 h-2 transition-all duration-300" style="width: 0%"></div>
+          <div class="w-full bg-slate-200 h-1.5 sm:h-2 mb-4 sm:mb-6 rounded-full overflow-hidden">
+            <div id="mcq-progress-bar" class="bg-indigo-500 h-full transition-all duration-300" style="width: 0%"></div>
           </div>
 
-          <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+          <div class="flex justify-between items-center mb-4 sm:mb-6 pb-3 border-b border-slate-100">
             <div class="flex items-center space-x-2">
-              <span id="mcq-badge" class="px-3 py-1 bg-indigo-100 text-indigo-700 font-bold text-sm rounded-md">Q1 / 20</span>
-              <span id="mcq-mode-badge" class="px-2 py-1 bg-amber-100 text-amber-700 font-medium text-xs rounded-md hidden">오답 재도전</span>
+              <span id="mcq-badge" class="px-2.5 py-1 bg-indigo-100 text-indigo-700 font-bold text-xs sm:text-sm rounded-md">Q1 / 20</span>
+              <span id="mcq-mode-badge" class="px-2 py-0.5 bg-amber-100 text-amber-700 font-medium text-[10px] sm:text-xs rounded-md hidden">오답 재도전</span>
             </div>
-            <div class="text-sm text-slate-500 font-medium">
+            <div class="text-xs sm:text-sm text-slate-500 font-medium">
               현재 점수: <span id="mcq-score" class="text-indigo-600 font-bold">0</span> 점
             </div>
           </div>
 
-          <div class="mb-6 bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
-            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-500 mb-1 block">English Definition</span>
-            <p id="mcq-def" class="text-lg sm:text-xl font-medium text-slate-800 leading-relaxed"></p>
+          <div class="mb-4 sm:mb-6 bg-slate-50 p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-indigo-500 mb-1 block">English Definition</span>
+            <p id="mcq-def" class="text-base sm:text-xl font-medium text-slate-800 leading-relaxed break-keep"></p>
           </div>
 
-          <div id="mcq-options" class="grid grid-cols-1 gap-3 mb-6"></div>
+          <div id="mcq-options" class="grid grid-cols-1 gap-2.5 sm:gap-3 mb-4 sm:mb-6"></div>
 
-          <div id="mcq-feedback" class="hidden mb-6 p-5 rounded-xl border transition-all duration-300">
-            <div id="mcq-fb-header" class="font-bold text-lg mb-2 flex items-center gap-2"></div>
-            <div class="text-slate-700 space-y-1 text-sm sm:text-base">
+          <div id="mcq-feedback" class="hidden mb-4 sm:mb-6 p-4 sm:p-5 rounded-xl border transition-all duration-300">
+            <div id="mcq-fb-header" class="font-bold text-base sm:text-lg mb-2 flex items-center gap-2"></div>
+            <div class="text-slate-700 space-y-1 text-xs sm:text-base">
               <p><strong>단어:</strong> <span id="mcq-exp-word" class="font-semibold text-indigo-700"></span></p>
               <p><strong>한글 뜻:</strong> <span id="mcq-exp-meaning"></span></p>
-              <p><strong>예문:</strong> <span id="mcq-exp-ex" class="italic text-slate-600"></span></p>
+              <p><strong>예문:</strong> <span id="mcq-exp-ex" class="italic text-slate-600 break-keep"></span></p>
             </div>
           </div>
 
           <div class="flex justify-end">
-            <button id="mcq-next-btn" class="hidden px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all">
+            <button id="mcq-next-btn" class="hidden w-full sm:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all">
               다음 문제 →
             </button>
           </div>
         </div>
 
         <!-- Result Screen -->
-        <div id="mcq-result" class="hidden text-center py-8">
-          <div class="inline-flex p-4 bg-indigo-100 text-indigo-600 rounded-full mb-4 text-4xl">🏆</div>
-          <h2 class="text-3xl font-bold text-slate-800 mb-2">5지선다 퀴즈 완료!</h2>
-          <div class="bg-slate-50 p-6 rounded-2xl max-w-sm mx-auto my-6 border border-slate-200">
-            <div class="text-4xl font-extrabold text-indigo-600 mb-2">
-              <span id="mcq-final-score">0</span> <span id="mcq-final-total" class="text-xl font-normal text-slate-500">/ 20</span>
+        <div id="mcq-result" class="hidden text-center py-6 sm:py-8">
+          <div class="inline-flex p-3 sm:p-4 bg-indigo-100 text-indigo-600 rounded-full mb-3 sm:mb-4 text-3xl sm:text-4xl">🏆</div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-1 sm:mb-2">5지선다 퀴즈 완료!</h2>
+          <div class="bg-slate-50 p-5 sm:p-6 rounded-2xl max-w-sm mx-auto my-4 sm:my-6 border border-slate-200">
+            <div class="text-3xl sm:text-4xl font-extrabold text-indigo-600 mb-1 sm:mb-2">
+              <span id="mcq-final-score">0</span> <span id="mcq-final-total" class="text-lg sm:text-xl font-normal text-slate-500">/ 20</span>
             </div>
-            <p id="mcq-final-acc" class="text-slate-500 text-sm font-medium">정답률: 0%</p>
+            <p id="mcq-final-acc" class="text-slate-500 text-xs sm:text-sm font-medium">정답률: 0%</p>
           </div>
-          <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto">
-            <button id="mcq-retry-incorrect" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow-md transition-all flex-1 hidden">
+          <div class="flex flex-col sm:flex-row justify-center gap-3 max-w-md mx-auto">
+            <button id="mcq-retry-incorrect" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow-md transition-all flex-1 text-sm sm:text-base hidden">
               🔄 틀린 문제 다시 풀기 (<span id="mcq-inc-count">0</span>)
             </button>
-            <button id="mcq-restart-btn" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all flex-1">
+            <button id="mcq-restart-btn" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all flex-1 text-sm sm:text-base">
               🚀 새 퀴즈 시작
             </button>
           </div>
@@ -176,81 +177,82 @@
 
       </section>
 
-      <!-- ================= 3. 주관식 스펠링 퀴즈 SECTION ================= -->
+      <!-- ================= 3. 주관식 스펠링 퀴즈 SECTION (모바일 최적화) ================= -->
       <section id="sec-spelling" class="hidden">
         
         <!-- Setup Screen -->
-        <div id="spl-setup" class="text-center py-6">
-          <h2 class="text-2xl font-bold text-slate-800 mb-2">주관식 스펠링 퀴즈</h2>
-          <p class="text-slate-600 mb-6 text-sm">영영풀이와 단어 글자 수를 확인하고 영어 단어 스펠링을 입력하세요. (10문제 무작위 추출)</p>
-          <button id="spl-start-btn" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5">
+        <div id="spl-setup" class="text-center py-4 sm:py-6">
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-800 mb-1 sm:mb-2">주관식 스펠링 퀴즈</h2>
+          <p class="text-slate-600 mb-5 sm:mb-6 text-xs sm:text-sm">영영풀이를 확인하고 정답 스펠링을 입력하세요. (10문제 무작위)</p>
+          <button id="spl-start-btn" class="w-full sm:w-auto px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base sm:text-lg rounded-xl shadow-lg transition-all">
             ✍️ 스펠링 퀴즈 시작하기
           </button>
         </div>
 
         <!-- Play Screen -->
         <div id="spl-play" class="hidden">
-          <div class="w-full bg-slate-200 h-2 mb-6 rounded-full overflow-hidden">
-            <div id="spl-progress-bar" class="bg-indigo-500 h-2 transition-all duration-300" style="width: 10%"></div>
+          <div class="w-full bg-slate-200 h-1.5 sm:h-2 mb-4 sm:mb-6 rounded-full overflow-hidden">
+            <div id="spl-progress-bar" class="bg-indigo-500 h-full transition-all duration-300" style="width: 10%"></div>
           </div>
 
-          <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
-            <span id="spl-badge" class="px-3 py-1 bg-indigo-100 text-indigo-700 font-bold text-sm rounded-md">Q1 / 10</span>
-            <div class="text-sm text-slate-500 font-medium">
+          <div class="flex justify-between items-center mb-3 sm:mb-6 pb-2 sm:pb-4 border-b border-slate-100">
+            <span id="spl-badge" class="px-2.5 py-1 bg-indigo-100 text-indigo-700 font-bold text-xs sm:text-sm rounded-md">Q1 / 10</span>
+            <div class="text-xs sm:text-sm text-slate-500 font-medium">
               현재 점수: <span id="spl-score" class="text-indigo-600 font-bold">0</span> / 10
             </div>
           </div>
 
-          <!-- Definition Box -->
-          <div class="mb-6 bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
-            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-500 mb-1 block">English Definition</span>
-            <p id="spl-def" class="text-lg sm:text-xl font-medium text-slate-800 leading-relaxed mb-3"></p>
-            <div class="flex items-center gap-2 text-slate-500 text-sm font-semibold">
-              <span>힌트 (글자 수):</span>
-              <span id="spl-hint-length" class="px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded border border-indigo-200 font-mono">6 letters</span>
-              <span id="spl-hint-initial" class="px-2 py-0.5 bg-amber-50 text-amber-700 rounded border border-amber-200 font-mono">시작: a...</span>
+          <!-- Definition Box (모바일 가독성 증대) -->
+          <div class="mb-4 sm:mb-6 bg-slate-50 p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-indigo-500 mb-1 block">English Definition</span>
+            <p id="spl-def" class="text-base sm:text-xl font-medium text-slate-800 leading-snug sm:leading-relaxed mb-3 break-keep"></p>
+            
+            <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm font-semibold">
+              <span class="text-slate-500">힌트:</span>
+              <span id="spl-hint-length" class="px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded border border-indigo-200 font-mono text-xs">6 letters</span>
+              <span id="spl-hint-initial" class="px-2 py-0.5 bg-amber-50 text-amber-700 rounded border border-amber-200 font-mono text-xs">시작: a...</span>
             </div>
           </div>
 
-          <!-- Input Form -->
-          <form id="spl-form" class="mb-6" onsubmit="return false;">
-            <div class="flex gap-2">
+          <!-- Input Form (모바일 세로배치 최적화) -->
+          <form id="spl-form" class="mb-4 sm:mb-6" onsubmit="return false;">
+            <div class="flex flex-col sm:flex-row gap-2.5">
               <input type="text" id="spl-input" placeholder="영단어를 입력하세요..." autocomplete="off" spellcheck="false"
-                class="flex-1 p-4 rounded-xl border-2 border-slate-300 focus:border-indigo-600 focus:outline-none text-lg font-semibold tracking-wide">
-              <button type="submit" id="spl-submit-btn" class="px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow transition-all">
+                class="w-full p-3.5 sm:p-4 rounded-xl border-2 border-slate-300 focus:border-indigo-600 focus:outline-none text-base sm:text-lg font-semibold tracking-wide shadow-sm">
+              <button type="submit" id="spl-submit-btn" class="w-full sm:w-auto px-7 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow transition-all shrink-0 text-base">
                 제출
               </button>
             </div>
           </form>
 
           <!-- Feedback Box -->
-          <div id="spl-feedback" class="hidden mb-6 p-5 rounded-xl border transition-all duration-300">
-            <div id="spl-fb-header" class="font-bold text-lg mb-2 flex items-center gap-2"></div>
-            <div class="text-slate-700 space-y-1 text-sm sm:text-base">
-              <p><strong>정답 단어:</strong> <span id="spl-exp-word" class="font-bold text-indigo-700 font-mono"></span></p>
+          <div id="spl-feedback" class="hidden mb-4 sm:mb-6 p-4 sm:p-5 rounded-xl border transition-all duration-300">
+            <div id="spl-fb-header" class="font-bold text-base sm:text-lg mb-2 flex items-center gap-2"></div>
+            <div class="text-slate-700 space-y-1 text-xs sm:text-base">
+              <p><strong>정답 단어:</strong> <span id="spl-exp-word" class="font-bold text-indigo-700 font-mono text-sm sm:text-base"></span></p>
               <p><strong>한글 뜻:</strong> <span id="spl-exp-meaning"></span></p>
-              <p><strong>예문:</strong> <span id="spl-exp-ex" class="italic text-slate-600"></span></p>
+              <p><strong>예문:</strong> <span id="spl-exp-ex" class="italic text-slate-600 break-keep"></span></p>
             </div>
           </div>
 
           <div class="flex justify-end">
-            <button id="spl-next-btn" class="hidden px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all">
+            <button id="spl-next-btn" class="hidden w-full sm:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all text-base">
               다음 문제 →
             </button>
           </div>
         </div>
 
         <!-- Result Screen -->
-        <div id="spl-result" class="hidden text-center py-8">
-          <div class="inline-flex p-4 bg-indigo-100 text-indigo-600 rounded-full mb-4 text-4xl">🌟</div>
-          <h2 class="text-3xl font-bold text-slate-800 mb-2">스펠링 퀴즈 완료!</h2>
-          <div class="bg-slate-50 p-6 rounded-2xl max-w-sm mx-auto my-6 border border-slate-200">
-            <div class="text-4xl font-extrabold text-indigo-600 mb-2">
-              <span id="spl-final-score">0</span> <span class="text-xl font-normal text-slate-500">/ 10</span>
+        <div id="spl-result" class="hidden text-center py-6 sm:py-8">
+          <div class="inline-flex p-3 sm:p-4 bg-indigo-100 text-indigo-600 rounded-full mb-3 sm:mb-4 text-3xl sm:text-4xl">🌟</div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-1 sm:mb-2">스펠링 퀴즈 완료!</h2>
+          <div class="bg-slate-50 p-5 sm:p-6 rounded-2xl max-w-sm mx-auto my-4 sm:my-6 border border-slate-200">
+            <div class="text-3xl sm:text-4xl font-extrabold text-indigo-600 mb-1 sm:mb-2">
+              <span id="spl-final-score">0</span> <span class="text-lg sm:text-xl font-normal text-slate-500">/ 10</span>
             </div>
-            <p id="spl-final-acc" class="text-slate-500 text-sm font-medium">정답률: 0%</p>
+            <p id="spl-final-acc" class="text-slate-500 text-xs sm:text-sm font-medium">정답률: 0%</p>
           </div>
-          <button id="spl-restart-btn" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all">
+          <button id="spl-restart-btn" class="w-full sm:w-auto px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all text-base">
             🔄 새로운 10문제 도전하기
           </button>
         </div>
@@ -261,7 +263,6 @@
   </div>
 
   <script>
-    // 52개 어휘 전체 데이터셋
     const vocabularyData = [
       { id: 1, word: "affect", meaning: "영향을 미치다", def: "to influence someone or something", ex: "Your opinion will affect many people." },
       { id: 2, word: "effect", meaning: "결과, 영향, 효과", def: "a change that is caused by something", ex: "His words had a soothing effect." },
@@ -317,7 +318,6 @@
       { id: 52, word: "worm", meaning: "벌레", def: "a small animal with a long, narrow, soft body and no legs", ex: "The early bird catches the worm." }
     ];
 
-    // Sound Generator
     let soundEnabled = true;
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playSound(type) {
@@ -355,7 +355,6 @@
       return arr;
     }
 
-    // Sound Toggle
     const soundToggle = document.getElementById('sound-toggle');
     soundToggle.addEventListener('click', () => {
       soundEnabled = !soundEnabled;
@@ -364,7 +363,6 @@
       soundToggle.classList.toggle('bg-indigo-500', soundEnabled);
     });
 
-    // Navigation Switcher
     const navFlashcard = document.getElementById('nav-flashcard');
     const navMcq = document.getElementById('nav-mcq');
     const navSpelling = document.getElementById('nav-spelling');
@@ -374,9 +372,9 @@
 
     function setActiveTab(btn, sec) {
       [navFlashcard, navMcq, navSpelling].forEach(b => {
-        b.className = "px-4 py-2 rounded-lg text-slate-600 hover:text-indigo-600 transition-all";
+        b.className = "px-2.5 py-2 sm:px-4 sm:py-2 rounded-lg text-slate-600 hover:text-indigo-600 transition-all shrink-0";
       });
-      btn.className = "px-4 py-2 rounded-lg text-indigo-600 bg-indigo-50 font-bold transition-all";
+      btn.className = "px-2.5 py-2 sm:px-4 sm:py-2 rounded-lg text-indigo-600 bg-indigo-50 font-bold transition-all shrink-0";
       [secFlashcard, secMcq, secSpelling].forEach(s => s.classList.add('hidden'));
       sec.classList.remove('hidden');
     }
@@ -385,9 +383,7 @@
     navMcq.addEventListener('click', () => setActiveTab(navMcq, secMcq));
     navSpelling.addEventListener('click', () => setActiveTab(navSpelling, secSpelling));
 
-    // ==========================================
-    // 1. FLASHCARD LOGIC
-    // ==========================================
+    // FLASHCARD
     let fcList = [...vocabularyData];
     let fcIndex = 0;
     let fcFlipped = false;
@@ -434,9 +430,7 @@
 
     renderFlashcard();
 
-    // ==========================================
-    // 2. 5지선다 퀴즈 LOGIC
-    // ==========================================
+    // MCQ
     let mcqTargetCount = 20;
     let mcqQuizList = [];
     let mcqIndex = 0;
@@ -451,9 +445,9 @@
     mcqCountBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         mcqCountBtns.forEach(b => {
-          b.className = 'mcq-count-btn py-3 border-2 border-slate-200 hover:border-indigo-400 font-bold rounded-xl text-slate-700 transition-all';
+          b.className = 'mcq-count-btn py-2.5 sm:py-3 border-2 border-slate-200 hover:border-indigo-400 font-bold rounded-xl text-slate-700 text-xs sm:text-base transition-all';
         });
-        btn.className = 'mcq-count-btn py-3 border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-bold rounded-xl transition-all';
+        btn.className = 'mcq-count-btn py-2.5 sm:py-3 border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-bold rounded-xl text-xs sm:text-base transition-all';
         mcqTargetCount = parseInt(btn.dataset.count);
       });
     });
@@ -494,11 +488,11 @@
 
       options.forEach((opt, idx) => {
         const btn = document.createElement('button');
-        btn.className = 'w-full text-left p-4 rounded-xl border border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/50 font-medium text-slate-700 transition-all flex items-center justify-between group';
+        btn.className = 'w-full text-left p-3.5 sm:p-4 rounded-xl border border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/50 font-medium text-slate-700 transition-all flex items-center justify-between group text-sm sm:text-lg';
         btn.innerHTML = `
-          <div class="flex items-center gap-3">
-            <span class="w-7 h-7 rounded-full bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors">${idx + 1}</span>
-            <span class="text-base sm:text-lg">${opt.word}</span>
+          <div class="flex items-center gap-2.5 sm:gap-3">
+            <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors shrink-0">${idx + 1}</span>
+            <span>${opt.word}</span>
           </div>
         `;
         btn.addEventListener('click', () => handleMcqSelect(btn, opt, item));
@@ -518,9 +512,9 @@
         playSound('correct');
         selectedBtn.classList.remove('bg-white', 'border-slate-200');
         selectedBtn.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900', 'ring-2', 'ring-emerald-400');
-        header.className = "font-bold text-lg mb-2 text-emerald-700";
+        header.className = "font-bold text-base sm:text-lg mb-2 text-emerald-700";
         header.innerHTML = "<span>✅ 정답입니다!</span>";
-        fb.className = "mb-6 p-5 rounded-xl border bg-emerald-50/80 border-emerald-200";
+        fb.className = "mb-4 sm:mb-6 p-4 sm:p-5 rounded-xl border bg-emerald-50/80 border-emerald-200";
         mcqScore++;
         document.getElementById('mcq-score').textContent = mcqScore;
       } else {
@@ -532,9 +526,9 @@
             b.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-800', 'font-bold');
           }
         });
-        header.className = "font-bold text-lg mb-2 text-rose-700";
+        header.className = "font-bold text-base sm:text-lg mb-2 text-rose-700";
         header.innerHTML = "<span>❌ 오답입니다.</span>";
-        fb.className = "mb-6 p-5 rounded-xl border bg-rose-50/80 border-rose-200";
+        fb.className = "mb-4 sm:mb-6 p-4 sm:p-5 rounded-xl border bg-rose-50/80 border-rose-200";
 
         if (!mcqIncorrect.some(i => i.id === correctItem.id)) {
           mcqIncorrect.push(correctItem);
@@ -582,9 +576,7 @@
       startMcqQuiz(shuffle(retryList), true);
     });
 
-    // ==========================================
-    // 3. 주관식 스펠링 퀴즈 LOGIC (무작위 10문제)
-    // ==========================================
+    // SPELLING
     let splQuizList = [];
     let splIndex = 0;
     let splScore = 0;
@@ -597,7 +589,6 @@
     const splSubmitBtn = document.getElementById('spl-submit-btn');
 
     document.getElementById('spl-start-btn').addEventListener('click', () => {
-      // 매번 랜덤 10문제 추출
       splQuizList = shuffle(vocabularyData).slice(0, 10);
       splIndex = 0;
       splScore = 0;
@@ -616,16 +607,19 @@
       splInput.value = '';
       splInput.disabled = false;
       splSubmitBtn.disabled = false;
-      splInput.focus();
-
+      
       const item = splQuizList[splIndex];
       document.getElementById('spl-badge').textContent = `Q${splIndex + 1} / 10`;
       document.getElementById('spl-progress-bar').style.width = `${((splIndex + 1) / 10) * 100}%`;
       document.getElementById('spl-def').textContent = `"${item.def}"`;
       
-      // Hints
       document.getElementById('spl-hint-length').textContent = `${item.word.length} letters`;
       document.getElementById('spl-hint-initial').textContent = `시작: ${item.word.charAt(0)}...`;
+
+      // 모바일 키보드 자동 조작 방지 (화면 짤림 최소화)
+      setTimeout(() => {
+        splInput.blur();
+      }, 50);
     }
 
     splForm.addEventListener('submit', (e) => {
@@ -645,16 +639,16 @@
 
       if (isCorrect) {
         playSound('correct');
-        header.className = "font-bold text-lg mb-2 text-emerald-700";
+        header.className = "font-bold text-base sm:text-lg mb-2 text-emerald-700";
         header.innerHTML = "<span>🎉 정확합니다!</span>";
-        fb.className = "mb-6 p-5 rounded-xl border bg-emerald-50/80 border-emerald-200";
+        fb.className = "mb-4 sm:mb-6 p-4 sm:p-5 rounded-xl border bg-emerald-50/80 border-emerald-200";
         splScore++;
         document.getElementById('spl-score').textContent = splScore;
       } else {
         playSound('incorrect');
-        header.className = "font-bold text-lg mb-2 text-rose-700";
+        header.className = "font-bold text-base sm:text-lg mb-2 text-rose-700";
         header.innerHTML = `<span>❌ 오답입니다. (입력: ${userAns || '미입력'})</span>`;
-        fb.className = "mb-6 p-5 rounded-xl border bg-rose-50/80 border-rose-200";
+        fb.className = "mb-4 sm:mb-6 p-4 sm:p-5 rounded-xl border bg-rose-50/80 border-rose-200";
       }
 
       document.getElementById('spl-exp-word').textContent = item.word;
@@ -689,3 +683,9 @@
   </script>
 </body>
 </html>
+'''
+
+with open("CGM_english_vocab_quiz.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("[file-tag: CGM_english_vocab_quiz.html]")
