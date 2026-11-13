@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 1학년 2학기 공통영어2 기말시험 필수 어휘</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* 3D 카드 플립 스타일 */
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    /* 스피커 파동 애니메이션 */
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); opacity: 0.7; }
+      70% { transform: scale(1.25); opacity: 0; }
+      100% { transform: scale(1.25); opacity: 0; }
+    }
+    .speaking-ring::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 9999px;
+      border: 2px solid #4f46e5;
+      animation: pulseRing 1s infinite;
+    }
+
+    /* 커스텀 스크롤바 */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-900">
+
+  <!-- 상단 네비게이션 헤더 -->
+  <header class="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-extrabold text-lg shadow-sm shrink-0">
+          V
+        </div>
+        <div>
+          <span class="inline-block text-[11px] font-bold tracking-wider uppercase text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">2026 1학년 2학기 기말대비</span>
+          <h1 class="text-base sm:text-lg font-extrabold text-slate-900 leading-tight">공통영어2 필수 어휘 마스터</h1>
+        </div>
+      </div>
+
+      <!-- 메인 모드 전환 탭 -->
+      <nav class="grid grid-cols-2 sm:flex bg-slate-100 p-1 rounded-xl border border-slate-200/80">
+        <button id="tab-study" onclick="switchMainTab('study')" class="flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold transition-all bg-white text-indigo-600 shadow-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          플래시카드 학습
+        </button>
+        <button id="tab-test" onclick="switchMainTab('test')" class="flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-600 hover:text-slate-900">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+          실전 어휘 테스트
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 토스트 알림 메시지 -->
+  <div id="toast-container" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 opacity-0 translate-y-2">
+    <div id="toast-message" class="bg-slate-900 text-white text-sm font-medium px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2">
+      <span>알림</span>
+    </div>
+  </div>
+
+  <!-- 메인 콘텐츠 영역 -->
+  <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6">
+
+    <!-- ==================== 1. 플래시카드 학습 뷰 ==================== -->
+    <section id="view-study" class="space-y-5">
+      <!-- 필터 및 컨트롤 바 -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <!-- 범위 선택 필터 -->
+        <div class="flex flex-wrap items-center gap-1.5">
+          <span class="text-xs font-bold text-slate-400 mr-1">학습 범위:</span>
+          <button onclick="setStudyRange('all')" data-range="all" class="range-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition">전체 (1~200)</button>
+          <button onclick="setStudyRange('1-100')" data-range="1-100" class="range-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">1~100번</button>
+          <button onclick="setStudyRange('101-200')" data-range="101-200" class="range-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">101~200번</button>
+          <button onclick="setStudyRange('starred')" data-range="starred" class="range-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-1">
+            <span>★ 별표/오답</span>
+            <span id="starred-count-badge" class="bg-amber-100 text-amber-700 px-1.5 py-0.2 rounded-full text-[10px]">0</span>
+          </button>
+        </div>
+
+        <!-- 보조 기능 버튼들 -->
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- 자동 발음 토글 -->
+          <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-100 hover:bg-slate-200/70 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 select-none transition">
+            <input type="checkbox" id="auto-speak-toggle" class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5" checked />
+            <span>자동 발음</span>
+          </label>
+
+          <!-- 카드 셔플 버튼 -->
+          <button onclick="shuffleStudyCards()" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition" title="카드 순서 무작위 섞기">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+            <span>순서 섞기</span>
+          </button>
+
+          <!-- 보기 모드 전환 (카드 / 전체 목록) -->
+          <button id="toggle-view-mode-btn" onclick="toggleStudyDisplayMode()" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-700 transition">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+            <span id="view-mode-text">전체 목록 보기</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- A. 단일 플래시카드 학습 영역 -->
+      <div id="flashcard-single-area" class="space-y-4">
+        <!-- 진행률 표시바 -->
+        <div class="flex items-center justify-between text-xs font-bold text-slate-500 px-1">
+          <span id="study-progress-text">1 / 200 단어</span>
+          <span class="hidden sm:inline text-slate-400 font-medium">단축키: [Space] 뒤집기 · [←/→] 이동 · [S] 발음 듣기</span>
+          <span id="study-percent-text" class="text-indigo-600">0.5%</span>
+        </div>
+        <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+          <div id="study-progress-bar" class="h-full bg-indigo-600 rounded-full transition-all duration-300" style="width: 0.5%"></div>
+        </div>
+
+        <!-- 3D 플립 카드 컨테이너 -->
+        <div class="perspective-1000 w-full max-w-2xl mx-auto my-2">
+          <div id="flashcard-inner" onclick="flipCard()" class="relative w-full h-72 sm:h-80 cursor-pointer transform-style-3d select-none">
+            
+            <!-- 카드 앞면 (영어 단어) -->
+            <div class="absolute inset-0 backface-hidden bg-white rounded-3xl border-2 border-slate-200/90 shadow-lg p-6 sm:p-8 flex flex-col justify-between">
+              <div class="flex items-center justify-between">
+                <span id="card-front-num" class="px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-extrabold tracking-wide">#1</span>
+                <div class="flex items-center gap-2">
+                  <!-- 발음 듣기 버튼 -->
+                  <button type="button" onclick="event.stopPropagation(); speakCurrentWord(this);" class="speak-btn relative w-10 h-10 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-600 flex items-center justify-center transition shadow-xs" title="영어 발음 듣기 (S)">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                  </button>
+                  <!-- 즐겨찾기 별표 버튼 -->
+                  <button type="button" onclick="event.stopPropagation(); toggleStarCurrent();" class="star-btn w-10 h-10 rounded-full bg-slate-50 hover:bg-amber-50 text-slate-300 flex items-center justify-center transition" title="중요 단어 별표 표시">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="text-center my-auto px-2">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2">ENGLISH WORD</p>
+                <h2 id="card-word-text" class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight break-words">abundant</h2>
+              </div>
+
+              <div class="text-center">
+                <span class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400 bg-slate-100 px-3 py-1 rounded-full">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                  카드를 클릭하여 뜻 확인
+                </span>
+              </div>
+            </div>
+
+            <!-- 카드 뒷면 (한글 뜻) -->
+            <div class="absolute inset-0 backface-hidden rotate-y-180 bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-3xl shadow-lg p-6 sm:p-8 flex flex-col justify-between">
+              <div class="flex items-center justify-between">
+                <span id="card-back-num" class="px-3 py-1 rounded-full bg-white/15 text-white text-xs font-extrabold tracking-wide">#1 · abundant</span>
+                <div class="flex items-center gap-2">
+                  <!-- 뒷면 발음 듣기 버튼 -->
+                  <button type="button" onclick="event.stopPropagation(); speakCurrentWord(this);" class="speak-btn relative w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center transition" title="영어 발음 듣기">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                  </button>
+                  <!-- 뒷면 즐겨찾기 별표 버튼 -->
+                  <button type="button" onclick="event.stopPropagation(); toggleStarCurrent();" class="star-btn w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 text-white/50 flex items-center justify-center transition" title="중요 단어 별표 표시">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="text-center my-auto px-2">
+                <p class="text-xs font-semibold text-indigo-200 uppercase tracking-widest mb-2">KOREAN MEANING</p>
+                <h2 id="card-meaning-text" class="text-2xl sm:text-4xl font-extrabold text-white leading-snug break-keep">풍부한</h2>
+              </div>
+
+              <div class="text-center">
+                <span class="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-100 bg-white/10 px-3 py-1 rounded-full">
+                  다시 클릭하면 영어 단어로 돌아갑니다
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 이전 / 뒤집기 / 다음 하단 컨트롤 버튼 -->
+        <div class="max-w-2xl mx-auto grid grid-cols-3 gap-3 pt-1">
+          <button onclick="prevCard()" class="flex items-center justify-center gap-1.5 py-3.5 px-4 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 active:scale-[0.99] text-slate-700 font-bold text-sm shadow-xs transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+            <span>이전 단어</span>
+          </button>
+
+          <button onclick="flipCard()" class="flex items-center justify-center gap-1.5 py-3.5 px-4 rounded-2xl bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 active:scale-[0.99] text-indigo-700 font-bold text-sm transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+            <span>카드 뒤집기</span>
+          </button>
+
+          <button onclick="nextCard()" class="flex items-center justify-center gap-1.5 py-3.5 px-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-bold text-sm shadow-sm transition">
+            <span>다음 단어</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- B. 전체 단어 그리드/리스트 보기 영역 (토글 시 표시) -->
+      <div id="flashcard-grid-area" class="hidden space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-slate-200">
+          <div class="relative flex-1">
+            <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <input type="text" id="grid-search-input" oninput="renderWordGrid()" placeholder="영어 단어 또는 한글 뜻 검색..." class="w-full pl-10 pr-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white" />
+          </div>
+          <label class="inline-flex items-center gap-2 text-xs font-bold text-slate-600 cursor-pointer select-none px-2">
+            <input type="checkbox" id="hide-meanings-toggle" onchange="renderWordGrid()" class="rounded text-indigo-600 focus:ring-indigo-500" />
+            <span>한글 뜻 가리기 (암기 확인용)</span>
+          </label>
+        </div>
+
+        <div id="word-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <!-- JS로 동적 생성 -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==================== 2. 실전 어휘 테스트 뷰 ==================== -->
+    <section id="view-test" class="hidden">
+
+      <!-- 2-1. 테스트 설정 화면 -->
+      <div id="test-setup-panel" class="max-w-xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
+        <div class="text-center space-y-2">
+          <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">실전 어휘 테스트 설정</h2>
+          <p class="text-sm text-slate-500">
+            영어 단어를 보고 뜻을 찾는 문제(50%)와 한글 뜻을 보고 단어를 찾는 문제(50%)가 동일한 비율로 무작위 출제됩니다.
+          </p>
+        </div>
+
+        <!-- 출제 범위 선택 -->
+        <div class="space-y-2.5">
+          <label class="block text-xs font-extrabold uppercase tracking-wider text-slate-500">1. 출제 범위 선택</label>
+          <div class="grid grid-cols-3 gap-2.5">
+            <button type="button" onclick="selectTestRange('all')" data-test-range="all" class="test-range-btn py-3 px-3 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-bold text-sm text-center transition">
+              전체 범위<br><span class="text-xs font-medium opacity-80">1 ~ 200번</span>
+            </button>
+            <button type="button" onclick="selectTestRange('1-100')" data-test-range="1-100" class="test-range-btn py-3 px-3 rounded-xl border-2 border-slate-200 bg-white text-slate-700 hover:border-slate-300 font-bold text-sm text-center transition">
+              전반부<br><span class="text-xs font-medium text-slate-400">1 ~ 100번</span>
+            </button>
+            <button type="button" onclick="selectTestRange('101-200')" data-test-range="101-200" class="test-range-btn py-3 px-3 rounded-xl border-2 border-slate-200 bg-white text-slate-700 hover:border-slate-300 font-bold text-sm text-center transition">
+              후반부<br><span class="text-xs font-medium text-slate-400">101 ~ 200번</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 출제 문항 수 선택 (50단어 / 100단어) -->
+        <div class="space-y-2.5">
+          <label class="block text-xs font-extrabold uppercase tracking-wider text-slate-500">2. 출제 문항 수 선택</label>
+          <div class="grid grid-cols-2 gap-3">
+            <button type="button" onclick="selectTestCount(50)" data-test-count="50" class="test-count-btn p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50 text-indigo-700 text-left transition">
+              <div class="flex items-center justify-between">
+                <span class="text-lg font-extrabold">50 단어</span>
+                <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-indigo-600 text-white">표준</span>
+              </div>
+              <p class="text-xs mt-1 opacity-80">영어 25문제 + 한글 25문제</p>
+            </button>
+
+            <button type="button" onclick="selectTestCount(100)" data-test-count="100" class="test-count-btn p-4 rounded-2xl border-2 border-slate-200 bg-white text-slate-700 hover:border-slate-300 text-left transition">
+              <div class="flex items-center justify-between">
+                <span class="text-lg font-extrabold">100 단어</span>
+                <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-600">집중</span>
+              </div>
+              <p class="text-xs mt-1 text-slate-400">영어 50문제 + 한글 50문제</p>
+            </button>
+          </div>
+        </div>
+
+        <button onclick="startNewTest()" class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-extrabold text-base shadow-md shadow-indigo-200 transition flex items-center justify-center gap-2">
+          <span>테스트 시작하기</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+        </button>
+      </div>
+
+      <!-- 2-2. 테스트 진행 화면 -->
+      <div id="test-active-panel" class="hidden max-w-2xl mx-auto space-y-5">
+        <!-- 상단 진행바 및 중단 버튼 -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-2.5">
+          <div class="flex items-center justify-between text-xs font-bold">
+            <div class="flex items-center gap-2">
+              <span id="test-mode-badge" class="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700">실전 테스트</span>
+              <span id="test-q-counter" class="text-slate-700 text-sm">1 / 50</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span id="test-live-score" class="text-emerald-600">정답 0</span>
+              <button onclick="quitTestToSetup()" class="text-slate-400 hover:text-rose-600 underline font-semibold">중단하기</button>
+            </div>
+          </div>
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div id="test-progress-bar" class="h-full bg-indigo-600 rounded-full transition-all duration-300" style="width: 2%"></div>
+          </div>
+        </div>
+
+        <!-- 문제 카드 -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
+          <div class="flex items-center justify-between">
+            <span id="test-q-type-label" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600">
+              다음 영어 단어의 알맞은 뜻을 고르세요
+            </span>
+            <button id="test-speak-btn" type="button" onclick="speakTestPromptWord(this)" class="relative w-9 h-9 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-600 flex items-center justify-center transition" title="발음 듣기">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+            </button>
+          </div>
+
+          <div class="text-center py-4 sm:py-6">
+            <h3 id="test-prompt-text" class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight break-keep">
+              abundant
+            </h3>
+          </div>
+
+          <!-- 4지선다 보기 목록 -->
+          <div id="test-options-container" class="grid grid-cols-1 gap-3">
+            <!-- JS 동적 생성 -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-3. 테스트 결과 및 오답 즉시 복습/재응시 화면 -->
+      <div id="test-result-panel" class="hidden max-w-3xl mx-auto space-y-6">
+        <!-- 결과 요약 카드 -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8 text-center space-y-5">
+          <div id="result-badge-icon" class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto text-3xl font-extrabold">
+            🎉
+          </div>
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider text-indigo-600 mb-1">TEST COMPLETED</p>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">테스트 결과 리포트</h2>
+          </div>
+
+          <!-- 점수 통계 박스 -->
+          <div class="grid grid-cols-3 gap-3 max-w-lg mx-auto">
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+              <p class="text-xs font-semibold text-slate-500">최종 점수</p>
+              <p id="result-score-text" class="text-2xl sm:text-3xl font-extrabold text-indigo-600 mt-1">88점</p>
+            </div>
+            <div class="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-100">
+              <p class="text-xs font-semibold text-emerald-700">맞힌 개수</p>
+              <p id="result-correct-text" class="text-2xl sm:text-3xl font-extrabold text-emerald-600 mt-1">44</p>
+            </div>
+            <div class="bg-rose-50/70 p-4 rounded-2xl border border-rose-100">
+              <p class="text-xs font-semibold text-rose-700">틀린 개수</p>
+              <p id="result-wrong-text" class="text-2xl sm:text-3xl font-extrabold text-rose-600 mt-1">6</p>
+            </div>
+          </div>
+
+          <!-- 액션 버튼 그룹 -->
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+            <button id="retry-wrong-btn" onclick="retryWrongQuestions()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-sm shadow-md shadow-rose-200 transition flex items-center justify-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+              <span>틀린 문제만 바로 재응시하기 (<span id="retry-wrong-count">0</span>문제)</span>
+            </button>
+
+            <button onclick="quitTestToSetup()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm transition">
+              새 테스트 설정하기
+            </button>
+          </div>
+        </div>
+
+        <!-- 오답 즉시 복습 섹션 -->
+        <div id="wrong-review-section" class="space-y-3">
+          <div class="flex items-center justify-between px-1">
+            <h3 class="text-lg font-extrabold text-slate-900 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+              <span>틀린 단어 즉시 복습하기</span>
+            </h3>
+            <button onclick="addAllWrongToStarred()" class="text-xs font-bold text-amber-700 bg-amber-100 hover:bg-amber-200 px-3 py-1.5 rounded-lg transition">
+              ★ 틀린 단어 모두 별표 저장
+            </button>
+          </div>
+          <p class="text-xs text-slate-500 px-1">스피커 버튼을 눌러 발음을 듣고 뜻을 다시 확인한 뒤, 위의 <strong>'틀린 문제만 바로 재응시하기'</strong>를 눌러보세요.</p>
+
+          <div id="wrong-words-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- JS 동적 렌더링 -->
+          </div>
+        </div>
+
+        <!-- 만점 축하 메시지 (틀린 문제가 없을 때) -->
+        <div id="perfect-score-banner" class="hidden bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center space-y-1">
+          <p class="text-base font-extrabold text-emerald-800">완벽합니다! 틀린 문제가 하나도 없습니다.</p>
+          <p class="text-xs text-emerald-600">다른 범위나 더 많은 문항 수로 실력을 다시 점검해보세요.</p>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+    // =========================================================================
+    // 1. 2026 1학년 2학기 공통영어2 기말시험 필수 어휘 데이터 (총 200단어)
+    // =========================================================================
+    const VOCAB_DATA = [
+      { id: 1, word: "abundant", meaning: "풍부한" },
+      { id: 2, word: "abstraction", meaning: "추상, 추상적 개념" },
+      { id: 3, word: "accomplish", meaning: "성취하다, 달성하다" },
+      { id: 4, word: "accustomed", meaning: "익숙해진" },
+      { id: 5, word: "acknowledge", meaning: "인정하다" },
+      { id: 6, word: "address", meaning: "다루다, 해결하다" },
+      { id: 7, word: "adopt", meaning: "채택하다, 받아들이다" },
+      { id: 8, word: "advance", meaning: "진보하다, 발전하다" },
+      { id: 9, word: "adventurous", meaning: "모험심이 강한" },
+      { id: 10, word: "align", meaning: "나란히 하다, 일치시키다" },
+      { id: 11, word: "allocate", meaning: "할당하다, 배분하다" },
+      { id: 12, word: "allowance", meaning: "용돈, 수당" },
+      { id: 13, word: "alter", meaning: "바꾸다, 변경하다" },
+      { id: 14, word: "alternative", meaning: "대안" },
+      { id: 15, word: "ambitious", meaning: "야심 찬" },
+      { id: 16, word: "analyze", meaning: "분석하다" },
+      { id: 17, word: "ancestor", meaning: "조상" },
+      { id: 18, word: "apparent", meaning: "분명한, 명백한" },
+      { id: 19, word: "apply", meaning: "지원하다, 적용하다" },
+      { id: 20, word: "appreciate", meaning: "진가를 알아보다, 감사하다" },
+      { id: 21, word: "approach", meaning: "접근법, 다가가다" },
+      { id: 22, word: "artificial", meaning: "인공적인, 인위적인" },
+      { id: 23, word: "aspect", meaning: "측면, 양상" },
+      { id: 24, word: "assess", meaning: "평가하다" },
+      { id: 25, word: "associate", meaning: "연관 짓다, 연상하다" },
+      { id: 26, word: "assume", meaning: "가정하다, 추정하다" },
+      { id: 27, word: "assumption", meaning: "가정, 전제" },
+      { id: 28, word: "asteroid", meaning: "소행성" },
+      { id: 29, word: "astonish", meaning: "깜짝 놀라게 하다" },
+      { id: 30, word: "astronaut", meaning: "우주비행사" },
+      { id: 31, word: "astronomy", meaning: "천문학" },
+      { id: 32, word: "atmosphere", meaning: "대기, 분위기" },
+      { id: 33, word: "attempt", meaning: "시도하다" },
+      { id: 34, word: "benefit", meaning: "이익, 혜택을 받다" },
+      { id: 35, word: "biologically", meaning: "생물학적으로" },
+      { id: 36, word: "brief", meaning: "간결한, 짧은" },
+      { id: 37, word: "broadcast", meaning: "방송하다, 널리 알리다" },
+      { id: 38, word: "budget", meaning: "예산, 예산을 짜다" },
+      { id: 39, word: "burden", meaning: "부담, 짐" },
+      { id: 40, word: "campaign", meaning: "캠페인, 군사 작전" },
+      { id: 41, word: "candidate", meaning: "후보자, 지원자" },
+      { id: 42, word: "capture", meaning: "포착하다, 사로잡다" },
+      { id: 43, word: "celebrate", meaning: "기념하다, 찬양하다" },
+      { id: 44, word: "characterization", meaning: "특성화, 성격 묘사" },
+      { id: 45, word: "chasm", meaning: "큰 차이, 격차" },
+      { id: 46, word: "chronic", meaning: "만성적인" },
+      { id: 47, word: "circumstance", meaning: "상황, 환경" },
+      { id: 48, word: "clinical", meaning: "임상의" },
+      { id: 49, word: "collaborate", meaning: "협력하다" },
+      { id: 50, word: "colleague", meaning: "동료" },
+      { id: 51, word: "collectively", meaning: "집합적으로, 총칭하여" },
+      { id: 52, word: "combination", meaning: "조합, 결합" },
+      { id: 53, word: "commercial", meaning: "상업적인" },
+      { id: 54, word: "commitment", meaning: "헌신, 전념" },
+      { id: 55, word: "communicate", meaning: "의사소통하다" },
+      { id: 56, word: "community", meaning: "공동체, 지역 사회" },
+      { id: 57, word: "compare", meaning: "비교하다" },
+      { id: 58, word: "competition", meaning: "경쟁, 대회" },
+      { id: 59, word: "complicate", meaning: "복잡하게 만들다" },
+      { id: 60, word: "compose", meaning: "구성하다, 작곡하다" },
+      { id: 61, word: "comprehensible", meaning: "이해할 수 있는" },
+      { id: 62, word: "concept", meaning: "개념" },
+      { id: 63, word: "concern", meaning: "우려, 관심사" },
+      { id: 64, word: "conclude", meaning: "결론을 내리다" },
+      { id: 65, word: "conduct", meaning: "수행하다, 실시하다" },
+      { id: 66, word: "confirm", meaning: "확인하다, 입증하다" },
+      { id: 67, word: "consequence", meaning: "결과, 중요성" },
+      { id: 68, word: "consider", meaning: "고려하다, 여기다" },
+      { id: 69, word: "consist", meaning: "구성되다, 이루어지다" },
+      { id: 70, word: "constant", meaning: "끊임없는, 일정한" },
+      { id: 71, word: "consult", meaning: "참고하다, 상담하다" },
+      { id: 72, word: "consume", meaning: "소비하다" },
+      { id: 73, word: "consumption", meaning: "소비, 소모" },
+      { id: 74, word: "contemporary", meaning: "현대의, 동시대의" },
+      { id: 75, word: "context", meaning: "맥락, 정황" },
+      { id: 76, word: "contraction", meaning: "축소, 수축" },
+      { id: 77, word: "contrast", meaning: "대조, 대비되다" },
+      { id: 78, word: "contribute", meaning: "기여하다, 공헌하다" },
+      { id: 79, word: "convey", meaning: "전달하다" },
+      { id: 80, word: "cope", meaning: "대처하다, 극복하다" },
+      { id: 81, word: "corporate", meaning: "기업의, 법인의" },
+      { id: 82, word: "cosmetics", meaning: "화장품" },
+      { id: 83, word: "creativity", meaning: "창의성" },
+      { id: 84, word: "critical", meaning: "중요한, 비판적인" },
+      { id: 85, word: "crucially", meaning: "결정적으로" },
+      { id: 86, word: "curfew", meaning: "통금 시간" },
+      { id: 87, word: "curiosity", meaning: "호기심" },
+      { id: 88, word: "current", meaning: "현재의" },
+      { id: 89, word: "deceive", meaning: "속이다, 기만하다" },
+      { id: 90, word: "declare", meaning: "선언하다, 공표하다" },
+      { id: 91, word: "decrease", meaning: "감소하다, 줄이다" },
+      { id: 92, word: "default", meaning: "기본값, 체납" },
+      { id: 93, word: "defeat", meaning: "물리치다, 패배시키다" },
+      { id: 94, word: "defensive", meaning: "방어적인" },
+      { id: 95, word: "define", meaning: "정의하다, 규정하다" },
+      { id: 96, word: "delight", meaning: "기쁨, 즐거움" },
+      { id: 97, word: "delineate", meaning: "기술하다, 윤곽을 그리다" },
+      { id: 98, word: "deliver", meaning: "배달하다, 전달하다" },
+      { id: 99, word: "demand", meaning: "요구하다, 수요" },
+      { id: 100, word: "demonstrate", meaning: "보여주다, 입증하다" },
+      { id: 101, word: "deny", meaning: "부인하다, 거부하다" },
+      { id: 102, word: "depict", meaning: "묘사하다, 그리다" },
+      { id: 103, word: "deposit", meaning: "매장층, 예금하다" },
+      { id: 104, word: "desire", meaning: "욕구, 바라다" },
+      { id: 105, word: "designation", meaning: "지정, 명칭" },
+      { id: 106, word: "determine", meaning: "결정하다, 밝혀내다" },
+      { id: 107, word: "develop", meaning: "개발하다, 발전하다" },
+      { id: 108, word: "device", meaning: "장치, 기기" },
+      { id: 109, word: "dictate", meaning: "받아쓰게 하다, 좌우하다" },
+      { id: 110, word: "dimension", meaning: "차원, 측면" },
+      { id: 111, word: "disable", meaning: "비활성화하다, 무력하게 하다" },
+      { id: 112, word: "disappear", meaning: "사라지다" },
+      { id: 113, word: "discourse", meaning: "담론, 논의" },
+      { id: 114, word: "discover", meaning: "발견하다" },
+      { id: 115, word: "disenchanted", meaning: "환멸을 느낀, 실망한" },
+      { id: 116, word: "disguise", meaning: "변장, 위장하다" },
+      { id: 117, word: "disobedience", meaning: "불복종, 반항" },
+      { id: 118, word: "distort", meaning: "왜곡하다" },
+      { id: 119, word: "disturb", meaning: "방해하다, 교란하다" },
+      { id: 120, word: "disturbance", meaning: "소란, 방해, 교란" },
+      { id: 121, word: "dramatic", meaning: "극적인" },
+      { id: 122, word: "drought", meaning: "가뭄" },
+      { id: 123, word: "duly", meaning: "적절히, 정당하게" },
+      { id: 124, word: "echo", meaning: "메아리치다, 동조하다" },
+      { id: 125, word: "efficiency", meaning: "효율성" },
+      { id: 126, word: "element", meaning: "요소, 성분" },
+      { id: 127, word: "emerge", meaning: "나타나다, 부상하다" },
+      { id: 128, word: "emission", meaning: "배출, 배기가스" },
+      { id: 129, word: "emotion", meaning: "감정" },
+      { id: 130, word: "emphasize", meaning: "강조하다" },
+      { id: 131, word: "employee", meaning: "직원, 고용인" },
+      { id: 132, word: "enable", meaning: "가능하게 하다" },
+      { id: 133, word: "encourage", meaning: "장려하다, 격려하다" },
+      { id: 134, word: "ensure", meaning: "보장하다, 확실하게 하다" },
+      { id: 135, word: "enthusiasm", meaning: "열정, 열의" },
+      { id: 136, word: "entity", meaning: "독립체, 실체" },
+      { id: 137, word: "entrepreneur", meaning: "기업가" },
+      { id: 138, word: "environment", meaning: "환경" },
+      { id: 139, word: "equip", meaning: "장비를 갖추다" },
+      { id: 140, word: "essential", meaning: "필수적인, 본질적인" },
+      { id: 141, word: "establish", meaning: "설립하다, 확립하다" },
+      { id: 142, word: "ethical", meaning: "윤리적인, 도덕적인" },
+      { id: 143, word: "evaluate", meaning: "평가하다" },
+      { id: 144, word: "evolutionary", meaning: "진화의, 진화론적인" },
+      { id: 145, word: "examine", meaning: "조사하다, 검토하다" },
+      { id: 146, word: "exceptionally", meaning: "유달리, 예외적으로" },
+      { id: 147, word: "execute", meaning: "처형하다, 실행하다" },
+      { id: 148, word: "exhibit", meaning: "보이다, 전시하다" },
+      { id: 149, word: "exhibition", meaning: "전시회" },
+      { id: 150, word: "exist", meaning: "존재하다" },
+      { id: 151, word: "expansion", meaning: "확장, 팽창" },
+      { id: 152, word: "expect", meaning: "기대하다, 예상하다" },
+      { id: 153, word: "expense", meaning: "비용, 희생" },
+      { id: 154, word: "experience", meaning: "경험, 경험하다" },
+      { id: 155, word: "explore", meaning: "탐험하다, 탐구하다" },
+      { id: 156, word: "expose", meaning: "폭로하다, 노출시키다" },
+      { id: 157, word: "express", meaning: "표현하다, 나타내다" },
+      { id: 158, word: "extinguish", meaning: "끄다, 소멸시키다" },
+      { id: 159, word: "extremely", meaning: "극도로, 매우" },
+      { id: 160, word: "facial", meaning: "얼굴의" },
+      { id: 161, word: "factor", meaning: "요인, 요소" },
+      { id: 162, word: "familiar", meaning: "친숙한, 익숙한" },
+      { id: 163, word: "fantasy", meaning: "환상, 공상" },
+      { id: 164, word: "fascinating", meaning: "매력적인, 흥미진진한" },
+      { id: 165, word: "feature", meaning: "특징으로 삼다, 특징" },
+      { id: 166, word: "figure", meaning: "인물, 모습, 수치" },
+      { id: 167, word: "financial", meaning: "재정적인, 금융의" },
+      { id: 168, word: "flexibility", meaning: "유연성, 융통성" },
+      { id: 169, word: "float", meaning: "떠다니다, 뜨다" },
+      { id: 170, word: "focus", meaning: "집중하다, 초점" },
+      { id: 171, word: "force", meaning: "강요하다, 힘" },
+      { id: 172, word: "fortunately", meaning: "다행히도, 운 좋게" },
+      { id: 173, word: "foundation", meaning: "기초, 토대" },
+      { id: 174, word: "framework", meaning: "틀, 체제, 뼈대" },
+      { id: 175, word: "frontier", meaning: "개척지, 국경" },
+      { id: 176, word: "function", meaning: "기능하다, 작용하다" },
+      { id: 177, word: "fundamental", meaning: "근본적인, 핵심적인" },
+      { id: 178, word: "generosity", meaning: "관대함, 너그러움" },
+      { id: 179, word: "highlight", meaning: "강조하다, 부각시키다" },
+      { id: 180, word: "hostile", meaning: "적대적인" },
+      { id: 181, word: "hygiene", meaning: "위생" },
+      { id: 182, word: "identify", meaning: "확인하다, 식별하다" },
+      { id: 183, word: "illegal", meaning: "불법적인" },
+      { id: 184, word: "immortal", meaning: "불멸의, 죽지 않는" },
+      { id: 185, word: "incorporate", meaning: "종합하다, 포함하다" },
+      { id: 186, word: "incredible", meaning: "믿을 수 없는, 놀라운" },
+      { id: 187, word: "indicate", meaning: "나타내다, 가리키다" },
+      { id: 188, word: "indicator", meaning: "지표, 척도" },
+      { id: 189, word: "induce", meaning: "유도하다, 유발하다" },
+      { id: 190, word: "inevitably", meaning: "불가피하게, 필연적으로" },
+      { id: 191, word: "infinite", meaning: "무한한, 끝없는" },
+      { id: 192, word: "influence", meaning: "영향을 미치다, 영향" },
+      { id: 193, word: "informant", meaning: "제보자, 정보 제공자" },
+      { id: 194, word: "innovation", meaning: "혁신" },
+      { id: 195, word: "inseparable", meaning: "분리할 수 없는" },
+      { id: 196, word: "insight", meaning: "통찰력, 이해" },
+      { id: 197, word: "inspiration", meaning: "영감" },
+      { id: 198, word: "instinct", meaning: "본능, 직감" },
+      { id: 199, word: "institution", meaning: "기관, 제도" },
+      { id: 200, word: "integrate", meaning: "통합하다" }
+    ];
+
+    // =========================================================================
+    // 2. 애플리케이션 전역 상태 관리
+    // =========================================================================
+    let currentMainTab = 'study'; // 'study' | 'test'
+    let studyRange = 'all';       // 'all' | '1-100' | '101-200' | 'starred'
+    let studyDeck = [...VOCAB_DATA];
+    let currentStudyIndex = 0;
+    let isCardFlipped = false;
+    let isGridView = false;
+    let starredIds = new Set(JSON.parse(localStorage.getItem('vocab_starred_ids') || '[]'));
+
+    // 테스트 관련 상태
+    let testRange = 'all';        // 'all' | '1-100' | '101-200'
+    let testCount = 50;           // 50 | 100
+    let testQuestions = [];       // 출제된 문제 배열
+    let currentTestIdx = 0;
+    let testScore = 0;
+    let wrongItems = [];          // 틀린 단어 객체 배열
+    let isAnsweringLocked = false;
+    let isRetryMode = false;
+
+    // =========================================================================
+    // 3. 음성 합성 (TTS - Web Speech API)
+    // =========================================================================
+    function speakWord(text, btnElement = null) {
+      if (!('speechSynthesis' in window)) {
+        showToast('이 브라우저는 음성 발음 기능을 지원하지 않습니다.');
+        return;
+      }
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.92;
+        utterance.pitch = 1.0;
+
+        // 영어 원어민 음성 우선 선택
+        const voices = window.speechSynthesis.getVoices();
+        const enVoice = voices.find(v => v.lang === 'en-US' && v.name.includes('Google')) ||
+                        voices.find(v => v.lang === 'en-US') ||
+                        voices.find(v => v.lang.startsWith('en'));
+        if (enVoice) utterance.voice = enVoice;
+
+        if (btnElement) {
+          btnElement.classList.add('speaking-ring');
+          utterance.onend = () => btnElement.classList.remove('speaking-ring');
+          utterance.onerror = () => btnElement.classList.remove('speaking-ring');
+        }
+
+        window.speechSynthesis.speak(utterance);
+      } catch (e) {
+        console.error('TTS Error:', e);
+      }
+    }
+
+    function speakCurrentWord(btn = null) {
+      if (studyDeck.length === 0) return;
+      speakWord(studyDeck[currentStudyIndex].word, btn);
+    }
+
+    function speakTestPromptWord(btn = null) {
+      const q = testQuestions[currentTestIdx];
+      if (q) speakWord(q.item.word, btn);
+    }
+
+    // 음성 목록 비동기 로드 대응
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    }
+
+    // =========================================================================
+    // 4. 토스트 알림 유틸리티
+    // =========================================================================
+    let toastTimer = null;
+    function showToast(msg) {
+      const container = document.getElementById('toast-container');
+      const msgEl = document.getElementById('toast-message');
+      msgEl.textContent = msg;
+      container.classList.remove('opacity-0', 'translate-y-2');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        container.classList.add('opacity-0', 'translate-y-2');
+      }, 2200);
+    }
+
+    // =========================================================================
+    // 5. 탭 전환 로직
+    // =========================================================================
+    function switchMainTab(tab) {
+      currentMainTab = tab;
+      const studyTabBtn = document.getElementById('tab-study');
+      const testTabBtn = document.getElementById('tab-test');
+      const studyView = document.getElementById('view-study');
+      const testView = document.getElementById('view-test');
+
+      if (tab === 'study') {
+        studyTabBtn.className = "flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold transition-all bg-white text-indigo-600 shadow-sm";
+        testTabBtn.className = "flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-600 hover:text-slate-900";
+        studyView.classList.remove('hidden');
+        testView.classList.add('hidden');
+        updateStarredBadge();
+        if (isGridView) renderWordGrid();
+      } else {
+        testTabBtn.className = "flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold transition-all bg-white text-indigo-600 shadow-sm";
+        studyTabBtn.className = "flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-600 hover:text-slate-900";
+        testView.classList.remove('hidden');
+        studyView.classList.add('hidden');
+      }
+    }
+
+    // =========================================================================
+    // 6. 플래시카드 학습 기능
+    // =========================================================================
+    function getFilteredVocab(range) {
+      if (range === '1-100') return VOCAB_DATA.filter(v => v.id >= 1 && v.id <= 100);
+      if (range === '101-200') return VOCAB_DATA.filter(v => v.id >= 101 && v.id <= 200);
+      if (range === 'starred') return VOCAB_DATA.filter(v => starredIds.has(v.id));
+      return [...VOCAB_DATA];
+    }
+
+    function setStudyRange(range) {
+      if (range === 'starred' && starredIds.size === 0) {
+        showToast('저장된 별표/오답 단어가 없습니다. 카드 우측 상단의 ★을 눌러보세요!');
+        return;
+      }
+      studyRange = range;
+      studyDeck = getFilteredVocab(range);
+      currentStudyIndex = 0;
+      isCardFlipped = false;
+
+      // 필터 버튼 스타일 갱신
+      document.querySelectorAll('.range-btn').forEach(btn => {
+        if (btn.dataset.range === range) {
+          btn.className = "range-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition flex items-center gap-1";
+        } else {
+          btn.className = "range-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex items-center gap-1";
+        }
+      });
+
+      renderFlashcard(false);
+      if (isGridView) renderWordGrid();
+    }
+
+    function renderFlashcard(shouldAutoSpeak = true) {
+      const inner = document.getElementById('flashcard-inner');
+      inner.classList.remove('rotate-y-180');
+      isCardFlipped = false;
+
+      if (studyDeck.length === 0) {
+        setStudyRange('all');
+        return;
+      }
+
+      const item = studyDeck[currentStudyIndex];
+      document.getElementById('card-front-num').textContent = `#${item.id}`;
+      document.getElementById('card-back-num').textContent = `#${item.id} · ${item.word}`;
+      document.getElementById('card-word-text').textContent = item.word;
+      document.getElementById('card-meaning-text').textContent = item.meaning;
+
+      // 진행도 업데이트
+      const total = studyDeck.length;
+      const current = currentStudyIndex + 1;
+      const pct = Math.round((current / total) * 1000) / 10;
+      document.getElementById('study-progress-text').textContent = `${current} / ${total} 단어`;
+      document.getElementById('study-percent-text').textContent = `${pct}%`;
+      document.getElementById('study-progress-bar').style.width = `${pct}%`;
+
+      // 별표 상태 업데이트
+      updateStarButtonVisuals(item.id);
+
+      // 자동 발음 체크 시 발음 재생
+      if (shouldAutoSpeak && document.getElementById('auto-speak-toggle').checked) {
+        speakWord(item.word);
+      }
+    }
+
+    function flipCard() {
+      const inner = document.getElementById('flashcard-inner');
+      isCardFlipped = !isCardFlipped;
+      if (isCardFlipped) {
+        inner.classList.add('rotate-y-180');
+      } else {
+        inner.classList.remove('rotate-y-180');
+      }
+    }
+
+    function nextCard() {
+      if (studyDeck.length === 0) return;
+      currentStudyIndex = (currentStudyIndex + 1) % studyDeck.length;
+      renderFlashcard(true);
+    }
+
+    function prevCard() {
+      if (studyDeck.length === 0) return;
+      currentStudyIndex = (currentStudyIndex - 1 + studyDeck.length) % studyDeck.length;
+      renderFlashcard(true);
+    }
+
+    function shuffleStudyCards() {
+      for (let i = studyDeck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [studyDeck[i], studyDeck[j]] = [studyDeck[j], studyDeck[i]];
+      }
+      currentStudyIndex = 0;
+      renderFlashcard(true);
+      if (isGridView) renderWordGrid();
+      showToast('단어 카드 순서를 무작위로 섞었습니다.');
+    }
+
+    function toggleStarCurrent() {
+      if (studyDeck.length === 0) return;
+      const id = studyDeck[currentStudyIndex].id;
+      if (starredIds.has(id)) {
+        starredIds.delete(id);
+        showToast('별표 목록에서 해제했습니다.');
+      } else {
+        starredIds.add(id);
+        showToast('★ 별표 단어장에 저장했습니다.');
+      }
+      saveStarredIds();
+      updateStarButtonVisuals(id);
+      updateStarredBadge();
+    }
+
+    function updateStarButtonVisuals(id) {
+      const isStarred = starredIds.has(id);
+      document.querySelectorAll('.star-btn').forEach((btn, idx) => {
+        if (idx === 0) {
+          btn.className = isStarred
+            ? "star-btn w-10 h-10 rounded-full bg-amber-100 text-amber-500 flex items-center justify-center transition"
+            : "star-btn w-10 h-10 rounded-full bg-slate-50 hover:bg-amber-50 text-slate-300 flex items-center justify-center transition";
+        } else {
+          btn.className = isStarred
+            ? "star-btn w-10 h-10 rounded-full bg-white/20 text-amber-300 flex items-center justify-center transition"
+            : "star-btn w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 text-white/40 flex items-center justify-center transition";
+        }
+      });
+    }
+
+    function saveStarredIds() {
+      localStorage.setItem('vocab_starred_ids', JSON.stringify([...starredIds]));
+    }
+
+    function updateStarredBadge() {
+      document.getElementById('starred-count-badge').textContent = starredIds.size;
+    }
+
+    // 전체 목록 보기 / 카드 보기 전환
+    function toggleStudyDisplayMode() {
+      isGridView = !isGridView;
+      const singleArea = document.getElementById('flashcard-single-area');
+      const gridArea = document.getElementById('flashcard-grid-area');
+      const modeText = document.getElementById('view-mode-text');
+
+      if (isGridView) {
+        singleArea.classList.add('hidden');
+        gridArea.classList.remove('hidden');
+        modeText.textContent = '플래시카드로 보기';
+        renderWordGrid();
+      } else {
+        gridArea.classList.add('hidden');
+        singleArea.classList.remove('hidden');
+        modeText.textContent = '전체 목록 보기';
+        renderFlashcard(false);
+      }
+    }
+
+    function renderWordGrid() {
+      const container = document.getElementById('word-grid-container');
+      const query = document.getElementById('grid-search-input').value.trim().toLowerCase();
+      const hideMeanings = document.getElementById('hide-meanings-toggle').checked;
+
+      const filtered = studyDeck.filter(item =>
+        item.word.toLowerCase().includes(query) || item.meaning.includes(query)
+      );
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="col-span-full text-center py-10 text-slate-400 text-sm">검색 결과가 없습니다.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => `
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/90 hover:border-indigo-300 transition flex items-center justify-between gap-3 shadow-2xs">
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">#${item.id}</span>
+              <span class="font-extrabold text-slate-900 text-base truncate">${item.word}</span>
+            </div>
+            <p class="text-sm mt-1.5 ${hideMeanings ? 'bg-slate-200 text-transparent rounded select-none hover:bg-transparent hover:text-slate-600 transition cursor-pointer' : 'text-slate-600 font-medium'}">
+              ${item.meaning}
+            </p>
+          </div>
+          <button onclick="speakWord('${item.word}', this)" class="relative shrink-0 w-9 h-9 rounded-full bg-slate-100 hover:bg-indigo-100 text-slate-600 hover:text-indigo-600 flex items-center justify-center transition" title="발음 듣기">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    // 키보드 단축키 지원
+    document.addEventListener('keydown', (e) => {
+      if (currentMainTab !== 'study' || isGridView) return;
+      if (e.target.tagName === 'INPUT') return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        flipCard();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        nextCard();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        prevCard();
+      } else if (e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        speakCurrentWord();
+      }
+    });
+
+    // =========================================================================
+    // 7. 실전 어휘 테스트 기능 (50/100단어 선택, 영한/한영 50:50 혼합, 오답 복습/재응시)
+    // =========================================================================
+    function selectTestRange(range) {
+      testRange = range;
+      document.querySelectorAll('.test-range-btn').forEach(btn => {
+        if (btn.dataset.testRange === range) {
+          btn.className = "test-range-btn py-3 px-3 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-bold text-sm text-center transition";
+        } else {
+          btn.className = "test-range-btn py-3 px-3 rounded-xl border-2 border-slate-200 bg-white text-slate-700 hover:border-slate-300 font-bold text-sm text-center transition";
+        }
+      });
+    }
+
+    function selectTestCount(count) {
+      testCount = count;
+      document.querySelectorAll('.test-count-btn').forEach(btn => {
+        const isSelected = Number(btn.dataset.testCount) === count;
+        if (isSelected) {
+          btn.className = "test-count-btn p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50 text-indigo-700 text-left transition";
+        } else {
+          btn.className = "test-count-btn p-4 rounded-2xl border-2 border-slate-200 bg-white text-slate-700 hover:border-slate-300 text-left transition";
+        }
+      });
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    // 문제 세트 생성기: 영어->한글(EN_TO_KO) 50% + 한글->영어(KO_TO_EN) 50% 정확히 균등 배분
+    function buildBalancedQuestions(sourceItems, targetCount) {
+      const shuffledSource = shuffleArray(sourceItems);
+      const selectedItems = shuffledSource.slice(0, Math.min(targetCount, shuffledSource.length));
+      const total = selectedItems.length;
+
+      // 정확히 절반은 EN_TO_KO, 나머지 절반은 KO_TO_EN 타입 할당 후 셔플
+      const half = Math.floor(total / 2);
+      const types = [];
+      for (let i = 0; i < half; i++) types.push('EN_TO_KO');
+      for (let i = half; i < total; i++) types.push('KO_TO_EN');
+      const shuffledTypes = shuffleArray(types);
+
+      return selectedItems.map((item, idx) => {
+        const qType = shuffledTypes[idx]; // 'EN_TO_KO' 또는 'KO_TO_EN'
+        // 오답 보기 3개 추출 (전체 200단어 풀에서 중복 없이 추출)
+        const distractors = shuffleArray(VOCAB_DATA.filter(v => v.id !== item.id)).slice(0, 3);
+        const rawChoices = shuffleArray([item, ...distractors]);
+
+        return {
+          item,
+          type: qType,
+          prompt: qType === 'EN_TO_KO' ? item.word : item.meaning,
+          choices: rawChoices.map(c => ({
+            id: c.id,
+            label: qType === 'EN_TO_KO' ? c.meaning : c.word
+          })),
+          correctId: item.id
+        };
+      });
+    }
+
+    function startNewTest() {
+      const pool = getFilteredVocab(testRange);
+      isRetryMode = false;
+      testQuestions = buildBalancedQuestions(pool, testCount);
+      beginTestSession();
+    }
+
+    function retryWrongQuestions() {
+      if (wrongItems.length === 0) return;
+      isRetryMode = true;
+      testQuestions = buildBalancedQuestions(wrongItems, wrongItems.length);
+      beginTestSession();
+    }
+
+    function beginTestSession() {
+      currentTestIdx = 0;
+      testScore = 0;
+      wrongItems = [];
+      isAnsweringLocked = false;
+
+      document.getElementById('test-setup-panel').classList.add('hidden');
+      document.getElementById('test-result-panel').classList.add('hidden');
+      document.getElementById('test-active-panel').classList.remove('hidden');
+
+      const badge = document.getElementById('test-mode-badge');
+      if (isRetryMode) {
+        badge.textContent = '오답 집중 재응시';
+        badge.className = 'px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 font-bold';
+      } else {
+        badge.textContent = `실전 테스트 (${testQuestions.length}단어)`;
+        badge.className = 'px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold';
+      }
+
+      renderTestQuestion();
+    }
+
+    function renderTestQuestion() {
+      const q = testQuestions[currentTestIdx];
+      const total = testQuestions.length;
+
+      document.getElementById('test-q-counter').textContent = `${currentTestIdx + 1} / ${total}`;
+      document.getElementById('test-live-score').textContent = `정답 ${testScore}`;
+      document.getElementById('test-progress-bar').style.width = `${((currentTestIdx + 1) / total) * 100}%`;
+
+      const typeLabel = document.getElementById('test-q-type-label');
+      const speakBtn = document.getElementById('test-speak-btn');
+
+      if (q.type === 'EN_TO_KO') {
+        typeLabel.textContent = '다음 영어 단어의 알맞은 한글 뜻을 고르세요';
+        typeLabel.className = 'text-xs font-bold px-3 py-1 rounded-full bg-indigo-50 text-indigo-700';
+        speakBtn.classList.remove('hidden');
+      } else {
+        typeLabel.textContent = '다음 한글 뜻에 해당하는 영어 단어를 고르세요';
+        typeLabel.className = 'text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700';
+        // 한글 뜻 문제일 때는 정답 스포일러 방지를 위해 문제 제시 시점엔 발음 버튼 숨김
+        speakBtn.classList.add('hidden');
+      }
+
+      document.getElementById('test-prompt-text').textContent = q.prompt;
+
+      const optionsContainer = document.getElementById('test-options-container');
+      optionsContainer.innerHTML = q.choices.map((choice, idx) => `
+        <button type="button" onclick="handleTestAnswer(${choice.id}, this)" data-choice-id="${choice.id}"
+          class="test-option-btn w-full text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/40 transition flex items-center gap-3.5 group">
+          <span class="w-7 h-7 rounded-lg bg-slate-100 group-hover:bg-indigo-100 text-slate-600 group-hover:text-indigo-700 font-extrabold text-xs flex items-center justify-center shrink-0 transition">
+            ${idx + 1}
+          </span>
+          <span class="font-bold text-slate-800 text-base sm:text-lg">${choice.label}</span>
+        </button>
+      `).join('');
+    }
+
+    function handleTestAnswer(selectedId, btnEl) {
+      if (isAnsweringLocked) return;
+      isAnsweringLocked = true;
+
+      const q = testQuestions[currentTestIdx];
+      const isCorrect = selectedId === q.correctId;
+
+      // 정답 시 발음 들려주기
+      speakWord(q.item.word);
+
+      const allBtns = document.querySelectorAll('.test-option-btn');
+      allBtns.forEach(b => {
+        const cid = Number(b.dataset.choiceId);
+        b.disabled = true;
+        if (cid === q.correctId) {
+          b.className = "test-option-btn w-full text-left p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 flex items-center gap-3.5 transition";
+          b.querySelector('span:first-child').className = "w-7 h-7 rounded-lg bg-emerald-500 text-white font-extrabold text-xs flex items-center justify-center shrink-0";
+        } else if (cid === selectedId && !isCorrect) {
+          b.className = "test-option-btn w-full text-left p-4 rounded-2xl border-2 border-rose-500 bg-rose-50 text-rose-900 flex items-center gap-3.5 transition";
+          b.querySelector('span:first-child').className = "w-7 h-7 rounded-lg bg-rose-500 text-white font-extrabold text-xs flex items-center justify-center shrink-0";
+        } else {
+          b.classList.add('opacity-50');
+        }
+      });
+
+      if (isCorrect) {
+        testScore++;
+      } else {
+        wrongItems.push(q.item);
+      }
+
+      document.getElementById('test-live-score').textContent = `정답 ${testScore}`;
+
+      setTimeout(() => {
+        currentTestIdx++;
+        isAnsweringLocked = false;
+        if (currentTestIdx < testQuestions.length) {
+          renderTestQuestion();
+        } else {
+          finishTestSession();
+        }
+      }, isCorrect ? 650 : 1150);
+    }
+
+    function finishTestSession() {
+      document.getElementById('test-active-panel').classList.add('hidden');
+      document.getElementById('test-result-panel').classList.remove('hidden');
+
+      const total = testQuestions.length;
+      const wrongCount = wrongItems.length;
+      const pctScore = Math.round((testScore / total) * 100);
+
+      document.getElementById('result-score-text').textContent = `${pctScore}점`;
+      document.getElementById('result-correct-text').textContent = `${testScore}개`;
+      document.getElementById('result-wrong-text').textContent = `${wrongCount}개`;
+
+      const retryBtn = document.getElementById('retry-wrong-btn');
+      const reviewSection = document.getElementById('wrong-review-section');
+      const perfectBanner = document.getElementById('perfect-score-banner');
+
+      if (wrongCount > 0) {
+        retryBtn.classList.remove('hidden');
+        document.getElementById('retry-wrong-count').textContent = wrongCount;
+        reviewSection.classList.remove('hidden');
+        perfectBanner.classList.add('hidden');
+        renderWrongReviewList();
+      } else {
+        retryBtn.classList.add('hidden');
+        reviewSection.classList.add('hidden');
+        perfectBanner.classList.remove('hidden');
+      }
+    }
+
+    function renderWrongReviewList() {
+      const container = document.getElementById('wrong-words-list');
+      container.innerHTML = wrongItems.map(item => `
+        <div class="bg-white p-4 rounded-2xl border-2 border-rose-100 shadow-2xs flex items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md">#${item.id}</span>
+              <span class="font-extrabold text-slate-900 text-lg">${item.word}</span>
+            </div>
+            <p class="text-sm text-slate-600 font-semibold mt-1">${item.meaning}</p>
+          </div>
+          <button onclick="speakWord('${item.word}', this)" class="relative shrink-0 w-10 h-10 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-600 flex items-center justify-center transition" title="영어 발음 듣기">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function addAllWrongToStarred() {
+      wrongItems.forEach(item => starredIds.add(item.id));
+      saveStarredIds();
+      updateStarredBadge();
+      showToast(`틀린 단어 ${wrongItems.length}개를 별표 단어장에 모두 저장했습니다!`);
+    }
+
+    function quitTestToSetup() {
+      document.getElementById('test-active-panel').classList.add('hidden');
+      document.getElementById('test-result-panel').classList.add('hidden');
+      document.getElementById('test-setup-panel').classList.remove('hidden');
+    }
+
+    // 초기 실행
+    window.addEventListener('DOMContentLoaded', () => {
+      updateStarredBadge();
+      renderFlashcard(false);
+    });
+  </script>
+</body>
+</html>
